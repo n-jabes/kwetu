@@ -7,11 +7,15 @@ export const dummyListings: Listing[] = [
     title: 'Cozy Apartment in Westlands',
     location: 'Westlands, Nairobi',
     sublocation: 'Westlands',
-    price: 85,
+    price: 850,
     rating: 4.8,
-    imageUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop'
+  ],
     propertyType: 'apartment',
-    amenities: ['Wi-Fi', 'Parking']
+    amenities: ['wifi', 'parking', 'kitchen', 'hot-water'] // Using IDs from amenities.ts
   },
   {
     id: '2',
@@ -20,9 +24,13 @@ export const dummyListings: Listing[] = [
     sublocation: 'Karen',
     price: 250,
     rating: 4.9,
-    imageUrl: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=300&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop'
+  ],
     propertyType: 'villa',
-    amenities: ['Wi-Fi', 'Swimming Pool', 'Parking', 'Gym']
+    amenities: ['wifi', 'pool', 'parking', 'gym', 'air-conditioning', 'tv', 'coffee-maker']
   },
   {
     id: '3',
@@ -31,9 +39,13 @@ export const dummyListings: Listing[] = [
     sublocation: 'Lavington',
     price: 180,
     rating: 4.7,
-    imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop',
+    images: [
+    'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop'
+  ],
     propertyType: 'house',
-    amenities: ['Wi-Fi', 'Parking', 'Gym']
+    amenities: ['wifi', 'parking', 'gym', 'kitchen', 'refrigerator']
   },
   {
     id: '4',
@@ -42,9 +54,13 @@ export const dummyListings: Listing[] = [
     sublocation: 'Kilimani',
     price: 120,
     rating: 4.6,
-    imageUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop'
+  ],
     propertyType: 'apartment',
-    amenities: ['Wi-Fi', 'Parking']
+    amenities: ['wifi', 'parking', 'microwave', 'washer']
   },
   {
     id: '5',
@@ -53,8 +69,12 @@ export const dummyListings: Listing[] = [
     sublocation: 'Muthaiga',
     price: 300,
     rating: 5.0,
-    imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop'
+  ],
     propertyType: 'villa',
-    amenities: ['Wi-Fi', 'Swimming Pool', 'Parking', 'Gym']
+    amenities: ['wifi', 'pool', 'parking', 'gym', 'tv', 'air-conditioning', 'coffee-maker', 'washer', 'dryer']
   }
 ];

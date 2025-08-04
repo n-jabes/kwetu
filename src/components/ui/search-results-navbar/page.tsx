@@ -62,13 +62,14 @@ export const SearchResultsNavbar = () => {
               
               {/* Profile Dropdown */}
               {isProfileDropdownOpen && (
-                <div className="border-[1px] border-gray-300 absolute right-0 top-12 mt-2 w-38 bg-white rounded-md shadow-lg shadow-[var(--main-green)] py-1 z-50">
+                <div className="border-[1px] border-green-100 absolute right-0 top-12 mt-2 w-38 bg-white rounded-md shadow-lg py-1 z-50">
                   {isLoggedIn ? (
                     <>
                       <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500 hover:border-b-[1px] hover:border-b-gray-300">
                         Profile
                       </Link>
-                      <button 
+                      <Link 
+                        href='/'
                         className=" cursor-pointer block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500 "
                         onClick={() => {
                           setIsLoggedIn(false);
@@ -76,10 +77,11 @@ export const SearchResultsNavbar = () => {
                         }}
                       >
                         Logout
-                      </button>
+                      </Link>
                     </>
                   ) : (
-                    <button 
+                    <Link
+                      href={'/auth'}
                       className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500"
                       onClick={() => {
                         setIsLoggedIn(true);
@@ -87,7 +89,7 @@ export const SearchResultsNavbar = () => {
                       }}
                     >
                       Login
-                    </button>
+                    </Link>
                   )}
                 </div>
               )}

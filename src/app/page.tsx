@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { MapPin, Home, Mountain, Castle, Loader2, Star, Shield, CreditCard, Lock, InstagramIcon, TwitterIcon, FacebookIcon, YoutubeIcon } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const HomePage = () => {
   const router = useRouter();
@@ -198,10 +199,13 @@ const HomePage = () => {
             {featuredListings.map((listing) => (
               <div key={listing.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <div className="aspect-[4/3] relative">
-                  <img
+                  <Image
                     src={listing.imageUrl}
                     alt={listing.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    style={{ objectFit: 'cover' }}
                   />
                 </div>
                 <div className="p-6">
@@ -235,10 +239,13 @@ const HomePage = () => {
             {popularCities.map((city, index) => (
               <div key={index} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
                 <div className="aspect-[4/3] relative overflow-hidden">
-                  <img
+                  <Image
                     src={city.imageUrl}
                     alt={city.name}
+                    fill
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    style={{ objectFit: 'cover' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                   <div className="absolute bottom-6 left-6">
@@ -286,10 +293,13 @@ const HomePage = () => {
             {propertyTypes.map((type, index) => (
               <div key={index} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
                 <div className="aspect-square relative overflow-hidden">
-                  <img
+                  <Image
                     src={type.imageUrl}
                     alt={type.name}
+                    fill
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
+                    style={{ objectFit: 'cover' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-4 left-4">

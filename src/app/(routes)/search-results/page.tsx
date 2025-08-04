@@ -6,46 +6,69 @@ import { FilterState, Listing } from '@/types';
 import { SearchResultsSidebar } from '@/components/ui/search-results-sidebar/page';
 import { dummyListings } from '@/data/listings';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Listing Card Component
 const ListingCard: React.FC<{ listing: Listing }> = ({ listing }) => {
+  // Function to truncate title if too long
+  const truncateTitle = (title: string, maxLength: number = 50) => {
+    if (title.length <= maxLength) return title;
+    return title.substring(0, maxLength).trim() + '...';
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow">
-      <div className="aspect-video relative">
+    <Link href={`/listings/${listing.id}`} className="block">
+      <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+        <div className="aspect-video relative">
+          <Image
+            src={listing.images[0]}
+            alt={listing.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+        </div>
         
-        <Image
-          src={listing.imageUrl}
-          alt={listing.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-lg mb-2">{listing.title}</h3>
-        <div className="flex items-center text-gray-600 mb-2">
-          <MapPin className="h-4 w-4 mr-1" />
-          <span className="text-sm">{listing.location}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
-            <span className="text-sm font-medium">{listing.rating}</span>
+        {/* Fixed height content area */}
+        <div className="p-4 flex flex-col justify-between flex-1">
+          <div>
+            {/* Fixed height title area */}
+            <div className="h-14 mb-2 flex items-start">
+              <h3 className="font-semibold text-lg leading-tight line-clamp-2">
+                {truncateTitle(listing.title, 60)}
+              </h3>
+            </div>
+            
+            {/* Location with fixed height */}
+            <div className="flex items-center text-gray-600 mb-3 h-5">
+              <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+              <span className="text-sm truncate">{listing.location}</span>
+            </div>
           </div>
-          <div className="text-lg font-bold">
-            ${listing.price}<span className="text-sm font-normal text-gray-500">/night</span>
+          
+          {/* Bottom section - always at bottom */}
+          <div className="flex items-center justify-between mt-auto">
+            <div className="flex items-center">
+              <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
+              <span className="text-sm font-medium">{listing.rating}</span>
+            </div>
+            <div className="text-md text-green-700 font-bold text-right">
+              ${listing.price}
+              <span className="text-sm font-normal text-gray-500 leading-none">
+                /night
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
 // Main Search Results Component
 const SearchResultsPage: React.FC = () => {
   const [filters, setFilters] = useState<FilterState>({
-    priceRange: [0, 1000],
+    priceRange: [0, 1000000000],
     propertyType: [],
     amenities: [],
     userRatings: []
@@ -159,7 +182,7 @@ const SearchResultsPage: React.FC = () => {
                 <button
                   onClick={() => {
                     setFilters({
-                      priceRange: [0, 1000],
+                      priceRange: [0, 1000000000],
                       propertyType: [],
                       amenities: [],
                       userRatings: []

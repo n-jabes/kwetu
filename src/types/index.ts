@@ -6,7 +6,7 @@ export interface Listing {
   sublocation: string;
   price: number;
   rating: number;
-  imageUrl: string;
+  images: string[];
   propertyType: 'apartment' | 'villa' | 'house';
   amenities: string[];
 }
