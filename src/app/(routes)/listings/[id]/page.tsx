@@ -11,13 +11,11 @@ import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page'
 import Slider from 'react-slick';
 import { getAmenitiesByCategory } from '@/data/amenities';
 
-interface ListingPageProps {
-  params: { id: string };
-}
 
-const ListingPage = ({ params }: ListingPageProps) => {
+const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const router = useRouter();
-  const listing = dummyListings.find(item => item.id === params.id);
+  const { id } = React.use(params); // Unwrap the params promise
+  const listing = dummyListings.find(item => item.id === id);
 
   if (!listing) {
     return <div className="min-h-screen flex items-center justify-center">Listing not found</div>;
