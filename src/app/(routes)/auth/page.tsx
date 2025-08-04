@@ -1,8 +1,9 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Lock, Eye, EyeOff, Check, X, ChevronDown } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, Check, X, ChevronDown, MoveLeft } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 // Add interfaces for form data and error objects
 interface SignInData {
@@ -178,7 +179,7 @@ const LoginPage = () => {
   };
 
   // Handle form submissions
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => {
     e.preventDefault();
     if (validateSignIn()) {
       console.log('Sign In Data:', signInData);
@@ -187,7 +188,7 @@ const LoginPage = () => {
     }
   };
 
-  const handleSignUp = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignUp = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => {
     e.preventDefault();
     if (validateSignUp()) {
       console.log('Sign Up Data:', signUpData);
@@ -221,7 +222,7 @@ const LoginPage = () => {
 
   const handleKeyPress = (
     e: React.KeyboardEvent<HTMLDivElement | HTMLFormElement>,
-    submitHandler: (e: any) => void
+    submitHandler: (e: React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => void
   ) => {
     if (e.key === 'Enter') {
       submitHandler(e);
@@ -259,7 +260,7 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex overflow-hidden">
       {/* Left side - House image */}
-      <div className={`hidden lg:flex max-h-screen lg:w-1/2 relative transform transition-transform duration-1000 ease-out ${
+      <div className={`hidden lg:flex max-h-screen lg:w-7/15 relative transform transition-transform duration-1000 ease-out ${
         imageLoaded ? 'translate-x-0' : '-translate-x-full'
       }`}>
         {/* <div 
@@ -277,14 +278,22 @@ const LoginPage = () => {
       </div>
 
       {/* Right side - Form */}
-      <div className={`w-full lg:w-1/2 flex items-center justify-center p-4 lg:p-8 bg-gray-50 transform transition-transform duration-1000 ease-out ${
+      <div className={`w-full lg:w-8/15 flex items-center justify-center p-4 lg:p-8 bg-gray-50 transform transition-transform duration-1000 ease-out ${
         formLoaded ? 'translate-x-0' : 'translate-x-full'
       }`}>
+
+        
+      
         <div
           ref={formRef}
           className="w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-lg p-6 hide-signup-scrollbar relative"
           style={{ scrollbarWidth: 'none' }}
         >
+          {/* Back to home button */}
+        <Link href='/' className='flex items-center gap-2 text-xs text-green-700 hover:text-green-600'>
+          <MoveLeft />
+          Back to Home  
+        </Link>
           {/* Header */}
           <div className="text-center">
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">

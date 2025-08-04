@@ -2,92 +2,24 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Star, Filter, X } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
-import { FilterState } from '@/types';
+import { FilterState, Listing } from '@/types';
 import { SearchResultsSidebar } from '@/components/ui/search-results-sidebar/page';
-
-// TypeScript interfaces
-interface Listing {
-  id: string;
-  title: string;
-  location: string;
-  sublocation: string;
-  price: number;
-  rating: number;
-  imageUrl: string;
-  propertyType: 'apartment' | 'villa' | 'house';
-  amenities: string[];
-}
-
-
-
-// Dummy data
-const dummyListings: Listing[] = [
-  {
-    id: '1',
-    title: 'Cozy Apartment in Westlands',
-    location: 'Westlands, Nairobi',
-    sublocation: 'Westlands',
-    price: 85,
-    rating: 4.8,
-    imageUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop',
-    propertyType: 'apartment',
-    amenities: ['Wi-Fi', 'Parking']
-  },
-  {
-    id: '2',
-    title: 'Luxury Villa in Karen',
-    location: 'Karen, Nairobi',
-    sublocation: 'Karen',
-    price: 250,
-    rating: 4.9,
-    imageUrl: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&h=300&fit=crop',
-    propertyType: 'villa',
-    amenities: ['Wi-Fi', 'Swimming Pool', 'Parking', 'Gym']
-  },
-  {
-    id: '3',
-    title: 'Modern House in Lavington',
-    location: 'Lavington, Nairobi',
-    sublocation: 'Lavington',
-    price: 180,
-    rating: 4.7,
-    imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop',
-    propertyType: 'house',
-    amenities: ['Wi-Fi', 'Parking', 'Gym']
-  },
-  {
-    id: '4',
-    title: 'Spacious Apartment in Kilimani',
-    location: 'Kilimani, Nairobi',
-    sublocation: 'Kilimani',
-    price: 120,
-    rating: 4.6,
-    imageUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop',
-    propertyType: 'apartment',
-    amenities: ['Wi-Fi', 'Parking']
-  },
-  {
-    id: '5',
-    title: 'Elegant Villa in Muthaiga',
-    location: 'Muthaiga, Nairobi',
-    sublocation: 'Muthaiga',
-    price: 300,
-    rating: 5.0,
-    imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop',
-    propertyType: 'villa',
-    amenities: ['Wi-Fi', 'Swimming Pool', 'Parking', 'Gym']
-  }
-];
+import { dummyListings } from '@/data/listings';
+import Image from 'next/image';
 
 // Listing Card Component
 const ListingCard: React.FC<{ listing: Listing }> = ({ listing }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow">
       <div className="aspect-video relative">
-        <img
+        
+        <Image
           src={listing.imageUrl}
           alt={listing.title}
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 33vw"
+          style={{ objectFit: 'cover' }}
         />
       </div>
       <div className="p-4">
@@ -123,7 +55,7 @@ const SearchResultsPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const applyFilters = () => {
-    let filtered = dummyListings.filter(listing => {
+    const filtered = dummyListings.filter(listing => {
       // Price filter
       if (listing.price < filters.priceRange[0] || listing.price > filters.priceRange[1]) {
         return false;
