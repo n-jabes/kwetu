@@ -1,26 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --main-green: #22c55e; /* Tailwind green-500 */
+  --main-red: #ef4444;   /* Tailwind red-500 */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* General scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--main-green);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a; /* Slightly darker green */
+}
+
+/* For Firefox */
+html {
+  scrollbar-color: var(--main-green) #f1f1f1;
+  scrollbar-width: thin;
+}
+
+/* Hide scrollbar for signup form */
+.hide-signup-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-signup-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
