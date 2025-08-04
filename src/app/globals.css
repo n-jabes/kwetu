@@ -29,7 +29,7 @@ body {
 
 /* For Firefox */
 html {
-  scrollbar-color: var(--main-green) #f1f1f1;
+  scrollbar-color: var(--main-green);
   scrollbar-width: thin;
 }
 
