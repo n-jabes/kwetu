@@ -15,6 +15,17 @@ export const dummyListings: Listing[] = [
     'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop'
   ],
     propertyType: 'apartment',
+    accommodates: {
+      tables: 23,
+      inLounge: 7,
+      maximumTotal: 30,
+      squareFeet: 934
+    },
+    openingHours: {
+      weekdays: '8:00 am - 9:00 pm',
+      saturday: '8:00 am - 5:00 pm',
+      sunday: '8:00 am - 4:00 pm'
+    },
     amenities: ['wifi', 'parking', 'kitchen', 'hot-water'] // Using IDs from amenities.ts
   },
   {
@@ -30,6 +41,12 @@ export const dummyListings: Listing[] = [
       'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop'
   ],
     propertyType: 'villa',
+    accommodates: {
+      tables: 23,
+      inLounge: 7,
+      maximumTotal: 30,
+      squareFeet: 934
+    },
     amenities: ['wifi', 'pool', 'parking', 'gym', 'air-conditioning', 'tv', 'coffee-maker']
   },
   {
@@ -45,6 +62,11 @@ export const dummyListings: Listing[] = [
     'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop'
   ],
     propertyType: 'house',
+    openingHours: {
+      weekdays: '8:00 am - 9:00 pm',
+      saturday: '8:00 am - 5:00 pm',
+      sunday: '8:00 am - 4:00 pm'
+    },
     amenities: ['wifi', 'parking', 'gym', 'kitchen', 'refrigerator']
   },
   {
@@ -75,6 +97,17 @@ export const dummyListings: Listing[] = [
     'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop'
   ],
     propertyType: 'villa',
+    accommodates: {
+      tables: 12,
+      inLounge: 5,
+      maximumTotal: 10,
+      squareFeet: 544
+    },
+    openingHours: {
+      weekdays: '8:00 am - 9:00 pm',
+      saturday: 'closed',
+      sunday: '8:00 am - 4:00 pm'
+    },
     amenities: ['wifi', 'pool', 'parking', 'gym', 'tv', 'air-conditioning', 'coffee-maker', 'washer', 'dryer']
   }
 ];

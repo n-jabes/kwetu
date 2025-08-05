@@ -95,7 +95,7 @@ const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
         {/* Back button */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center text-green-600 hover:text-green-700 mb-6 text-sm"
+          className="flex cursor-pointer items-center text-green-600 hover:text-green-700 mb-6 text-sm"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to results
@@ -238,17 +238,85 @@ const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
               </div>
               
-              <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+              <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors mb-6">
                 Book Now
               </button>
               
-              <p className="text-center text-gray-500 mt-4 text-sm">
+              <p className="text-center text-gray-500 text-sm mb-6">
                 You won&apos;t be charged yet
               </p>
               
+                {listing.accommodates && (
+                  <div className="mb-6">
+                    <h4 className="font-medium mb-4 text-lg">Accommodates</h4>
+                    <div className="border rounded-lg overflow-hidden">
+                      <table className="w-full">
+                        <tbody>
+                          {listing.accommodates.tables !== undefined && (
+                            <tr className="border-b">
+                              <td className="py-3 px-4 text-gray-700">Tables</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.accommodates.tables}</td>
+                            </tr>
+                          )}
+                          {listing.accommodates.inLounge !== undefined && (
+                            <tr className="border-b">
+                              <td className="py-3 px-4 text-gray-700">In Lounge</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.accommodates.inLounge}</td>
+                            </tr>
+                          )}
+                          {listing.accommodates.maximumTotal !== undefined && (
+                            <tr className="border-b">
+                              <td className="py-3 px-4 text-gray-700">Maximum Total</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.accommodates.maximumTotal}</td>
+                            </tr>
+                          )}
+                          {listing.accommodates.squareFeet !== undefined && (
+                            <tr>
+                              <td className="py-3 px-4 text-gray-700">Sq. Ft</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.accommodates.squareFeet}</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Opening Hours - Only show if data exists */}
+                {listing.openingHours && (
+                  <div className="mb-6">
+                    <h4 className="font-medium mb-4 text-lg">Opening Hours</h4>
+                    <div className="border rounded-lg overflow-hidden">
+                      <table className="w-full">
+                        <tbody>
+                          {listing.openingHours.weekdays && (
+                            <tr className="border-b">
+                              <td className="py-3 px-4 text-gray-700">Mon - Fri</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.openingHours.weekdays}</td>
+                            </tr>
+                          )}
+                          {listing.openingHours.saturday && (
+                            <tr className="border-b">
+                              <td className="py-3 px-4 text-gray-700">Sat</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.openingHours.saturday}</td>
+                            </tr>
+                          )}
+                          {listing.openingHours.sunday && (
+                            <tr>
+                              <td className="py-3 px-4 text-gray-700">Sun</td>
+                              <td className="py-3 px-4 text-right font-medium">{listing.openingHours.sunday}</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+              
               {/* Quick amenities overview */}
-              <div className="mt-6">
-                <h4 className="font-medium mb-2">Key Amenities</h4>
+              <div>
+                <h4 className="font-medium mb-2 text-lg">Key Amenities</h4>
                 <div className="space-y-2">
                   {Object.values(categorizedAmenities)
                     .flat()
