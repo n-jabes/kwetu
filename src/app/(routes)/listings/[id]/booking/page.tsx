@@ -1,11 +1,14 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Calendar, Clock, Users, MapPin, Star, CheckCircle, CreditCard, Shield, Info, Smartphone, Building2, Lightbulb } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { dummyListings } from '@/data/listings';
 import { BookingFormData } from '@/types/booking';
-import { calculateBookingTotal, validateBookingDates } from '@/utils/booking';
+import { calculateBookingTotal } from '@/utils/booking';
+import { validateFormStep, validateDates, validateName, validateEmail, validatePhone, validateGuests, validateSpecialRequests, validateCardNumber, validateExpiryDate, validateCVV } from '@/utils/validation';
+import { PhoneInput } from '@/components/ui/phone-input';
+import toast from 'react-hot-toast';
 import Image from 'next/image';
 
 const BookingPage = () => {
@@ -27,10 +30,27 @@ const BookingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dateError, setDateError] = useState<string>('');
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  
+  // Field validation states
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   
   // Payment state
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('card');
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  
+  // Payment form data
+  const [paymentData, setPaymentData] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    mtnPhone: '',
+    airtelPhone: ''
+  });
+  
+  // Payment validation errors
+  const [paymentErrors, setPaymentErrors] = useState<Record<string, string>>({});
 
   if (!listing) {
     return <div className="min-h-screen flex items-center justify-center">Listing not found</div>;
@@ -50,9 +70,66 @@ const BookingPage = () => {
       [name]: name === 'guests' ? parseInt(value) : value
     }));
     
+    // Clear errors when user types
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    
     // Clear date error when dates change
     if (name === 'checkIn' || name === 'checkOut') {
       setDateError('');
+    }
+  };
+
+  const handleFieldBlur = (fieldName: string, value: any) => {
+    setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+    
+    let error = '';
+    
+    switch (fieldName) {
+      case 'checkIn':
+      case 'checkOut':
+        if (formData.checkIn && formData.checkOut) {
+          const validation = validateDates(formData.checkIn, formData.checkOut);
+          if (!validation.isValid) {
+            error = validation.error || '';
+          }
+        }
+        break;
+      case 'guests':
+        const guestsValidation = validateGuests(value);
+        if (!guestsValidation.isValid) {
+          error = guestsValidation.error || '';
+        }
+        break;
+      case 'contactName':
+        const nameValidation = validateName(value);
+        if (!nameValidation.isValid) {
+          error = nameValidation.error || '';
+        }
+        break;
+      case 'contactEmail':
+        const emailValidation = validateEmail(value);
+        if (!emailValidation.isValid) {
+          error = emailValidation.error || '';
+        }
+        break;
+      case 'contactPhone':
+        const phoneValidation = validatePhone(value);
+        if (!phoneValidation.isValid) {
+          error = phoneValidation.error || '';
+        }
+        break;
+      case 'specialRequests':
+        const requestsValidation = validateSpecialRequests(value);
+        if (!requestsValidation.isValid) {
+          error = requestsValidation.error || '';
+        }
+        break;
+    }
+    
+    if (error) {
+      setFieldErrors(prev => ({ ...prev, [fieldName]: error }));
     }
   };
 
@@ -68,6 +145,46 @@ const BookingPage = () => {
   };
 
   const handleProcessPayment = async () => {
+    // Validate payment data before processing
+    let hasErrors = false;
+    const newErrors: Record<string, string> = {};
+    
+    if (selectedPaymentMethod === 'card') {
+      const cardValidation = validateCardNumber(paymentData.cardNumber);
+      if (!cardValidation.isValid) {
+        newErrors.cardNumber = cardValidation.error || '';
+        hasErrors = true;
+      }
+      
+      const expiryValidation = validateExpiryDate(paymentData.expiryDate);
+      if (!expiryValidation.isValid) {
+        newErrors.expiryDate = expiryValidation.error || '';
+        hasErrors = true;
+      }
+      
+      const cvvValidation = validateCVV(paymentData.cvv);
+      if (!cvvValidation.isValid) {
+        newErrors.cvv = cvvValidation.error || '';
+        hasErrors = true;
+      }
+    } else if (selectedPaymentMethod === 'mtn') {
+      if (!paymentData.mtnPhone) {
+        newErrors.mtnPhone = 'MTN phone number is required';
+        hasErrors = true;
+      }
+    } else if (selectedPaymentMethod === 'airtel') {
+      if (!paymentData.airtelPhone) {
+        newErrors.airtelPhone = 'Airtel phone number is required';
+        hasErrors = true;
+      }
+    }
+    
+    if (hasErrors) {
+      setPaymentErrors(newErrors);
+      toast.error('Please fix payment errors before proceeding');
+      return;
+    }
+    
     setIsProcessingPayment(true);
     
     // Simulate payment processing
@@ -75,23 +192,41 @@ const BookingPage = () => {
     
     setIsProcessingPayment(false);
     
+    // Show success message
+    toast.success('Payment processed successfully!');
+    
     // Redirect to confirmation page after successful payment
     router.push(`/listings/${id}/booking/confirmation`);
   };
 
-  const nextStep = () => {
-    if (currentStep === 1) {
-      // Validate dates before proceeding
-      const validation = validateBookingDates(formData.checkIn, formData.checkOut);
-      if (!validation.isValid) {
-        setDateError(validation.error || 'Invalid dates');
-        return;
-      }
+  const handlePaymentInputChange = (field: string, value: string) => {
+    setPaymentData(prev => ({ ...prev, [field]: value }));
+    
+    // Clear error when user types
+    if (paymentErrors[field]) {
+      setPaymentErrors(prev => ({ ...prev, [field]: '' }));
     }
+  };
+
+  const nextStep = () => {
+    // Validate current step before proceeding
+    const validation = validateFormStep(currentStep, formData);
+    if (!validation.isValid) {
+      toast.error(validation.error || 'Please complete all required fields');
+      return;
+    }
+    
+    // Mark current step as complete
+    setCompletedSteps(prev => [...prev, currentStep]);
+    
+    // Move to next step
     setCurrentStep(prev => Math.min(prev + 1, 4));
   };
   
-  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+  const prevStep = () => {
+    // Allow going back to previous steps without losing information
+    setCurrentStep(prev => Math.max(prev - 1, 1));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -113,28 +248,30 @@ const BookingPage = () => {
             {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step <= currentStep 
+                  completedSteps.includes(step)
                     ? 'bg-green-600 text-white' 
+                    : step <= currentStep
+                    ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-gray-600'
                 }`}>
-                  {step < currentStep ? <CheckCircle className="h-5 w-5" /> : step}
+                  {completedSteps.includes(step) ? <CheckCircle className="h-5 w-5" /> : step}
                 </div>
                 {step < 4 && (
                   <div className={`w-16 h-0.5 mx-2 ${
-                    step < currentStep ? 'bg-green-600' : 'bg-gray-200'
+                    completedSteps.includes(step) ? 'bg-green-600' : step < currentStep ? 'bg-blue-600' : 'bg-gray-200'
                   }`} />
                 )}
               </div>
             ))}
           </div>
           <div className="flex justify-center mt-2 text-sm text-gray-600">
-            <span className={currentStep >= 1 ? 'text-green-600 font-medium' : ''}>Dates & Guests</span>
+            <span className={completedSteps.includes(1) ? 'text-green-600 font-medium' : currentStep >= 1 ? 'text-blue-600 font-medium' : ''}>Dates & Guests</span>
             <span className="mx-4">•</span>
-            <span className={currentStep >= 2 ? 'text-green-600 font-medium' : ''}>Contact Info</span>
+            <span className={completedSteps.includes(2) ? 'text-green-600 font-medium' : currentStep >= 2 ? 'text-blue-600 font-medium' : ''}>Contact Info</span>
             <span className="mx-4">•</span>
-            <span className={currentStep >= 3 ? 'text-green-600 font-medium' : ''}>Review</span>
+            <span className={completedSteps.includes(3) ? 'text-green-600 font-medium' : currentStep >= 3 ? 'text-blue-600 font-medium' : ''}>Review</span>
             <span className="mx-4">•</span>
-            <span className={currentStep >= 4 ? 'text-green-600 font-medium' : ''}>Payment</span>
+            <span className={completedSteps.includes(4) ? 'text-green-600 font-medium' : currentStep >= 4 ? 'text-blue-600 font-medium' : ''}>Payment</span>
           </div>
         </div>
 
@@ -148,61 +285,72 @@ const BookingPage = () => {
                 {/* Step 1: Dates & Guests */}
                 {currentStep === 1 && (
                   <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           <Calendar className="h-4 w-4 inline mr-2" />
-                          Check-in Date
+                          Check-in Date *
                         </label>
                         <input
                           type="date"
                           name="checkIn"
                           value={formData.checkIn}
                           onChange={handleInputChange}
+                          onBlur={() => handleFieldBlur('checkIn', formData.checkIn)}
                           min={new Date().toISOString().split('T')[0]}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                            fieldErrors.checkIn && touchedFields.checkIn ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
                           required
                         />
+                        {fieldErrors.checkIn && touchedFields.checkIn && (
+                          <p className="mt-1 text-sm text-red-600">{fieldErrors.checkIn}</p>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           <Calendar className="h-4 w-4 inline mr-2" />
-                          Check-out Date
+                          Check-out Date *
                         </label>
                         <input
                           type="date"
                           name="checkOut"
                           value={formData.checkOut}
                           onChange={handleInputChange}
+                          onBlur={() => handleFieldBlur('checkOut', formData.checkOut)}
                           min={formData.checkIn || new Date().toISOString().split('T')[0]}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                            fieldErrors.checkOut && touchedFields.checkOut ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
                           required
                         />
-                                           </div>
-                   </div>
-                   
-                   {/* Date Error Display */}
-                   {dateError && (
-                     <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                       <p className="text-red-800 text-sm">{dateError}</p>
-                     </div>
-                   )}
-                   
-                   <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                       <Users className="h-4 w-4 inline mr-2" />
-                       Number of Guests
-                     </label>
+                        {fieldErrors.checkOut && touchedFields.checkOut && (
+                          <p className="mt-1 text-sm text-red-600">{fieldErrors.checkOut}</p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <Users className="h-4 w-4 inline mr-2" />
+                        Number of Guests *
+                      </label>
                       <select
                         name="guests"
                         value={formData.guests}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        onBlur={() => handleFieldBlur('guests', formData.guests)}
+                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                          fieldErrors.guests && touchedFields.guests ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
                       >
                         {[1, 2, 3, 4, 5, 6, 7, 8].map(num => (
                           <option key={num} value={num}>{num} {num === 1 ? 'guest' : 'guests'}</option>
                         ))}
                       </select>
+                      {fieldErrors.guests && touchedFields.guests && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.guests}</p>
+                      )}
                     </div>
 
                     <div>
@@ -213,10 +361,16 @@ const BookingPage = () => {
                         name="specialRequests"
                         value={formData.specialRequests}
                         onChange={handleInputChange}
+                        onBlur={() => handleFieldBlur('specialRequests', formData.specialRequests)}
                         rows={3}
                         placeholder="Any special requirements or requests..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                          fieldErrors.specialRequests && touchedFields.specialRequests ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      {fieldErrors.specialRequests && touchedFields.specialRequests && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.specialRequests}</p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -234,9 +388,15 @@ const BookingPage = () => {
                           name="contactName"
                           value={formData.contactName}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          onBlur={() => handleFieldBlur('contactName', formData.contactName)}
+                          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                            fieldErrors.contactName && touchedFields.contactName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
                           required
                         />
+                        {fieldErrors.contactName && touchedFields.contactName && (
+                          <p className="mt-1 text-sm text-red-600">{fieldErrors.contactName}</p>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -247,9 +407,15 @@ const BookingPage = () => {
                           name="contactEmail"
                           value={formData.contactEmail}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          onBlur={() => handleFieldBlur('contactEmail', formData.contactEmail)}
+                          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                            fieldErrors.contactEmail && touchedFields.contactEmail ? 'border-red-500 focus:ring-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
                           required
                         />
+                        {fieldErrors.contactEmail && touchedFields.contactEmail && (
+                          <p className="mt-1 text-sm text-red-600">{fieldErrors.contactEmail}</p>
+                        )}
                       </div>
                     </div>
                     
@@ -257,12 +423,16 @@ const BookingPage = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Phone Number *
                       </label>
-                      <input
-                        type="tel"
-                        name="contactPhone"
+                      <PhoneInput
                         value={formData.contactPhone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        onChange={(value) => {
+                          setFormData(prev => ({ ...prev, contactPhone: value }));
+                          if (fieldErrors.contactPhone) {
+                            setFieldErrors(prev => ({ ...prev, contactPhone: '' }));
+                          }
+                        }}
+                        onBlur={() => handleFieldBlur('contactPhone', formData.contactPhone)}
+                        error={fieldErrors.contactPhone}
                         required
                       />
                     </div>
@@ -429,40 +599,61 @@ const BookingPage = () => {
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Card Number
+                              Card Number *
                             </label>
                             <div className="relative">
                               <input
                                 type="text"
+                                value={paymentData.cardNumber}
+                                onChange={(e) => handlePaymentInputChange('cardNumber', e.target.value)}
                                 placeholder="1234 5678 9012 3456"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                                  paymentErrors.cardNumber ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                                }`}
                               />
                               <div className="absolute right-3 top-3">
                                 <CreditCard className="h-5 w-5 text-gray-400" />
                               </div>
                             </div>
+                            {paymentErrors.cardNumber && (
+                              <p className="mt-1 text-sm text-red-600">{paymentErrors.cardNumber}</p>
+                            )}
                           </div>
                           
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Expiry Date
+                                Expiry Date *
                               </label>
                               <input
                                 type="text"
+                                value={paymentData.expiryDate}
+                                onChange={(e) => handlePaymentInputChange('expiryDate', e.target.value)}
                                 placeholder="MM/YY"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                                  paymentErrors.expiryDate ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                                }`}
                               />
+                              {paymentErrors.expiryDate && (
+                                <p className="mt-1 text-sm text-red-600">{paymentErrors.expiryDate}</p>
+                              )}
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">
-                                CVV
+                                CVV *
                               </label>
                               <input
                                 type="text"
+                                value={paymentData.cvv}
+                                onChange={(e) => handlePaymentInputChange('cvv', e.target.value)}
                                 placeholder="123"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                                  paymentErrors.cvv ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                                }`}
                               />
+                              {paymentErrors.cvv && (
+                                <p className="mt-1 text-sm text-red-600">{paymentErrors.cvv}</p>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -475,13 +666,20 @@ const BookingPage = () => {
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              MTN Phone Number
+                              MTN Phone Number *
                             </label>
                             <input
                               type="tel"
+                              value={paymentData.mtnPhone}
+                              onChange={(e) => handlePaymentInputChange('mtnPhone', e.target.value)}
                               placeholder="+256 7XX XXX XXX"
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                                paymentErrors.mtnPhone ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                              }`}
                             />
+                            {paymentErrors.mtnPhone && (
+                              <p className="mt-1 text-sm text-red-600">{paymentErrors.mtnPhone}</p>
+                            )}
                           </div>
                           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                             <div className="flex items-start">
@@ -501,16 +699,23 @@ const BookingPage = () => {
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Airtel Phone Number
+                              Airtel Phone Number *
                             </label>
                             <input
                               type="tel"
+                              value={paymentData.airtelPhone}
+                              onChange={(e) => handlePaymentInputChange('airtelPhone', e.target.value)}
                               placeholder="+256 7XX XXX XXX"
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                                paymentErrors.airtelPhone ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                              }`}
                             />
+                            {paymentErrors.airtelPhone && (
+                              <p className="mt-1 text-sm text-red-600">{paymentErrors.airtelPhone}</p>
+                            )}
                           </div>
                           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                            <div className="flex items-start">
+                            <div className="flex items-center">
                               <Lightbulb className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
                               <p className="text-sm text-blue-800">
                                 You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
@@ -584,7 +789,8 @@ const BookingPage = () => {
                     <button
                       type="button"
                       onClick={nextStep}
-                      className="ml-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
+                      disabled={!completedSteps.includes(1) || !completedSteps.includes(2)}
+                      className="ml-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                       Proceed to Payment
                     </button>
