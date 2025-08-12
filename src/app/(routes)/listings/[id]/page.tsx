@@ -238,7 +238,10 @@ const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
               </div>
               
-              <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors mb-6">
+              <button 
+                onClick={() => router.push(`/listings/${id}/booking`)}
+                className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors mb-6"
+              >
                 Book Now
               </button>
               
