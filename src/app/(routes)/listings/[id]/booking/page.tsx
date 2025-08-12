@@ -82,6 +82,11 @@ const BookingPage = () => {
   };
 
   const handleFieldBlur = (fieldName: string, value: any) => {
+    // Only validate if the field has been touched or has a value
+    if (!touchedFields[fieldName] && !value) {
+      return;
+    }
+    
     setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
     
     let error = '';
@@ -171,10 +176,16 @@ const BookingPage = () => {
       if (!paymentData.mtnPhone) {
         newErrors.mtnPhone = 'MTN phone number is required';
         hasErrors = true;
+      } else if (!paymentData.mtnPhone.startsWith('+250')) {
+        newErrors.mtnPhone = 'MTN Mobile Money is only available for Rwanda phone numbers';
+        hasErrors = true;
       }
     } else if (selectedPaymentMethod === 'airtel') {
       if (!paymentData.airtelPhone) {
         newErrors.airtelPhone = 'Airtel phone number is required';
+        hasErrors = true;
+      } else if (!paymentData.airtelPhone.startsWith('+250')) {
+        newErrors.airtelPhone = 'Airtel Money is only available for Rwanda phone numbers';
         hasErrors = true;
       }
     }
@@ -226,6 +237,23 @@ const BookingPage = () => {
   const prevStep = () => {
     // Allow going back to previous steps without losing information
     setCurrentStep(prev => Math.max(prev - 1, 1));
+    
+    // Update step description when going back
+    setTimeout(() => {
+      updateStepDescription();
+    }, 100);
+  };
+
+  const updateStepDescription = () => {
+    const stepDescriptions = {
+      1: "Select your check-in and check-out dates, number of guests, and any special requests.",
+      2: "Provide your contact information including name, email, and phone number.",
+      3: "Review your booking details before proceeding to payment.",
+      4: "Complete your payment using your preferred method. MTN Mobile Money and Airtel Money are only available for Rwanda phone numbers."
+    };
+    
+    // You can add logic here to update any UI elements that show step descriptions
+    // For now, this function is ready for future enhancements
   };
 
   return (
@@ -257,39 +285,57 @@ const BookingPage = () => {
                   {completedSteps.includes(step) ? <CheckCircle className="h-5 w-5" /> : step}
                 </div>
                 {step < 4 && (
-                  <div className={`w-16 h-0.5 mx-2 ${
+                  <div className={`w-8 sm:w-16 h-0.5 mx-1 sm:mx-2 ${
                     completedSteps.includes(step) ? 'bg-green-600' : step < currentStep ? 'bg-blue-600' : 'bg-gray-200'
                   }`} />
                 )}
               </div>
             ))}
           </div>
-          <div className="flex justify-center mt-2 text-sm text-gray-600">
+          <div className="flex flex-col sm:flex-row justify-center mt-2 text-sm text-gray-600 text-center">
             <span className={completedSteps.includes(1) ? 'text-green-600 font-medium' : currentStep >= 1 ? 'text-blue-600 font-medium' : ''}>Dates & Guests</span>
-            <span className="mx-4">•</span>
+            <span className="hidden sm:inline mx-4">•</span>
             <span className={completedSteps.includes(2) ? 'text-green-600 font-medium' : currentStep >= 2 ? 'text-blue-600 font-medium' : ''}>Contact Info</span>
-            <span className="mx-4">•</span>
+            <span className="hidden sm:inline mx-4">•</span>
             <span className={completedSteps.includes(3) ? 'text-green-600 font-medium' : currentStep >= 3 ? 'text-blue-600 font-medium' : ''}>Review</span>
-            <span className="mx-4">•</span>
+            <span className="hidden sm:inline mx-4">•</span>
             <span className={completedSteps.includes(4) ? 'text-green-600 font-medium' : currentStep >= 4 ? 'text-blue-600 font-medium' : ''}>Payment</span>
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col xl:flex-row gap-8">
           {/* Left column - Booking form */}
-          <div className="lg:w-2/3">
+          <div className="xl:w-2/3">
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
               <h1 className="text-2xl font-bold mb-6">Complete Your Booking</h1>
+              
+              {/* Step Description */}
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-start">
+                  <Info className="h-5 w-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-medium text-blue-900 mb-1">
+                      Step {currentStep} of 4
+                    </h3>
+                    <p className="text-sm text-blue-800">
+                      {currentStep === 1 && "Select your check-in and check-out dates, number of guests, and any special requests."}
+                      {currentStep === 2 && "Provide your contact information including name, email, and phone number."}
+                      {currentStep === 3 && "Review your booking details before proceeding to payment."}
+                      {currentStep === 4 && "Complete your payment using your preferred method. MTN Mobile Money and Airtel Money are only available for Rwanda phone numbers."}
+                    </p>
+                  </div>
+                </div>
+              </div>
               
                              <div>
                 {/* Step 1: Dates & Guests */}
                 {currentStep === 1 && (
                   <div className="space-y-6">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           <Calendar className="h-4 w-4 inline mr-2" />
-                          Check-in Date *
+                          Check-in Date <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="date"
@@ -310,7 +356,7 @@ const BookingPage = () => {
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           <Calendar className="h-4 w-4 inline mr-2" />
-                          Check-out Date *
+                          Check-out Date <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="date"
@@ -333,7 +379,7 @@ const BookingPage = () => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         <Users className="h-4 w-4 inline mr-2" />
-                        Number of Guests *
+                        Number of Guests <span className="text-red-500">*</span>
                       </label>
                       <select
                         name="guests"
@@ -378,10 +424,10 @@ const BookingPage = () => {
                 {/* Step 2: Contact Information */}
                 {currentStep === 2 && (
                   <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Full Name *
+                          Full Name <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="text"
@@ -400,7 +446,7 @@ const BookingPage = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email Address *
+                          Email Address <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="email"
@@ -409,7 +455,7 @@ const BookingPage = () => {
                           onChange={handleInputChange}
                           onBlur={() => handleFieldBlur('contactEmail', formData.contactEmail)}
                           className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                            fieldErrors.contactEmail && touchedFields.contactEmail ? 'border-red-500 focus:ring-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                            fieldErrors.contactEmail && touchedFields.contactEmail ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                           }`}
                           required
                         />
@@ -421,7 +467,7 @@ const BookingPage = () => {
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number *
+                        Phone Number <span className="text-red-500">*</span>
                       </label>
                       <PhoneInput
                         value={formData.contactPhone}
@@ -503,9 +549,9 @@ const BookingPage = () => {
                     </div>
 
                     {/* Payment Methods */}
-                    <div>
-                      <h3 className="font-medium text-gray-900 mb-3">Select Payment Method</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                                <div>
+              <h3 className="font-medium text-gray-900 mb-3">Select Payment Method</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         {/* Credit/Debit Cards */}
                         <button
                           type="button"
@@ -544,6 +590,7 @@ const BookingPage = () => {
                             <div>
                               <p className="font-medium text-gray-900">MTN Mobile Money</p>
                               <p className="text-sm text-gray-500">Pay with MTN MoMo</p>
+                              <p className="text-xs text-orange-600 mt-1">🇷🇼 Rwanda only</p>
                             </div>
                           </div>
                         </button>
@@ -554,7 +601,7 @@ const BookingPage = () => {
                           onClick={() => setSelectedPaymentMethod('airtel')}
                           className={`p-4 border rounded-lg text-left transition-all cursor-pointer ${
                             selectedPaymentMethod === 'airtel'
-                              ? 'border-green-500 bg-green-500 bg-green-50 ring-2 ring-green-200'
+                              ? 'border-green-500 bg-green-50 ring-2 ring-green-200'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
@@ -565,6 +612,7 @@ const BookingPage = () => {
                             <div>
                               <p className="font-medium text-gray-900">Airtel Money</p>
                               <p className="text-sm text-gray-500">Pay with Airtel Money</p>
+                              <p className="text-xs text-orange-600 mt-1">🇷🇼 Rwanda only</p>
                             </div>
                           </div>
                         </button>
@@ -599,7 +647,7 @@ const BookingPage = () => {
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Card Number *
+                              Card Number <span className="text-red-500">*</span>
                             </label>
                             <div className="relative">
                               <input
@@ -620,10 +668,10 @@ const BookingPage = () => {
                             )}
                           </div>
                           
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Expiry Date *
+                                Expiry Date <span className="text-red-500">*</span>
                               </label>
                               <input
                                 type="text"
@@ -640,7 +688,7 @@ const BookingPage = () => {
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">
-                                CVV *
+                                CVV <span className="text-red-500">*</span>
                               </label>
                               <input
                                 type="text"
@@ -666,16 +714,14 @@ const BookingPage = () => {
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              MTN Phone Number *
+                              MTN Phone Number <span className="text-red-500">*</span>
                             </label>
-                            <input
-                              type="tel"
+                            <PhoneInput
                               value={paymentData.mtnPhone}
-                              onChange={(e) => handlePaymentInputChange('mtnPhone', e.target.value)}
-                              placeholder="+256 7XX XXX XXX"
-                              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                                paymentErrors.mtnPhone ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
-                              }`}
+                              onChange={(value) => handlePaymentInputChange('mtnPhone', value)}
+                              placeholder="MTN phone number"
+                              paymentMethod="mtn"
+                              required
                             />
                             {paymentErrors.mtnPhone && (
                               <p className="mt-1 text-sm text-red-600">{paymentErrors.mtnPhone}</p>
@@ -699,16 +745,14 @@ const BookingPage = () => {
                         <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Airtel Phone Number *
+                              Airtel Phone Number <span className="text-red-500">*</span>
                             </label>
-                            <input
-                              type="tel"
+                            <PhoneInput
                               value={paymentData.airtelPhone}
-                              onChange={(e) => handlePaymentInputChange('airtelPhone', e.target.value)}
-                              placeholder="+256 7XX XXX XXX"
-                              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                                paymentErrors.airtelPhone ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
-                              }`}
+                              onChange={(value) => handlePaymentInputChange('airtelPhone', value)}
+                              placeholder="Airtel phone number"
+                              paymentMethod="airtel"
+                              required
                             />
                             {paymentErrors.airtelPhone && (
                               <p className="mt-1 text-sm text-red-600">{paymentErrors.airtelPhone}</p>
@@ -765,12 +809,12 @@ const BookingPage = () => {
                 )}
 
                 {/* Navigation buttons */}
-                <div className="flex justify-between mt-8">
+                <div className="flex flex-col sm:flex-row justify-between gap-4 mt-8">
                   {currentStep > 1 && (
                     <button
                       type="button"
                       onClick={prevStep}
-                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="w-full sm:w-auto px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer order-2 sm:order-1"
                     >
                       Previous
                     </button>
@@ -781,7 +825,7 @@ const BookingPage = () => {
                       type="button"
                       onClick={nextStep}
                       disabled={!formData.checkIn || !formData.checkOut}
-                      className="ml-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                      className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors cursor-pointer order-1 sm:order-2"
                     >
                       Continue
                     </button>
@@ -790,7 +834,7 @@ const BookingPage = () => {
                       type="button"
                       onClick={nextStep}
                       disabled={!completedSteps.includes(1) || !completedSteps.includes(2)}
-                      className="ml-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                      className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors cursor-pointer order-1 sm:order-2"
                     >
                       Proceed to Payment
                     </button>
@@ -799,7 +843,7 @@ const BookingPage = () => {
                       type="button"
                       onClick={handleProcessPayment}
                       disabled={isProcessingPayment}
-                      className="ml-auto px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center cursor-pointer"
+                      className="w-full sm:w-auto px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center cursor-pointer order-1 sm:order-2"
                     >
                       {isProcessingPayment ? (
                         <>
@@ -820,7 +864,7 @@ const BookingPage = () => {
           </div>
 
           {/* Right column - Booking summary */}
-          <div className="lg:w-1/3">
+          <div className="xl:w-1/3">
             <div className="sticky top-24">
               {/* Property summary */}
               <div className="bg-white rounded-xl shadow-sm p-6 mb-6">

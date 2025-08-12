@@ -18,9 +18,11 @@ interface PhoneInputProps {
   placeholder?: string;
   className?: string;
   required?: boolean;
+  paymentMethod?: 'mtn' | 'airtel' | null;
 }
 
 const countries: Country[] = [
+  // East Africa - Primary focus
   {
     code: 'RW',
     name: 'Rwanda',
@@ -57,6 +59,42 @@ const countries: Country[] = [
     format: '9 digits'
   },
   {
+    code: 'BI',
+    name: 'Burundi',
+    dialCode: '+257',
+    flag: '🇧🇮',
+    format: '8 digits'
+  },
+  {
+    code: 'SS',
+    name: 'South Sudan',
+    dialCode: '+211',
+    flag: '🇸🇸',
+    format: '9 digits'
+  },
+  {
+    code: 'SO',
+    name: 'Somalia',
+    dialCode: '+252',
+    flag: '🇸🇴',
+    format: '8-9 digits'
+  },
+  {
+    code: 'DJ',
+    name: 'Djibouti',
+    dialCode: '+253',
+    flag: '🇩🇯',
+    format: '8 digits'
+  },
+  {
+    code: 'ER',
+    name: 'Eritrea',
+    dialCode: '+291',
+    flag: '🇪🇷',
+    format: '7 digits'
+  },
+  // Major tourist countries to Rwanda
+  {
     code: 'US',
     name: 'United States',
     dialCode: '+1',
@@ -71,10 +109,136 @@ const countries: Country[] = [
     format: '10-11 digits'
   },
   {
+    code: 'DE',
+    name: 'Germany',
+    dialCode: '+49',
+    flag: '🇩🇪',
+    format: '10-12 digits'
+  },
+  {
+    code: 'FR',
+    name: 'France',
+    dialCode: '+33',
+    flag: '🇫🇷',
+    format: '9-10 digits'
+  },
+  {
+    code: 'NL',
+    name: 'Netherlands',
+    dialCode: '+31',
+    flag: '🇳🇱',
+    format: '9 digits'
+  },
+  {
+    code: 'BE',
+    name: 'Belgium',
+    dialCode: '+32',
+    flag: '🇧🇪',
+    format: '9 digits'
+  },
+  {
+    code: 'CH',
+    name: 'Switzerland',
+    dialCode: '+41',
+    flag: '🇨🇭',
+    format: '9 digits'
+  },
+  {
+    code: 'IT',
+    name: 'Italy',
+    dialCode: '+39',
+    flag: '🇮🇹',
+    format: '9-10 digits'
+  },
+  {
+    code: 'ES',
+    name: 'Spain',
+    dialCode: '+34',
+    flag: '🇪🇸',
+    format: '9 digits'
+  },
+  {
     code: 'CA',
     name: 'Canada',
     dialCode: '+1',
     flag: '🇨🇦',
+    format: '10 digits'
+  },
+  {
+    code: 'AU',
+    name: 'Australia',
+    dialCode: '+61',
+    flag: '🇦🇺',
+    format: '9 digits'
+  },
+  {
+    code: 'ZA',
+    name: 'South Africa',
+    dialCode: '+27',
+    flag: '🇿🇦',
+    format: '9 digits'
+  },
+  {
+    code: 'NG',
+    name: 'Nigeria',
+    dialCode: '+234',
+    flag: '🇳🇬',
+    format: '10-11 digits'
+  },
+  {
+    code: 'EG',
+    name: 'Egypt',
+    dialCode: '+20',
+    flag: '🇪🇬',
+    format: '10 digits'
+  },
+  {
+    code: 'MA',
+    name: 'Morocco',
+    dialCode: '+212',
+    flag: '🇲🇦',
+    format: '9 digits'
+  },
+  {
+    code: 'IN',
+    name: 'India',
+    dialCode: '+91',
+    flag: '🇮🇳',
+    format: '10 digits'
+  },
+  {
+    code: 'CN',
+    name: 'China',
+    dialCode: '+86',
+    flag: '🇨🇳',
+    format: '11 digits'
+  },
+  {
+    code: 'JP',
+    name: 'Japan',
+    dialCode: '+81',
+    flag: '🇯🇵',
+    format: '10-11 digits'
+  },
+  {
+    code: 'KR',
+    name: 'South Korea',
+    dialCode: '+82',
+    flag: '🇰🇷',
+    format: '10-11 digits'
+  },
+  {
+    code: 'BR',
+    name: 'Brazil',
+    dialCode: '+55',
+    flag: '🇧🇷',
+    format: '10-11 digits'
+  },
+  {
+    code: 'MX',
+    name: 'Mexico',
+    dialCode: '+52',
+    flag: '🇲🇽',
     format: '10 digits'
   }
 ];
@@ -86,11 +250,14 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
   error,
   placeholder = "Phone number",
   className = "",
-  required = false
+  required = false,
+  paymentMethod = null
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredCountries, setFilteredCountries] = useState<Country[]>(countries);
 
   useEffect(() => {
     // Initialize with current value if it exists
@@ -108,6 +275,41 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
     const newValue = country.dialCode + phoneNumber;
     onChange(newValue);
     setIsOpen(false);
+    setSearchQuery('');
+    setFilteredCountries(countries);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (!query.trim()) {
+      setFilteredCountries(countries);
+      return;
+    }
+    
+    const filtered = countries.filter(country => 
+      country.name.toLowerCase().includes(query.toLowerCase()) ||
+      country.dialCode.includes(query) ||
+      country.code.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredCountries(filtered);
+  };
+
+  const handleCountryCodeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    
+    // Allow typing country code directly
+    if (input.startsWith('+')) {
+      const country = countries.find(c => c.dialCode === input);
+      if (country) {
+        setSelectedCountry(country);
+        const newValue = country.dialCode + phoneNumber;
+        onChange(newValue);
+        return;
+      }
+    }
+    
+    // If not a valid country code, treat as search
+    handleSearch(input);
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +346,23 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         if (!validPrefixes.includes(phoneNumber[0])) {
           return 'Rwanda phone number must start with 7, 8, or 9';
         }
+        
+        // Additional validation for MTN and Airtel
+        if (paymentMethod === 'mtn') {
+          if (!['7'].includes(phoneNumber[0])) {
+            return 'MTN Mobile Money is only available for Rwanda numbers starting with 7';
+          }
+        } else if (paymentMethod === 'airtel') {
+          if (!['7', '8', '9'].includes(phoneNumber[0])) {
+            return 'Airtel Money is only available for Rwanda numbers starting with 7, 8, or 9';
+          }
+        }
       } else {
+        // For non-Rwanda countries, show error if trying to use MTN/Airtel
+        if (paymentMethod === 'mtn' || paymentMethod === 'airtel') {
+          return `${paymentMethod === 'mtn' ? 'MTN Mobile Money' : 'Airtel Money'} is only available for Rwanda phone numbers`;
+        }
+        
         if (phoneNumber.length < 8) {
           return 'Phone number is too short';
         }
@@ -176,21 +394,41 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           
           {/* Country Dropdown */}
           {isOpen && (
-            <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-              {countries.map((country) => (
-                <button
-                  key={country.code}
-                  type="button"
-                  onClick={() => handleCountrySelect(country)}
-                  className="w-full flex items-center px-3 py-2 hover:bg-gray-50 text-left"
-                >
-                  <span className="mr-3 text-lg">{country.flag}</span>
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900">{country.name}</div>
-                    <div className="text-sm text-gray-500">{country.dialCode} • {country.format}</div>
+            <div className="absolute top-full left-0 mt-1 w-80 sm:w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+              {/* Search Input */}
+              <div className="sticky top-0 bg-white border-b border-gray-200 p-3">
+                <input
+                  type="text"
+                  placeholder="Search country or type +code..."
+                  value={searchQuery}
+                  onChange={(e) => handleCountryCodeInput(e)}
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                />
+              </div>
+              
+              {/* Countries List */}
+              <div className="max-h-48 overflow-y-auto">
+                {filteredCountries.length > 0 ? (
+                  filteredCountries.map((country) => (
+                    <button
+                      key={country.code}
+                      type="button"
+                      onClick={() => handleCountrySelect(country)}
+                      className="w-full flex items-center px-3 py-2 hover:bg-gray-50 text-left"
+                    >
+                      <span className="mr-3 text-lg flex-shrink-0">{country.flag}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-gray-900 truncate">{country.name}</div>
+                        <div className="text-sm text-gray-500 truncate">{country.dialCode} • {country.format}</div>
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <div className="px-3 py-4 text-center text-gray-500 text-sm">
+                    No countries found
                   </div>
-                </button>
-              ))}
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -219,6 +457,11 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
       {/* Format Hint */}
       <p className="mt-1 text-xs text-gray-500">
         Format: {selectedCountry.dialCode} {selectedCountry.format}
+        {paymentMethod && selectedCountry.code !== 'RW' && (
+          <span className="text-red-500 ml-2">
+            ⚠️ {paymentMethod === 'mtn' ? 'MTN Mobile Money' : 'Airtel Money'} requires Rwanda number
+          </span>
+        )}
       </p>
     </div>
   );
