@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Calendar, MapPin, Star, CheckCircle, Check, Download, Share2, Home } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Star, CheckCircle, Check, Download, Share2, Home, Users, Building, Mail, Phone } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { dummyListings } from '@/data/listings';
 import { formatDate } from '@/utils/booking';
@@ -121,9 +121,7 @@ const BookingConfirmationPage = () => {
                 </div>
                 
                 <div className="flex items-center">
-                  <div className="h-5 w-5 text-green-600 mr-3 flex items-center justify-center">
-                    👥
-                  </div>
+                  <Users className="h-5 w-5 text-green-600 mr-3" />
                   <div>
                     <p className="text-sm text-gray-500">Guests</p>
                     <p className="font-medium">{bookingDetails.guests} {bookingDetails.guests === 1 ? 'guest' : 'guests'}</p>
@@ -131,9 +129,7 @@ const BookingConfirmationPage = () => {
                 </div>
                 
                 <div className="flex items-center">
-                  <div className="h-5 w-5 text-green-600 mr-3 flex items-center justify-center">
-                    🏠
-                  </div>
+                  <Building className="h-5 w-5 text-green-600 mr-3" />
                   <div>
                     <p className="text-sm text-gray-500">Property Type</p>
                     <p className="font-medium capitalize">{listing.propertyType}</p>
@@ -198,7 +194,7 @@ const BookingConfirmationPage = () => {
               <h2 className="text-xl font-semibold mb-4 text-blue-900">What's Next?</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-4 flex-shrink-0">
                     1
                   </div>
                   <div>
@@ -208,7 +204,7 @@ const BookingConfirmationPage = () => {
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-4 flex-shrink-0">
                     2
                   </div>
                   <div>
@@ -218,7 +214,7 @@ const BookingConfirmationPage = () => {
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-4 flex-shrink-0">
                     3
                   </div>
                   <div>
@@ -286,8 +282,14 @@ const BookingConfirmationPage = () => {
                   Our support team is available 24/7 to assist you with any questions.
                 </p>
                 <div className="space-y-2 text-sm">
-                  <p className="text-gray-600">📧 support@kwetu.com</p>
-                  <p className="text-sm text-gray-600">📞 +1 (555) 123-4567</p>
+                  <div className="flex items-center text-gray-600">
+                    <Mail className="h-4 w-4 mr-2 text-green-600" />
+                    support@kwetu.com
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <Phone className="h-4 w-4 mr-2 text-green-600" />
+                    +1 (555) 123-4567
+                  </div>
                 </div>
               </div>
             </div>

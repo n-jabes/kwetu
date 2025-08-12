@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Calendar, Clock, Users, MapPin, Star, CheckCircle, CreditCard, Shield, Info, Smartphone, Building2 } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Users, MapPin, Star, CheckCircle, CreditCard, Shield, Info, Smartphone, Building2, Lightbulb } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { dummyListings } from '@/data/listings';
 import { BookingFormData } from '@/types/booking';
@@ -484,9 +484,12 @@ const BookingPage = () => {
                             />
                           </div>
                           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                            <p className="text-sm text-yellow-800">
-                              💡 You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
-                            </p>
+                            <div className="flex items-start">
+                              <Lightbulb className="h-4 w-4 text-yellow-600 mr-2 mt-0.5 flex-shrink-0" />
+                              <p className="text-sm text-yellow-800">
+                                You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -507,9 +510,12 @@ const BookingPage = () => {
                             />
                           </div>
                           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                            <p className="text-sm text-blue-800">
-                              💡 You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
-                            </p>
+                            <div className="flex items-start">
+                              <Lightbulb className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                              <p className="text-sm text-blue-800">
+                                You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
