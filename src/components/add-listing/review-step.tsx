@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckCircle, Home, Users, Shield, Info, MapPin, DollarSign } from 'lucide-react';
 
 interface ReviewStepProps {
@@ -95,18 +95,6 @@ const cancellationPolicyLabels = {
 export const ReviewStep: React.FC<ReviewStepProps> = ({
   formData
 }) => {
-  const [isPublishing, setIsPublishing] = useState(false);
-
-  const handlePublish = async () => {
-    setIsPublishing(true);
-    // Simulate publishing process
-    setTimeout(() => {
-      setIsPublishing(false);
-      // Here you would typically submit the data to your backend
-      console.log('Publishing listing:', formData);
-    }, 2000);
-  };
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -331,7 +319,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
       {/* Policies & Rules */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Policies</h3>
+          <h3 className="text-base font-semibold text-gray-800 mb-4">Policies</h3>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-600">Cancellation:</span>
@@ -353,7 +341,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </div>
 
         <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">House Rules ({formData.houseRules.length})</h3>
+          <h3 className="text-base font-semibold text-gray-800 mb-4">House Rules ({formData.houseRules.length})</h3>
           {formData.houseRules.length > 0 ? (
             <div className="space-y-2">
               {formData.houseRules.map((rule, index) => (
@@ -367,31 +355,6 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
             <p className="text-sm text-gray-500">No house rules specified</p>
           )}
         </div>
-      </div>
-
-      {/* Publish Button */}
-      <div className="text-center">
-        <button
-          onClick={handlePublish}
-          disabled={isPublishing}
-          className={`px-12 py-4 text-lg font-semibold rounded-xl transition-all duration-200 cursor-pointer ${
-            isPublishing
-              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-              : 'bg-green-500 text-white hover:bg-green-600 hover:shadow-lg'
-          }`}
-        >
-          {isPublishing ? (
-            <div className="flex items-center">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-              Publishing...
-            </div>
-          ) : (
-            'Publish Listing'
-          )}
-        </button>
-        <p className="text-sm text-gray-600 mt-3">
-          Review all information carefully before publishing
-        </p>
       </div>
 
       {/* Tips Section */}

@@ -153,9 +153,9 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
       {/* Basic Information */}
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Property Title <span className="text-red-500">*</span>
-          </h3>
+          </label>
           <input
             type="text"
             value={safeFormData.title}
@@ -172,9 +172,9 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Description <span className="text-red-500">*</span>
-          </h3>
+          </label>
           <textarea
             value={safeFormData.description}
             onChange={(e) => updateFormData({ description: e.target.value })}
@@ -193,10 +193,12 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
       {/* Property Details */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Property Details</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">Property Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Square Meters</h3>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Square Meters
+            </label>
             <input
               type="number"
               value={formData.squareMeters || ''}
@@ -272,7 +274,9 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Floor Number</h3>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Floor Number
+              </label>
               <input
                 type="number"
                 value={formData.floorNumber || ''}
@@ -284,7 +288,9 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Total Floors</h3>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Total Floors
+              </label>
               <input
                 type="number"
                 value={formData.totalFloors || ''}
@@ -298,7 +304,9 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Year Built</h3>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Year Built
+              </label>
               <input
                 type="number"
                 value={formData.yearBuilt || ''}
@@ -311,7 +319,9 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Parking Spaces</h3>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Parking Spaces
+              </label>
               <input
                 type="number"
                 value={formData.parkingSpaces || ''}
@@ -327,7 +337,7 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
       {/* Check-in/Check-out Times */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Check-in & Check-out Times</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">Check-in & Check-out Times</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -356,7 +366,7 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
       {/* Cancellation Policy */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Cancellation Policy</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">Cancellation Policy</h3>
         <div className="space-y-3">
           {[
             { value: 'flexible', title: 'Flexible', description: 'Full refund if canceled at least 24 hours before check-in' },
@@ -399,7 +409,7 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
       {/* House Rules */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">House Rules</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">House Rules</h3>
         
         {/* Add Custom Rule */}
         <div className="flex space-x-2 mb-4">
@@ -420,7 +430,7 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
         {/* Common Rules */}
         <div className="mb-6">
-          <h4 className="text-md font-medium text-gray-900 mb-3">Quick Add Common Rules:</h4>
+          <h4 className="text-sm font-medium text-gray-700 mb-3">Quick Add Common Rules:</h4>
           <div className="flex flex-wrap gap-2">
             {commonHouseRules.map((rule) => (
               <button

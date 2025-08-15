@@ -62,7 +62,7 @@ export const PricingStep: React.FC<PricingStepProps> = ({
 
       {/* Currency Selection */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Currency</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">Currency</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {currencies.map((currency) => (
             <button
@@ -84,7 +84,9 @@ export const PricingStep: React.FC<PricingStepProps> = ({
 
       {/* Nightly Price */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">Price per Night</h3>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Price per Night <span className="text-red-500">*</span>
+        </label>
         <div className="relative">
           <input
             type="number"
@@ -108,10 +110,12 @@ export const PricingStep: React.FC<PricingStepProps> = ({
 
       {/* Weekly and Monthly Prices */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Extended Stay Discounts</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">Extended Stay Discounts</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Price per Week</h3>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Price per Week
+            </label>
             <div className="relative">
               <input
                 type="number"
@@ -128,7 +132,9 @@ export const PricingStep: React.FC<PricingStepProps> = ({
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Price per Month</h3>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Price per Month
+            </label>
             <div className="relative">
               <input
                 type="number"
@@ -148,10 +154,12 @@ export const PricingStep: React.FC<PricingStepProps> = ({
 
       {/* Additional Fees */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Fees</h3>
+        <h3 className="text-base font-semibold text-gray-800 mb-4">Additional Fees</h3>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Cleaning Fee</h3>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Cleaning Fee
+            </label>
             <div className="relative">
               <input
                 type="number"
@@ -168,7 +176,9 @@ export const PricingStep: React.FC<PricingStepProps> = ({
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Service Fee</h3>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Service Fee
+            </label>
             <div className="relative">
               <input
                 type="number"
@@ -186,7 +196,9 @@ export const PricingStep: React.FC<PricingStepProps> = ({
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Security Deposit</h3>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Security Deposit
+          </label>
           <div className="relative">
             <input
               type="number"
@@ -206,7 +218,7 @@ export const PricingStep: React.FC<PricingStepProps> = ({
       {/* Pricing Calculator */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Pricing Calculator</h3>
+          <h3 className="text-base font-semibold text-gray-800">Pricing Calculator</h3>
           <button
             onClick={() => setShowCalculator(!showCalculator)}
             className="flex items-center text-green-600 hover:text-green-700 cursor-pointer"
