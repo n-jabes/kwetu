@@ -190,25 +190,25 @@ export const validateCVV = (cvv: string): ValidationResult => {
 };
 
 // Form step validation
-export const validateFormStep = (step: number, formData: any): ValidationResult => {
+export const validateFormStep = (step: number, formData: Record<string, unknown> | { checkIn: string; checkOut: string; guests: number; contactName: string; contactEmail: string; contactPhone: string; specialRequests: string }): ValidationResult => {
   switch (step) {
     case 1: // Dates & Guests
-      const datesValidation = validateDates(formData.checkIn, formData.checkOut);
+      const datesValidation = validateDates(formData.checkIn as string, formData.checkOut as string);
       if (!datesValidation.isValid) return datesValidation;
       
-      const guestsValidation = validateGuests(formData.guests);
+      const guestsValidation = validateGuests(formData.guests as number);
       if (!guestsValidation.isValid) return guestsValidation;
       
       return { isValid: true };
       
     case 2: // Contact Information
-      const nameValidation = validateName(formData.contactName);
+      const nameValidation = validateName(formData.contactName as string);
       if (!nameValidation.isValid) return nameValidation;
       
-      const emailValidation = validateEmail(formData.contactEmail);
+      const emailValidation = validateEmail(formData.contactEmail as string);
       if (!emailValidation.isValid) return emailValidation;
       
-      const phoneValidation = validatePhone(formData.contactPhone);
+      const phoneValidation = validatePhone(formData.contactPhone as string);
       if (!phoneValidation.isValid) return phoneValidation;
       
       return { isValid: true };

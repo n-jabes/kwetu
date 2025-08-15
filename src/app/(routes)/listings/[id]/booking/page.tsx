@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Calendar, Clock, Users, MapPin, Star, CheckCircle, CreditCard, Shield, Info, Smartphone, Building2, Lightbulb } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
@@ -28,8 +28,6 @@ const BookingPage = () => {
   });
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [dateError, setDateError] = useState<string>('');
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   
   // Field validation states
@@ -77,11 +75,11 @@ const BookingPage = () => {
     
     // Clear date error when dates change
     if (name === 'checkIn' || name === 'checkOut') {
-      setDateError('');
+      // setDateError(''); // This line was removed
     }
   };
 
-  const handleFieldBlur = (fieldName: string, value: any) => {
+  const handleFieldBlur = (fieldName: string, value: string | number) => {
     // Only validate if the field has been touched or has a value
     if (!touchedFields[fieldName] && !value) {
       return;
@@ -102,31 +100,31 @@ const BookingPage = () => {
         }
         break;
       case 'guests':
-        const guestsValidation = validateGuests(value);
+        const guestsValidation = validateGuests(typeof value === 'number' ? value : parseInt(String(value)) || 1);
         if (!guestsValidation.isValid) {
           error = guestsValidation.error || '';
         }
         break;
       case 'contactName':
-        const nameValidation = validateName(value);
+        const nameValidation = validateName(typeof value === 'string' ? value : String(value));
         if (!nameValidation.isValid) {
           error = nameValidation.error || '';
         }
         break;
       case 'contactEmail':
-        const emailValidation = validateEmail(value);
+        const emailValidation = validateEmail(typeof value === 'string' ? value : String(value));
         if (!emailValidation.isValid) {
           error = emailValidation.error || '';
         }
         break;
       case 'contactPhone':
-        const phoneValidation = validatePhone(value);
+        const phoneValidation = validatePhone(typeof value === 'string' ? value : String(value));
         if (!phoneValidation.isValid) {
           error = phoneValidation.error || '';
         }
         break;
       case 'specialRequests':
-        const requestsValidation = validateSpecialRequests(value);
+        const requestsValidation = validateSpecialRequests(typeof value === 'string' ? value : String(value));
         if (!requestsValidation.isValid) {
           error = requestsValidation.error || '';
         }
@@ -136,17 +134,6 @@ const BookingPage = () => {
     if (error) {
       setFieldErrors(prev => ({ ...prev, [fieldName]: error }));
     }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Redirect to confirmation page
-    router.push(`/listings/${id}/booking/confirmation`);
   };
 
   const handleProcessPayment = async () => {
@@ -245,13 +232,6 @@ const BookingPage = () => {
   };
 
   const updateStepDescription = () => {
-    const stepDescriptions = {
-      1: "Select your check-in and check-out dates, number of guests, and any special requests.",
-      2: "Provide your contact information including name, email, and phone number.",
-      3: "Review your booking details before proceeding to payment.",
-      4: "Complete your payment using your preferred method. MTN Mobile Money and Airtel Money are only available for Rwanda phone numbers."
-    };
-    
     // You can add logic here to update any UI elements that show step descriptions
     // For now, this function is ready for future enhancements
   };
@@ -731,7 +711,7 @@ const BookingPage = () => {
                             <div className="flex items-start">
                               <Lightbulb className="h-4 w-4 text-yellow-600 mr-2 mt-0.5 flex-shrink-0" />
                               <p className="text-sm text-yellow-800">
-                                You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
+                                You&apos;ll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
                               </p>
                             </div>
                           </div>
@@ -762,7 +742,7 @@ const BookingPage = () => {
                             <div className="flex items-center">
                               <Lightbulb className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
                               <p className="text-sm text-blue-800">
-                                You'll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
+                                You&apos;ll receive a prompt on your phone to confirm the payment of ${finalTotal.toFixed(2)}
                               </p>
                             </div>
                           </div>

@@ -4,6 +4,7 @@ import { MapPin, Home, Mountain, Castle, Loader2, Star, Shield, CreditCard, Lock
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const HomePage = () => {
   const router = useRouter();
@@ -324,9 +325,9 @@ const HomePage = () => {
           <p className="text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
             Earn income by listing your property on KWETU and connecting with long-term renters.
           </p>
-          <button className="bg-white text-green-500 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-colors hover:shadow-lg">
-            List Your Property
-          </button>
+                  <Link href="/add-listing" className="bg-white text-green-500 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-colors hover:shadow-lg inline-block">
+          List Your Property
+        </Link>
         </div>
       </section>
 

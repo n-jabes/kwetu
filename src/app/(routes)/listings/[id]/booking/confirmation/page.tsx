@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Calendar, MapPin, Star, CheckCircle, Check, Download, Share2, Home, Users, Building, Mail, Phone } from 'lucide-react';
+import { Calendar, MapPin, Star, CheckCircle, Check, Download, Share2, Home, Users, Building, Mail, Phone } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { dummyListings } from '@/data/listings';
 import { formatDate } from '@/utils/booking';
@@ -64,8 +64,8 @@ const BookingConfirmationPage = () => {
             <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Booking & Payment Confirmed!</h1>
-          <p className="text-gray-600 text-lg mb-4">
-            Your booking has been successfully confirmed and payment processed. We've sent you a confirmation email with all the details.
+          <p className="text-gray-600 mb-4">
+            We&apos;ve received your booking request and will confirm it shortly.
           </p>
           
           {/* Success Status */}
@@ -191,7 +191,7 @@ const BookingConfirmationPage = () => {
 
             {/* Next Steps */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-              <h2 className="text-xl font-semibold mb-4 text-blue-900">What's Next?</h2>
+              <h2 className="text-xl font-semibold mb-4 text-blue-900">What&apos;s Next?</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
                   <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium mr-4 flex-shrink-0">
@@ -199,7 +199,7 @@ const BookingConfirmationPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-blue-900">Check your email</p>
-                    <p className="text-blue-800 text-sm">We've sent you a detailed confirmation email with all the information you need.</p>
+                    <p className="text-blue-800 text-sm">We&apos;ve sent you a detailed confirmation email with all the information you need.</p>
                   </div>
                 </div>
                 

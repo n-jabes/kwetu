@@ -1,7 +1,7 @@
 'use client'
 import { Menu, Search, User, X, Loader2 } from "lucide-react";
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // Navbar Component
@@ -74,9 +74,9 @@ export const SearchResultsNavbar = () => {
 
             {/* Desktop Right Side */}
             <div className="hidden md:flex items-center space-x-4 relative">
-              <button className="cursor-pointer bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                List your place
-              </button>
+                      <Link href="/add-listing" className="cursor-pointer bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          List your place
+        </Link>
               <div 
                 className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-400 transition-colors"
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
@@ -167,9 +167,9 @@ export const SearchResultsNavbar = () => {
                 <Link href='/manage-property' className="text-gray-700 hover:text-green-500 px-3 py-2 text-sm font-medium text-left transition-colors">
                   Manage Property
                 </Link>
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium mt-2 transition-colors">
-                  List your place
-                </button>
+                        <Link href="/add-listing" className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium mt-2 transition-colors">
+          List your place
+        </Link>
                 {isLoggedIn ? (
                   <>
                     <Link href="/profile" className="text-gray-700 hover:text-green-500 px-3 py-2 text-sm font-medium text-left transition-colors">

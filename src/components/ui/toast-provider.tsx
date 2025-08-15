@@ -25,18 +25,6 @@ export const ToastProvider = () => {
             color: '#fff',
           },
         },
-        info: {
-          style: {
-            background: '#3b82f6',
-            color: '#fff',
-          },
-        },
-        warning: {
-          style: {
-            background: '#f59e0b',
-            color: '#fff',
-          },
-        },
       }}
     />
   );
