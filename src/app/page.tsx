@@ -822,7 +822,7 @@ const HomePage = () => {
             </h2>
             <h3 className="text-2xl lg:text-3xl font-semibold text-gray-700 mb-6">Excellence in Every Detail</h3>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              We're redefining hospitality across East Africa with unmatched quality and personalized service.
+              We&apos;re redefining hospitality across East Africa with unmatched quality and personalized service.
             </p>
           </div>
           
