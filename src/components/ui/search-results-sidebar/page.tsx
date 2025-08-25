@@ -68,20 +68,20 @@ export const SearchResultsSidebar: React.FC<{
     };
   
     return (
-      <div className="bg-white p-6 rounded-lg shadow-sm border h-fit">
-        <h2 className="text-xl font-semibold mb-6">Filters</h2>
+      <div className="bg-white p-4 rounded-lg shadow-sm border h-fit">
+        <h2 className="text-lg font-semibold mb-4">Filters</h2>
   
         {/* Price Range */}
-        <div className="mb-6">
-          <h3 className="font-medium mb-3">Price range</h3>
-          <div className="space-y-3">
+        <div className="mb-4">
+          <h3 className="font-medium mb-2 text-sm">Price range</h3>
+          <div className="space-y-2">
             <div>
               <input
                 type="number"
                 placeholder="Min price"
                 value={filters.priceRange[0] || ''}
                 onChange={(e) => handlePriceChange('min', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                className={`w-full px-2.5 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-sm ${
                   errors.minPrice ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -93,7 +93,7 @@ export const SearchResultsSidebar: React.FC<{
                 placeholder="Max price"
                 value={filters.priceRange[1] || ''}
                 onChange={(e) => handlePriceChange('max', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                className={`w-full px-2.5 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-sm ${
                   errors.maxPrice ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -103,9 +103,9 @@ export const SearchResultsSidebar: React.FC<{
         </div>
   
         {/* Property Type */}
-        <div className="mb-6">
-          <h3 className="font-medium mb-3">Property Type</h3>
-          <div className="space-y-2">
+        <div className="mb-4">
+          <h3 className="font-medium mb-2 text-sm">Property Type</h3>
+          <div className="space-y-1.5">
             {['apartment', 'villa', 'house'].map((type) => (
               <label key={type} className="flex items-center space-x-2 cursor-pointer">
                 <input
@@ -114,16 +114,16 @@ export const SearchResultsSidebar: React.FC<{
                   onChange={(e) => handlePropertyTypeChange(type, e.target.checked)}
                   className="rounded border-gray-300 text-red-500 focus:ring-red-500"
                 />
-                <span className="capitalize">{type}</span>
+                <span className="capitalize text-sm">{type}</span>
               </label>
             ))}
           </div>
         </div>
   
         {/* Amenities */}
-        <div className="mb-6">
-          <h3 className="font-medium mb-3">Amenities</h3>
-          <div className="space-y-2">
+        <div className="mb-4">
+          <h3 className="font-medium mb-2 text-sm">Amenities</h3>
+          <div className="space-y-1.5">
             {[
               { name: 'Wi-Fi', icon: Wifi },
               { name: 'Parking', icon: Car },
@@ -137,17 +137,17 @@ export const SearchResultsSidebar: React.FC<{
                   onChange={(e) => handleAmenityChange(name, e.target.checked)}
                   className="rounded border-gray-300 text-red-500 focus:ring-red-500"
                 />
-                <Icon className="h-4 w-4" />
-                <span>{name}</span>
+                <Icon className="h-3.5 w-3.5" />
+                <span className="text-sm">{name}</span>
               </label>
             ))}
           </div>
         </div>
   
         {/* User Ratings */}
-        <div className="mb-6">
-          <h3 className="font-medium mb-3">User Ratings</h3>
-          <div className="space-y-2">
+        <div className="mb-4">
+          <h3 className="font-medium mb-2 text-sm">User Ratings</h3>
+          <div className="space-y-1.5">
             {[5, 4, 3, 2, 1].map((rating) => (
               <label key={rating} className="flex items-center space-x-2 cursor-pointer">
                 <input
@@ -157,9 +157,9 @@ export const SearchResultsSidebar: React.FC<{
                   className="rounded border-gray-300 text-red-500 focus:ring-red-500"
                 />
                 <div className="flex items-center">
-                  <span>{rating}</span>
-                  <Star className="h-4 w-4 ml-1 text-yellow-400 fill-current" />
-                  {rating > 1 && <span className="text-sm text-gray-500 ml-1">& up</span>}
+                  <span className="text-sm">{rating}</span>
+                  <Star className="h-3.5 w-3.5 ml-1 text-yellow-400 fill-current" />
+                  {rating > 1 && <span className="text-xs text-gray-500 ml-1">& up</span>}
                 </div>
               </label>
             ))}
@@ -168,7 +168,7 @@ export const SearchResultsSidebar: React.FC<{
   
         <button
           onClick={handleSubmit}
-          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+          className="w-full bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded-lg font-medium transition-colors text-sm"
         >
           Apply Filters
         </button>

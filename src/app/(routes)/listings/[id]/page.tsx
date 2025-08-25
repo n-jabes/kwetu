@@ -77,10 +77,10 @@ const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
   // Property type icon
   const propertyTypeIcon = () => {
     switch(listing.propertyType) {
-      case 'house': return <Home className="h-5 w-5 mr-2" />;
-      case 'villa': return <Castle className="h-5 w-5 mr-2" />;
-      case 'apartment': return <HouseIcon className="h-5 w-5 mr-2" />;
-      default: return <Home className="h-5 w-5 mr-2" />;
+      case 'house': return <Home className="h-4 w-4 mr-1.5" />;
+      case 'villa': return <Castle className="h-4 w-4 mr-1.5" />;
+      case 'apartment': return <HouseIcon className="h-4 w-4 mr-1.5" />;
+      default: return <Home className="h-4 w-4 mr-1.5" />;
     }
   };
 
@@ -91,62 +91,62 @@ const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
     <div className="min-h-screen bg-white">
       <SearchResultsNavbar />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Back button */}
         <button 
           onClick={() => router.back()}
-          className="flex cursor-pointer items-center text-green-600 hover:text-green-700 mb-6 text-sm"
+          className="flex cursor-pointer items-center text-green-600 hover:text-green-700 mb-4 text-xs"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" />
+          <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
           Back to results
         </button>
 
         {/* Main content */}
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Left column */}
           <div className="lg:w-2/3">
             {/* Title and basic info */}
-            <div className="mb-6">
-              <div className="flex items-center mb-2">
+            <div className="mb-4">
+              <div className="flex items-center mb-1.5">
                 {propertyTypeIcon()}
-                <span className="text-sm text-gray-600 capitalize">{listing.propertyType}</span>
+                <span className="text-xs text-gray-600 capitalize">{listing.propertyType}</span>
               </div>
-              <h1 className="text-3xl font-bold mb-2">{listing.title}</h1>
-              <div className="flex flex-wrap items-center gap-4 text-gray-600">
+              <h1 className="text-2xl font-bold mb-1.5">{listing.title}</h1>
+              <div className="flex flex-wrap items-center gap-3 text-gray-600">
                 <div className="flex items-center">
-                  <Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />
-                  <span>{averageRating.toFixed(1)} · {reviews.length} reviews</span>
+                  <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
+                  <span className="text-sm">{averageRating.toFixed(1)} · {reviews.length} reviews</span>
                 </div>
                 <div className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-1" />
-                  <span>{listing.location}</span>
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span className="text-sm">{listing.location}</span>
                 </div>
               </div>
             </div>
 
             {/* Image Gallery */}
-            <div className="mb-8 rounded-xl overflow-hidden">
+            <div className="mb-6 rounded-xl overflow-hidden">
               <ImageGallery images={listing.images} />
             </div>
 
             {/* About section */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">About this place</h2>
-              <p className="text-gray-700 mb-6">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-3">About this place</h2>
+              <p className="text-gray-700 mb-4 text-sm">
                 Welcome to our beautiful property located in the heart of {listing.sublocation}. 
                 This {listing.propertyType} offers a perfect blend of comfort and convenience, 
                 with modern amenities and easy access to local attractions.
               </p>
               
-              <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
+              <h3 className="text-lg font-semibold mb-3">What this place offers</h3>
               {Object.entries(categorizedAmenities).map(([category, amenities]) => (
-                <div key={category} className="mb-6">
-                  <h4 className="font-medium text-lg mb-3 capitalize">{category} Amenities</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div key={category} className="mb-4">
+                  <h4 className="font-medium text-base mb-2 capitalize">{category} Amenities</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {amenities.map((amenity) => (
                       <div key={amenity.id} className="flex items-center">
-                        <amenity.icon className={`h-5 w-5 mr-2 ${amenity.available ? 'text-green-600' : 'text-gray-300'}`} />
-                        <span className={amenity.available ? "text-gray-700" : "text-gray-400"}>
+                        <amenity.icon className={`h-4 w-4 mr-1.5 ${amenity.available ? 'text-green-600' : 'text-gray-300'}`} />
+                        <span className={`text-sm ${amenity.available ? "text-gray-700" : "text-gray-400"}`}>
                           {amenity.name}
                           {!amenity.available && <span className="text-xs text-gray-400 ml-1">(Not available)</span>}
                         </span>
@@ -158,15 +158,15 @@ const ListingPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
 
             {/* Reviews section */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-3">Reviews</h2>
               
-              <div className="flex items-center mb-6">
-                <div className="flex items-center mr-4">
-                  <Star className="h-6 w-6 text-yellow-400 fill-current mr-1" />
-                  <span className="text-xl font-bold">{averageRating.toFixed(1)}</span>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center mr-3">
+                  <Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />
+                  <span className="text-lg font-bold">{averageRating.toFixed(1)}</span>
                 </div>
-                <span className="text-gray-600">{reviews.length} reviews</span>
+                <span className="text-gray-600 text-sm">{reviews.length} reviews</span>
               </div>
               
               <Slider {...sliderSettings} className="mb-8">

@@ -236,10 +236,10 @@ export const AddListingForm: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
       {/* Progress Header */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 px-8 py-6 border-b border-gray-100">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Create Your Listing</h2>
-          <div className="text-sm text-gray-600">
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 px-6 py-4 border-b border-gray-100">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900">Create Your Listing</h2>
+          <div className="text-xs text-gray-600">
             Step {currentStep} of {steps.length}
           </div>
         </div>
@@ -253,7 +253,7 @@ export const AddListingForm: React.FC = () => {
             
             return (
               <div key={step.id} className="flex items-center">
-                <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 ${
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
                   isCompleted || isPast
                     ? 'bg-green-500 border-green-500 text-white' 
                     : isCurrent
@@ -261,14 +261,14 @@ export const AddListingForm: React.FC = () => {
                       : 'bg-white border-gray-300 text-gray-400'
                 }`}>
                   {isCompleted || isPast ? (
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="w-4 h-4" />
                   ) : (
-                    <span className="text-sm font-semibold">{step.id}</span>
+                    <span className="text-xs font-semibold">{step.id}</span>
                   )}
                 </div>
                 
                 {index < steps.length - 1 && (
-                  <div className={`w-16 h-0.5 mx-2 transition-all duration-300 ${
+                  <div className={`w-12 h-0.5 mx-2 transition-all duration-300 ${
                     isCompleted || isPast ? 'bg-green-500' : 'bg-gray-300'
                   }`} />
                 )}
@@ -278,45 +278,45 @@ export const AddListingForm: React.FC = () => {
         </div>
         
         {/* Current Step Info */}
-        <div className="mt-4 text-center">
-          <h3 className="text-lg font-semibold text-gray-900">{steps[currentStep - 1].title}</h3>
-          <p className="text-gray-600">{steps[currentStep - 1].description}</p>
+        <div className="mt-3 text-center">
+          <h3 className="text-base font-semibold text-gray-900">{steps[currentStep - 1].title}</h3>
+          <p className="text-sm text-gray-600">{steps[currentStep - 1].description}</p>
         </div>
       </div>
 
       {/* Form Content */}
-      <div className="p-8">
+      <div className="p-6">
         {renderStep()}
         
         {/* Navigation Buttons */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
+        <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
           <button
             onClick={prevStep}
             disabled={currentStep === 1}
-            className={`flex items-center px-6 py-3 rounded-lg font-medium transition-all duration-200 cursor-pointer ${
+            className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer text-sm ${
               currentStep === 1
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
             }`}
           >
-            <ChevronLeft className="w-4 h-4 mr-2" />
+            <ChevronLeft className="w-3.5 h-3.5 mr-1.5" />
             Previous
           </button>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             {currentStep < steps.length ? (
               <button
                 onClick={nextStep}
-                className="flex items-center px-8 py-3 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-all duration-200 hover:shadow-lg cursor-pointer"
+                className="flex items-center px-6 py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-all duration-200 hover:shadow-lg cursor-pointer text-sm"
               >
                 Next
-                <ChevronRight className="w-4 h-4 mr-2" />
+                <ChevronRight className="w-3.5 h-3.5 mr-1.5" />
               </button>
             ) : (
               <button
                 onClick={handlePublish}
                 disabled={isPublishing}
-                className="px-8 py-3 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-all duration-200 hover:shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-all duration-200 hover:shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 {isPublishing ? 'Publishing...' : 'Publish Listing'}
               </button>
