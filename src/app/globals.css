@@ -203,3 +203,16 @@ html {
   transform: scale(1.05);
   transition: all 0.3s ease;
 }
+
+/* Opacity Utilities for Imigongo Patterns */
+.opacity-10 {
+  opacity: 0.1;
+}
+
+.opacity-15 {
+  opacity: 0.15;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}

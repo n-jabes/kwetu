@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Home, Mountain, Castle, Loader2, Star, Shield, CreditCard, Lock, Instagram, Twitter, Facebook, Youtube, ArrowRight, Sparkles, Zap, Globe, Heart, Users, Award, Play, ChevronRight, Menu, X, Calendar, User, Search, ArrowUp } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
+import { ImigongoPattern } from '@/components/ui/imigongo-pattern';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -184,47 +185,13 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-black/80" />
         
         {/* Imigongo Design - Left Side */}
-        <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block imigongo-pattern">
-          <div className="w-32 h-32 relative">
-            {/* Central Diamond */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rotate-45"></div>
-            {/* Concentric Diamond Outlines */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-3 border-white rotate-45"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-18 h-18 border-3 border-transparent border-r-white border-l-white rotate-45"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white rotate-45"></div>
-            {/* Corner Extensions */}
-            <div className="absolute top-2 left-2 w-4 h-4 bg-white rotate-45"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 bg-white rotate-45"></div>
-            <div className="absolute bottom-2 left-2 w-4 h-4 bg-white rotate-45"></div>
-            <div className="absolute bottom-2 right-2 w-4 h-4 bg-white rotate-45"></div>
-            {/* Connecting Lines */}
-            <div className="absolute top-1/2 left-0 w-1 h-1 bg-white"></div>
-            <div className="absolute top-1/2 right-0 w-1 h-1 bg-white"></div>
-            <div className="absolute left-1/2 top-0 w-1 h-1 bg-white"></div>
-            <div className="absolute left-1/2 bottom-0 w-1 h-1 bg-white"></div>
-          </div>
+        <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
+          <ImigongoPattern size="lg" className="imigongo-pattern" message="Karibu! Welcome to KWETU" />
         </div>
 
         {/* Imigongo Design - Right Side */}
-        <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block imigongo-pattern">
-          <div className="w-32 h-32 relative">
-            {/* Central Diamond */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rotate-45"></div>
-            {/* Concentric Diamond Outlines */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-3 border-white rotate-45"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-18 h-18 border-3 border-transparent border-r-white border-l-white rotate-45"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white rotate-45"></div>
-            {/* Corner Extensions */}
-            <div className="absolute top-2 left-2 w-4 h-4 bg-white rotate-45"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 bg-white rotate-45"></div>
-            <div className="absolute bottom-2 left-2 w-4 h-4 bg-white rotate-45"></div>
-            <div className="absolute bottom-2 right-2 w-4 h-4 bg-white rotate-45"></div>
-            {/* Connecting Lines */}
-            <div className="absolute top-1/2 left-0 w-1 h-1 bg-white"></div>
-            <div className="absolute top-1/2 right-0 w-1 h-1 bg-white"></div>
-            <div className="absolute left-1/2 top-0 w-1 h-1 bg-white"></div>
-            <div className="absolute left-1/2 bottom-0 w-1 h-1 bg-white"></div>
-          </div>
+        <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
+          <ImigongoPattern size="lg" className="imigongo-pattern" message="Discover East Africa's finest stays" />
         </div>
 
         {/* Hero Content - Professional Design */}
@@ -374,7 +341,7 @@ const HomePage = () => {
                         <div className="flex items-center flex-1">
                           <button
                             type="button"
-                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                             onClick={() => setGuestsCount(prev => Math.max(1, prev - 1))}
                           >
                             -
@@ -384,7 +351,7 @@ const HomePage = () => {
                           </span>
                           <button
                             type="button"
-                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                             onClick={() => setGuestsCount(prev => prev + 1)}
                           >
                             +
@@ -445,7 +412,7 @@ const HomePage = () => {
                         <div className="flex items-center flex-1">
                           <button
                             type="button"
-                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                             onClick={() => setGuestsCount(prev => Math.max(1, prev - 1))}
                           >
                             -
@@ -455,7 +422,7 @@ const HomePage = () => {
                           </span>
                           <button
                             type="button"
-                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                             onClick={() => setGuestsCount(prev => prev + 1)}
                           >
                             +
@@ -507,12 +474,12 @@ const HomePage = () => {
           </div>
         </div>
         
-        {/* Professional Scroll Indicator */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-          <div className="w-4 h-8 border-2 border-white/30 rounded-full flex justify-center animate-bounce">
-            <div className="w-0.5 h-2 bg-white/60 rounded-full mt-1.5 animate-pulse"></div>
+        {/* Professional Scroll Indicator - Hidden */}
+        {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="w-6 h-12 border-2 border-white/40 rounded-full flex justify-center animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300">
+            <div className="w-1 h-3 bg-white/80 rounded-full mt-2 animate-pulse"></div>
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* Back to Top Button */}
@@ -528,6 +495,16 @@ const HomePage = () => {
 
       {/* Featured Properties with Enhanced Cards */}
       <section className="py-20 bg-white relative overflow-hidden">
+        {/* Imigongo Design - Top Left */}
+        <div className="absolute top-16 left-8 z-10 hidden lg:block">
+          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Handpicked luxury properties" />
+        </div>
+        
+        {/* Imigongo Design - Top Right */}
+        <div className="absolute top-16 right-8 z-10 hidden lg:block">
+          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Curated for your comfort" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
@@ -698,6 +675,16 @@ const HomePage = () => {
 
       {/* Popular Cities with Enhanced Design */}
       <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+        {/* Imigongo Design - Center Left */}
+        <div className="absolute left-12 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
+          <ImigongoPattern size="sm" className="imigongo-pattern opacity-15" message="Explore amazing destinations" />
+        </div>
+        
+        {/* Imigongo Design - Center Right */}
+        <div className="absolute right-12 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
+          <ImigongoPattern size="sm" className="imigongo-pattern opacity-15" message="Discover hidden gems" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
             <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
@@ -754,6 +741,16 @@ const HomePage = () => {
 
       {/* Property Types with Enhanced Cards */}
       <section className="py-20 bg-white relative overflow-hidden">
+        {/* Imigongo Design - Bottom Left */}
+        <div className="absolute bottom-16 left-8 z-10 hidden lg:block">
+          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Find your perfect stay" />
+        </div>
+        
+        {/* Imigongo Design - Bottom Right */}
+        <div className="absolute bottom-16 right-8 z-10 hidden lg:block">
+          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Every type, every comfort" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
@@ -806,6 +803,16 @@ const HomePage = () => {
 
       {/* Enhanced Features Section */}
       <section className="py-20 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 relative overflow-hidden">
+        {/* Imigongo Design - Top Center */}
+        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-10 hidden lg:block">
+          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Premium features await" />
+        </div>
+        
+        {/* Imigongo Design - Bottom Center */}
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 hidden lg:block">
+          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Experience excellence" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
             <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
@@ -852,6 +859,16 @@ const HomePage = () => {
 
       {/* Enhanced CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white relative overflow-hidden">
+        {/* Imigongo Design - Left Side */}
+        <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
+          <ImigongoPattern size="md" className="imigongo-pattern opacity-15" message="Ready to explore?" />
+        </div>
+        
+        {/* Imigongo Design - Right Side */}
+        <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
+          <ImigongoPattern size="md" className="imigongo-pattern opacity-15" message="Your journey starts here" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-5xl lg:text-6xl font-black mb-8">Ready to Host?</h2>
@@ -892,6 +909,16 @@ const HomePage = () => {
 
       {/* Enhanced Footer */}
       <footer className="bg-gradient-to-br from-slate-900 via-gray-900 to-black text-gray-300 py-20 relative overflow-hidden">
+        {/* Imigongo Design - Top Left */}
+        <div className="absolute top-16 left-8 z-10 hidden lg:block">
+          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Thank you for choosing KWETU" />
+        </div>
+        
+        {/* Imigongo Design - Top Right */}
+        <div className="absolute top-16 right-8 z-10 hidden lg:block">
+          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Stay connected with us" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Newsletter Signup */}
           <div className="text-center mb-16 bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
