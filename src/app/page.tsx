@@ -186,12 +186,12 @@ const HomePage = () => {
         
         {/* Imigongo Design - Left Side */}
         <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
-          <ImigongoPattern size="lg" className="imigongo-pattern" message="Karibu! Welcome to KWETU" />
+          <ImigongoPattern variant="left" size="lg" className="imigongo-pattern" message="Karibu! Welcome to KWETU" />
         </div>
 
         {/* Imigongo Design - Right Side */}
         <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
-          <ImigongoPattern size="lg" className="imigongo-pattern" message="Discover East Africa's finest stays" />
+          <ImigongoPattern variant="right" size="lg" className="imigongo-pattern" message="Discover East Africa's finest stays" />
         </div>
 
         {/* Hero Content - Professional Design */}
@@ -497,12 +497,12 @@ const HomePage = () => {
       <section className="py-20 bg-white relative overflow-hidden">
         {/* Imigongo Design - Top Left */}
         <div className="absolute top-16 left-8 z-10 hidden lg:block">
-          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Handpicked luxury properties" />
+          <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-20" message="Handpicked luxury properties" />
         </div>
         
         {/* Imigongo Design - Top Right */}
         <div className="absolute top-16 right-8 z-10 hidden lg:block">
-          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Curated for your comfort" />
+          <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-20" message="Curated for your comfort" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -677,12 +677,12 @@ const HomePage = () => {
       <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
         {/* Imigongo Design - Center Left */}
         <div className="absolute left-12 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
-          <ImigongoPattern size="sm" className="imigongo-pattern opacity-15" message="Explore amazing destinations" />
+          <ImigongoPattern variant="left" size="sm" className="imigongo-pattern opacity-15" message="Explore amazing destinations" />
         </div>
         
         {/* Imigongo Design - Center Right */}
         <div className="absolute right-12 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
-          <ImigongoPattern size="sm" className="imigongo-pattern opacity-15" message="Discover hidden gems" />
+          <ImigongoPattern variant="right" size="sm" className="imigongo-pattern opacity-15" message="Discover hidden gems" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -743,12 +743,12 @@ const HomePage = () => {
       <section className="py-20 bg-white relative overflow-hidden">
         {/* Imigongo Design - Bottom Left */}
         <div className="absolute bottom-16 left-8 z-10 hidden lg:block">
-          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Find your perfect stay" />
+          <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-20" message="Find your perfect stay" />
         </div>
         
         {/* Imigongo Design - Bottom Right */}
         <div className="absolute bottom-16 right-8 z-10 hidden lg:block">
-          <ImigongoPattern size="md" className="imigongo-pattern opacity-20" message="Every type, every comfort" />
+          <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-20" message="Every type, every comfort" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -805,12 +805,12 @@ const HomePage = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 relative overflow-hidden">
         {/* Imigongo Design - Top Center */}
         <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-10 hidden lg:block">
-          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Premium features await" />
+          <ImigongoPattern variant="center" size="sm" className="imigongo-pattern opacity-10" message="Premium features await" />
         </div>
         
         {/* Imigongo Design - Bottom Center */}
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 hidden lg:block">
-          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Experience excellence" />
+          <ImigongoPattern variant="center" size="sm" className="imigongo-pattern opacity-10" message="Experience excellence" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -861,12 +861,12 @@ const HomePage = () => {
       <section className="py-20 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white relative overflow-hidden">
         {/* Imigongo Design - Left Side */}
         <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
-          <ImigongoPattern size="md" className="imigongo-pattern opacity-15" message="Ready to explore?" />
+          <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-15" message="Ready to explore?" />
         </div>
         
         {/* Imigongo Design - Right Side */}
         <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
-          <ImigongoPattern size="md" className="imigongo-pattern opacity-15" message="Your journey starts here" />
+          <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-15" message="Your journey starts here" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
@@ -911,12 +911,12 @@ const HomePage = () => {
       <footer className="bg-gradient-to-br from-slate-900 via-gray-900 to-black text-gray-300 py-20 relative overflow-hidden">
         {/* Imigongo Design - Top Left */}
         <div className="absolute top-16 left-8 z-10 hidden lg:block">
-          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Thank you for choosing KWETU" />
+          <ImigongoPattern variant="left" size="sm" className="imigongo-pattern opacity-10" message="Thank you for choosing KWETU" />
         </div>
         
         {/* Imigongo Design - Top Right */}
         <div className="absolute top-16 right-8 z-10 hidden lg:block">
-          <ImigongoPattern size="sm" className="imigongo-pattern opacity-10" message="Stay connected with us" />
+          <ImigongoPattern variant="right" size="sm" className="imigongo-pattern opacity-10" message="Stay connected with us" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">

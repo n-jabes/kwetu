@@ -30,6 +30,34 @@ export const ImigongoPattern: React.FC<ImigongoPatternProps> = ({
 
   const { central, inner, middle, outer, corner, line } = sizeValues[size];
 
+  // Determine tooltip position based on variant
+  const getTooltipPosition = () => {
+    switch (variant) {
+      case 'left':
+        return 'left-full ml-2'; // Show to the right of left patterns
+      case 'right':
+        return 'right-full mr-2'; // Show to the left of right patterns
+      case 'center':
+        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-2'; // Center for center patterns
+      default:
+        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-2'; // Default center
+    }
+  };
+
+  // Determine arrow position based on variant
+  const getArrowPosition = () => {
+    switch (variant) {
+      case 'left':
+        return 'absolute top-1/2 left-0 transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-l-black/80'; // Arrow pointing left
+      case 'right':
+        return 'absolute top-1/2 right-0 transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent border-r-black/80'; // Arrow pointing right
+      case 'center':
+        return 'absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/80'; // Arrow pointing up
+      default:
+        return 'absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/80'; // Default arrow up
+    }
+  };
+
   return (
     <div 
       className={`relative ${sizeClasses[size]} ${className}`}
@@ -98,9 +126,9 @@ export const ImigongoPattern: React.FC<ImigongoPatternProps> = ({
       
       {/* Hover Tooltip */}
       {showTooltip && (
-        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-black/80 text-white text-sm rounded-lg whitespace-nowrap z-50">
+        <div className={`absolute ${getTooltipPosition()} px-3 py-2 bg-black/80 text-white text-sm rounded-lg whitespace-nowrap z-50`}>
           {message}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/80"></div>
+          <div className={getArrowPosition()}></div>
         </div>
       )}
     </div>
