@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -8,21 +8,67 @@ interface ImageGalleryProps {
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const autoScrollRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => 
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
+    setTimeout(() => setIsTransitioning(false), 700);
   };
 
   const prevSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
+    setTimeout(() => setIsTransitioning(false), 700);
   };
 
   const goToSlide = (index: number) => {
+    if (isTransitioning || index === currentIndex) return;
+    setIsTransitioning(true);
     setCurrentIndex(index);
+    setTimeout(() => setIsTransitioning(false), 700);
+  };
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (images.length <= 1) return;
+
+    const startAutoScroll = () => {
+      if (autoScrollRef.current) {
+        clearInterval(autoScrollRef.current);
+      }
+      
+      autoScrollRef.current = setInterval(() => {
+        if (!isPaused) {
+          nextSlide();
+        }
+      }, 3000); // 3 seconds interval - faster auto-scroll
+    };
+
+    startAutoScroll();
+
+    return () => {
+      if (autoScrollRef.current) {
+        clearInterval(autoScrollRef.current);
+      }
+    };
+  }, [images.length, isPaused]);
+
+  // Pause auto-scroll when user hovers over the gallery
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
   };
 
   if (!images || images.length === 0) {
@@ -34,14 +80,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
   }
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-xl group">
+    <div 
+      className="relative aspect-video w-full overflow-hidden rounded-xl group"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* Main image container */}
-      <div className="relative w-full h-full">
-        
+      <div className="relative w-full h-full overflow-hidden">
         <Image
           src={images[currentIndex]}
           alt={`Property image ${currentIndex + 1}`}
-          className="w-full h-full object-cover transition-opacity duration-300"
+          className={`w-full h-full object-cover transition-all duration-700 ease-out ${
+            isTransitioning ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
+          }`}
           fill
           sizes="(max-width: 768px) 100vw, 800px"
           onError={() => {
