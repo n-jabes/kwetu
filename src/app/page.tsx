@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { MapPin, Home, Mountain, Castle, Loader2, Star, Shield, CreditCard, Lock, Instagram, Twitter, Facebook, Youtube, ArrowRight, Sparkles, Zap, Globe, Heart, Users, Award, Play, ChevronRight, Menu, X, Calendar, User, Search } from 'lucide-react';
+import { MapPin, Home, Mountain, Castle, Loader2, Star, Shield, CreditCard, Lock, Instagram, Twitter, Facebook, Youtube, ArrowRight, Sparkles, Zap, Globe, Heart, Users, Award, Play, ChevronRight, Menu, X, Calendar, User, Search, ArrowUp } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -14,10 +14,15 @@ const HomePage = () => {
   const [scrollY, setScrollY] = useState(0);
   const [activeCard, setActiveCard] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [guestsCount, setGuestsCount] = useState(1);
 
   useEffect(() => {
     setIsVisible(true);
-    const handleScroll = () => setScrollY(window.scrollY);
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      setShowBackToTop(window.scrollY > 300);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -136,198 +141,366 @@ const HomePage = () => {
     router.push(`/listings/${id}`);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden">
       {/* Navigation */}
       <SearchResultsNavbar />
       
       {/* Hero Section - Professional & Responsive Design */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 pt-16">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
-          {/* Floating Morphing Blobs */}
-          <div className="absolute top-20 left-20 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full animate-float blur-2xl"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full animate-float blur-2xl" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-32 left-40 w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full animate-float blur-2xl" style={{ animationDelay: '4s' }}></div>
-          <div className="absolute bottom-20 right-20 w-24 h-24 sm:w-36 sm:h-36 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-full animate-float blur-2xl" style={{ animationDelay: '6s' }}></div>
-          
           {/* Subtle Grid Pattern */}
-          <div className="absolute inset-0 opacity-10">
+          
+          {/* Subtle African-Inspired Pattern */}
+          <div className="absolute inset-0 opacity-5">
             <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                               radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 0%, transparent 50%)`,
-              backgroundSize: '100px 100px'
+              backgroundImage: `
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.02) 50%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.02) 50%, transparent 52%)
+              `,
+              backgroundSize: '120px 120px, 120px 120px, 60px 60px, 60px 60px'
             }}></div>
           </div>
         </div>
 
-        {/* Enhanced Parallax Background */}
+        {/* Enhanced Parallax Background - Cool Villa Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out opacity-40"
           style={{ 
-            backgroundImage: `url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1600&h=1200&fit=crop&crop=center')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&h=1200&fit=crop&crop=center')`,
             transform: `translateY(${scrollY * 0.3}px) scale(1.1)`
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-black/80" />
         
+        {/* Imigongo Design - Left Side */}
+        <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block imigongo-pattern">
+          <div className="w-32 h-32 relative">
+            {/* Central Diamond */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rotate-45"></div>
+            {/* Concentric Diamond Outlines */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-3 border-white rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-18 h-18 border-3 border-transparent border-r-white border-l-white rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white rotate-45"></div>
+            {/* Corner Extensions */}
+            <div className="absolute top-2 left-2 w-4 h-4 bg-white rotate-45"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 bg-white rotate-45"></div>
+            <div className="absolute bottom-2 left-2 w-4 h-4 bg-white rotate-45"></div>
+            <div className="absolute bottom-2 right-2 w-4 h-4 bg-white rotate-45"></div>
+            {/* Connecting Lines */}
+            <div className="absolute top-1/2 left-0 w-1 h-1 bg-white"></div>
+            <div className="absolute top-1/2 right-0 w-1 h-1 bg-white"></div>
+            <div className="absolute left-1/2 top-0 w-1 h-1 bg-white"></div>
+            <div className="absolute left-1/2 bottom-0 w-1 h-1 bg-white"></div>
+          </div>
+        </div>
+
+        {/* Imigongo Design - Right Side */}
+        <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block imigongo-pattern">
+          <div className="w-32 h-32 relative">
+            {/* Central Diamond */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rotate-45"></div>
+            {/* Concentric Diamond Outlines */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-3 border-white rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-18 h-18 border-3 border-transparent border-r-white border-l-white rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white rotate-45"></div>
+            {/* Corner Extensions */}
+            <div className="absolute top-2 left-2 w-4 h-4 bg-white rotate-45"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 bg-white rotate-45"></div>
+            <div className="absolute bottom-2 left-2 w-4 h-4 bg-white rotate-45"></div>
+            <div className="absolute bottom-2 right-2 w-4 h-4 bg-white rotate-45"></div>
+            {/* Connecting Lines */}
+            <div className="absolute top-1/2 left-0 w-1 h-1 bg-white"></div>
+            <div className="absolute top-1/2 right-0 w-1 h-1 bg-white"></div>
+            <div className="absolute left-1/2 top-0 w-1 h-1 bg-white"></div>
+            <div className="absolute left-1/2 bottom-0 w-1 h-1 bg-white"></div>
+          </div>
+        </div>
+
         {/* Hero Content - Professional Design */}
         <div className="relative z-10 text-center max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            {/* Professional Premium Badge */}
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-6 py-3 mb-8 animate-pulse-glow">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
-              <Sparkles className="h-5 w-5 text-yellow-400" />
-              <span className="text-white/90 text-sm font-medium">Premium East African Stays</span>
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-            </div>
-            
-            {/* Professional Main Headline */}
-            <h1 className="text-white text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight mb-6 sm:mb-8 tracking-tight">
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-gradient-shift">
-                Experience
-              </span>
-              <br />
-              <span className="text-white drop-shadow-2xl">East Africa</span>
-              <br />
-              <span className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-200 drop-shadow-lg">
-                Like Never Before
-              </span>
-            </h1>
-            
-            {/* Professional Subtitle */}
-            <p className="text-gray-200 text-lg sm:text-xl lg:text-2xl xl:text-3xl mb-10 sm:mb-12 leading-relaxed max-w-4xl mx-auto font-light px-4">
-              Discover handpicked homes, authentic experiences, and warm hospitality across the pearl of Africa.
-            </p>
+                      <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              {/* Professional Premium Badge */}
+              <div className="inline-flex -mt-8 lg:mt-8 items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-4 py-2 mb-3 animate-pulse-glow">
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></div>
+                <Sparkles className="h-4 w-4 text-yellow-400" />
+                <span className="text-white/90 text-lg font-medium">Experience</span>
+                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+              </div>
+              
+              {/* Creative Main Headline */}
+              <div className="text-center space-y-2 mb-4">
+                
+                {/* East Africa - Floating Effect */}
+                <div className="relative">
+                  <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight tracking-tight drop-shadow-2xl animate-float-gentle">
+                    East Africa
+                  </h1>
+                  {/* Decorative elements */}
+                  <div className="absolute -top-2 -left-4 w-2 h-2 bg-green-400 rounded-full animate-pulse opacity-60"></div>
+                  <div className="absolute -bottom-2 -right-4 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse opacity-60" style={{ animationDelay: '0.5s' }}></div>
+                </div>
+                
+                {/* Like Never Before - Elegant */}
+                <div className="relative">
+                  <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-light text-gray-200 drop-shadow-lg">
+                    <span className="relative">
+                      Like Never Before
+                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
+                    </span>
+                  </h2>
+                </div>
+              </div>
+              
+              {/* Professional Subtitle */}
+              <p className="text-gray-200 text-sm sm:text-base lg:text-lg xl:text-xl mb-6 leading-relaxed max-w-3xl mx-auto font-light px-4">
+                Discover handpicked homes, authentic experiences, and warm hospitality across the pearl of Africa.
+              </p>
 
-            {/* Professional Search Bar - Fully Responsive */}
-            <div className="w-full max-w-5xl mx-auto mb-12 px-4">
+              {/* Professional Search Bar - Fully Responsive */}
+              <div className="w-full max-w-4xl mx-auto mb-8 px-4">
               <div className="bg-white/95 backdrop-blur-xl border-2 border-white/30 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] overflow-hidden">
                 {/* Mobile Layout */}
                 <div className="block sm:hidden">
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl">
-                      <MapPin className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                  <div className="p-3 space-y-3">
+                    {/* Address field - full width */}
+                    <div className="flex items-center px-3 py-2 bg-gray-50 rounded-xl relative search-input">
+                      <MapPin className="text-gray-500 w-4 h-4 mr-2 flex-shrink-0" />
                       <input
                         type="text"
-                        placeholder="Where to?"
-                        className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
+                        placeholder="Where would you like to stay?"
+                        className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-sm font-medium"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
                     </div>
                     
+                    {/* Check-in and Guests on same line */}
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl">
-                        <Calendar className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                      <div className="flex items-center px-3 py-2 bg-gray-50 rounded-xl relative">
+                        <Calendar className="text-gray-500 w-4 h-4 mr-2 flex-shrink-0" />
                         <input
-                          type="text"
+                          type="date"
                           placeholder="Check in"
-                          className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
+                          min={new Date().toISOString().split('T')[0]}
+                          className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-sm font-medium"
                         />
                       </div>
                       
-                      <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl">
-                        <User className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
-                        <input
-                          type="text"
-                          placeholder="Guests"
-                          className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
-                        />
+                      <div className="flex items-center px-3 py-2 bg-gray-50 rounded-xl">
+                        <User className="text-gray-500 w-4 h-4 mr-2 flex-shrink-0" />
+                        <div className="flex items-center flex-1">
+                          <button
+                            type="button"
+                            className="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors text-sm"
+                            onClick={() => setGuestsCount(prev => Math.max(1, prev - 1))}
+                          >
+                            -
+                          </button>
+                          <span className="flex-1 text-center mx-2 text-gray-700 font-medium text-sm">
+                            {guestsCount}
+                          </span>
+                          <button
+                            type="button"
+                            className="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors text-sm"
+                            onClick={() => setGuestsCount(prev => prev + 1)}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
                     
+                    {/* Search button - full width */}
                     <button
                       onClick={handleSearch}
                       disabled={isSearching}
-                      className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-lg px-6 py-4 rounded-xl flex items-center justify-center gap-3 font-semibold transition-all duration-300 hover:shadow-xl disabled:opacity-50 cursor-pointer"
+                      className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-base px-4 py-3 rounded-xl flex items-center justify-center gap-2 font-semibold transition-all duration-300 hover:shadow-xl disabled:opacity-50 cursor-pointer"
                     >
                       {isSearching ? (
                         <>
-                          <Loader2 className="animate-spin w-5 h-5" />
+                          <Loader2 className="animate-spin w-4 h-4" />
                           Searching...
                         </>
                       ) : (
                         <>
-                          <Search className="w-5 h-5" />
-                          Explore Now
+                          <Search className="w-4 h-4" />
+                          Search
                         </>
                       )}
                     </button>
                   </div>
                 </div>
 
-                {/* Desktop Layout */}
-                <div className="hidden sm:flex items-center p-2">
-                  <div className="flex items-center flex-1 px-6 py-4 min-w-0">
-                    <MapPin className="text-gray-500 w-6 h-6 mr-4 flex-shrink-0" />
-                    <input
-                      type="text"
-                      placeholder="Where would you like to stay?"
-                      className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-lg font-medium"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
+                {/* Tablet Layout */}
+                <div className="hidden sm:block lg:hidden">
+                  <div className="p-3 space-y-3">
+                    {/* Address field - full width */}
+                    <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl search-input">
+                      <MapPin className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="Where would you like to stay?"
+                        className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                    
+                    {/* Check-in and Guests on same line */}
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl relative">
+                        <Calendar className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                        <input
+                          type="date"
+                          placeholder="Check in"
+                          min={new Date().toISOString().split('T')[0]}
+                          className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
+                        />
+                      </div>
+                      
+                      <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl">
+                        <User className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                        <div className="flex items-center flex-1">
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            onClick={() => setGuestsCount(prev => Math.max(1, prev - 1))}
+                          >
+                            -
+                          </button>
+                          <span className="flex-1 text-center mx-2 text-gray-700 font-medium">
+                            {guestsCount}
+                          </span>
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            onClick={() => setGuestsCount(prev => prev + 1)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <button
+                        onClick={handleSearch}
+                        disabled={isSearching}
+                        className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-base px-6 py-3 rounded-xl flex items-center justify-center gap-2 font-semibold transition-all duration-300 hover:shadow-xl disabled:opacity-50 cursor-pointer"
+                      >
+                        {isSearching ? (
+                          <>
+                            <Loader2 className="animate-spin w-4 h-4" />
+                            Search
+                          </>
+                        ) : (
+                          <>
+                            <Search className="w-4 h-4" />
+                            Search
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
-                  
-                  <div className="w-px h-8 bg-gray-300 mx-2"></div>
-                  
-                  <div className="flex items-center px-6 py-4 min-w-0">
-                    <Calendar className="text-gray-500 w-6 h-6 mr-4 flex-shrink-0" />
-                    <input
-                      type="text"
-                      placeholder="Check in"
-                      className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-lg font-medium"
-                    />
+                </div>
+
+                {/* Desktop Layout - Same as tablet for consistency */}
+                <div className="hidden lg:block">
+                  <div className="p-3 space-y-3">
+                    {/* Address field - full width */}
+                    <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl relative search-input">
+                      <MapPin className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="Where would you like to stay?"
+                        className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                    
+                    {/* Check-in, Guests, and Search on same line */}
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl relative">
+                        <Calendar className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                        <input
+                          type="date"
+                          placeholder="Check in"
+                          min={new Date().toISOString().split('T')[0]}
+                          className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-base font-medium"
+                        />
+                      </div>
+                      
+                      <div className="flex items-center px-4 py-3 bg-gray-50 rounded-xl">
+                        <User className="text-gray-500 w-5 h-5 mr-3 flex-shrink-0" />
+                        <div className="flex items-center flex-1">
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            onClick={() => setGuestsCount(prev => Math.max(1, prev - 1))}
+                          >
+                            -
+                          </button>
+                          <span className="flex-1 text-center mx-2 text-gray-700 font-medium">
+                            {guestsCount}
+                          </span>
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                            onClick={() => setGuestsCount(prev => prev + 1)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <button
+                        onClick={handleSearch}
+                        disabled={isSearching}
+                        className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-base px-6 py-3 rounded-xl flex items-center justify-center gap-2 font-semibold transition-all duration-300 hover:shadow-xl disabled:opacity-50 cursor-pointer"
+                      >
+                        {isSearching ? (
+                          <>
+                            <Loader2 className="animate-spin w-4 h-4" />
+                            Search
+                          </>
+                        ) : (
+                          <>
+                            <Search className="w-4 h-4" />
+                            Search
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
-                  
-                  <div className="w-px h-8 bg-gray-300 mx-2"></div>
-                  
-                  <div className="flex items-center px-6 py-4 min-w-0">
-                    <User className="text-gray-500 w-6 h-6 mr-4 flex-shrink-0" />
-                    <input
-                      type="text"
-                      placeholder="Guests"
-                      className="flex-1 bg-transparent focus:outline-none text-gray-700 placeholder:text-gray-400 text-lg font-medium"
-                    />
-                  </div>
-                  
-                  <button
-                    onClick={handleSearch}
-                    disabled={isSearching}
-                    className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-lg px-8 py-4 rounded-xl flex items-center gap-3 font-semibold transition-all duration-300 hover:shadow-xl hover:scale-105 disabled:opacity-50 ml-4 cursor-pointer"
-                  >
-                    {isSearching ? (
-                      <>
-                        <Loader2 className="animate-spin w-5 h-5" />
-                        Searching...
-                      </>
-                    ) : (
-                      <>
-                        <Search className="w-5 h-5" />
-                        Explore Now
-                      </>
-                    )}
-                  </button>
                 </div>
               </div>
             </div>
 
             {/* Professional Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto px-4">
               {stats.map((stat, index) => (
                 <div 
                   key={index} 
-                  className="text-center bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 sm:p-6 hover:bg-white/20 transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer"
+                  className="text-center bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 hover:bg-white/20 transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer"
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg`}>
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r ${stat.color} rounded-lg flex items-center justify-center mx-auto mb-2 shadow-lg`}>
                     <div className="text-white">
                       {stat.icon}
                     </div>
                   </div>
-                  <div className="text-2xl sm:text-3xl font-black text-white mb-1 sm:mb-2">{stat.number}</div>
-                  <div className="text-gray-300 text-xs sm:text-sm font-medium">{stat.label}</div>
+                  <div className="text-lg sm:text-xl font-black text-white mb-1">{stat.number}</div>
+                  <div className="text-gray-300 text-xs font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -335,12 +508,23 @@ const HomePage = () => {
         </div>
         
         {/* Professional Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center animate-bounce">
-            <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <div className="w-4 h-8 border-2 border-white/30 rounded-full flex justify-center animate-bounce">
+            <div className="w-0.5 h-2 bg-white/60 rounded-full mt-1.5 animate-pulse"></div>
           </div>
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 z-50 p-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 cursor-pointer group ${
+          showBackToTop ? 'opacity-100 translate-y-0 animate-bounce-in' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Back to top"
+      >
+        <ArrowUp className="w-6 h-6 group-hover:animate-hover-float transition-all duration-300" />
+      </button>
 
       {/* Featured Properties with Enhanced Cards */}
       <section className="py-20 bg-white relative overflow-hidden">
