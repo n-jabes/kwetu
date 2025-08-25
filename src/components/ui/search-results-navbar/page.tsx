@@ -2,7 +2,7 @@
 import { Menu, Search, User, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 // Navbar Component
 export const SearchResultsNavbar = () => {
@@ -13,16 +13,38 @@ export const SearchResultsNavbar = () => {
     const [isSearching, setIsSearching] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const router = useRouter();
+    const pathname = usePathname();
+    
+    // Check if we're on the homepage
+    const isHomePage = pathname === '/';
 
-    // Handle scroll effect
+    // Handle scroll effect - only on homepage
     useEffect(() => {
+        if (!isHomePage) {
+            setIsScrolled(true); // Always show solid navbar on other pages
+            return;
+        }
+
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isHomePage]);
+
+    // Add body class for non-homepage pages to ensure proper spacing
+    useEffect(() => {
+        if (!isHomePage) {
+            document.body.classList.add('non-homepage');
+        } else {
+            document.body.classList.remove('non-homepage');
+        }
+
+        return () => {
+            document.body.classList.remove('non-homepage');
+        };
+    }, [isHomePage]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,43 +57,79 @@ export const SearchResultsNavbar = () => {
         }, 1000);
     }
 
+    // Determine navbar styling based on page and scroll state
+    const getNavbarClasses = () => {
+        if (!isHomePage) {
+            // Other pages: always solid white navbar
+            return 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200';
+        }
+        
+        // Homepage: transparent initially, solid on scroll
+        return isScrolled 
+            ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
+            : 'bg-transparent';
+    };
+
+    // Determine text colors based on page and scroll state
+    const getTextColors = (isLogo = false) => {
+        if (!isHomePage) {
+            // Other pages: always dark text
+            return isLogo ? 'text-green-500 hover:text-green-600' : 'text-gray-700 hover:text-green-500';
+        }
+        
+        // Homepage: white initially, dark on scroll
+        if (isScrolled) {
+            return isLogo ? 'text-green-500 hover:text-green-600' : 'text-gray-700 hover:text-green-500';
+        } else {
+            return isLogo ? 'text-white hover:text-green-200' : 'text-white/90 hover:text-white';
+        }
+    };
+
+    // Determine search bar styling
+    const getSearchBarClasses = () => {
+        if (!isHomePage) {
+            // Other pages: always solid white
+            return 'border-gray-300 bg-white';
+        }
+        
+        // Homepage: transparent initially, solid on scroll
+        return isScrolled 
+            ? 'border-gray-300 bg-white' 
+            : 'border-white/30 bg-white/20 text-white placeholder:text-white/70';
+    };
+
+    // Determine search icon color
+    const getSearchIconColor = () => {
+        if (!isHomePage) {
+            return 'text-gray-400';
+        }
+        
+        return isScrolled ? 'text-gray-400' : 'text-white/70';
+    };
+
     return (
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
-          : 'bg-transparent'
-      }`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getNavbarClasses()}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" className={`text-2xl font-bold transition-colors ${
-                isScrolled ? 'text-green-500 hover:text-green-600' : 'text-white hover:text-green-200'
-              }`}>
+              <Link href="/" className={`text-2xl font-bold transition-colors ${getTextColors(true)}`}>
                 KWETU
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <Link href='/rent' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${
-                isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white/90 hover:text-white'
-              }`}>
+              <Link href='/rent' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${getTextColors()}`}>
                 Rent
               </Link>
-              <Link href='/buy' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${
-                isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white/90 hover:text-white'
-              }`}>
+              <Link href='/buy' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${getTextColors()}`}>
                 Buy
               </Link>
-              <Link href='/sell' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${
-                isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white/90 hover:text-white'
-              }`}>
+              <Link href='/sell' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${getTextColors()}`}>
                 Sell
               </Link>
-              <Link href='/manage-property' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${
-                isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white/90 hover:text-white'
-              }`}>
+              <Link href='/manage-property' className={`cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${getTextColors()}`}>
                 Manage Property
               </Link>
             </div>
@@ -82,17 +140,11 @@ export const SearchResultsNavbar = () => {
                 <input
                   type="text"
                   placeholder="Where to?"
-                  className={`w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 ${
-                    isScrolled 
-                      ? 'border-gray-300 bg-white' 
-                      : 'border-white/30 bg-white/20 text-white placeholder:text-white/70'
-                  }`}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 ${getSearchBarClasses()}`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Search className={`absolute left-3 top-2.5 h-5 w-5 transition-colors duration-300 ${
-                  isScrolled ? 'text-gray-400' : 'text-white/70'
-                }`} />
+                <Search className={`absolute left-3 top-2.5 h-5 w-5 transition-colors duration-300 ${getSearchIconColor()}`} />
                 <button 
                   type="submit"
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded-full transition cursor-pointer"
@@ -110,14 +162,14 @@ export const SearchResultsNavbar = () => {
         </Link>
               <div 
                 className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors ${
-                  isScrolled 
+                  !isHomePage || isScrolled
                     ? 'bg-gray-300 hover:bg-gray-400' 
                     : 'bg-white/20 hover:bg-white/30'
                 }`}
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               >
                 <User className={`h-5 w-5 transition-colors duration-300 ${
-                  isScrolled ? 'text-gray-600' : 'text-white'
+                  !isHomePage || isScrolled ? 'text-gray-600' : 'text-white'
                 }`} />
               </div>
               
@@ -161,7 +213,7 @@ export const SearchResultsNavbar = () => {
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className={`p-2 transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
                 }`}
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -175,17 +227,11 @@ export const SearchResultsNavbar = () => {
               <input
                 type="text"
                 placeholder="Where to?"
-                className={`w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 ${
-                  isScrolled 
-                    ? 'border-gray-300 bg-white' 
-                    : 'border-white/30 bg-white/20 text-white placeholder:text-white/70'
-                }`}
+                className={`w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 ${getSearchBarClasses()}`}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Search className={`absolute left-3 top-2.5 h-5 w-5 transition-colors duration-300 ${
-                isScrolled ? 'text-gray-400' : 'text-white/70'
-              }`} />
+              <Search className={`absolute left-3 top-2.5 h-5 w-5 transition-colors duration-300 ${getSearchIconColor()}`} />
               <button 
                 type="submit"
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded-full transition cursor-pointer"
@@ -199,26 +245,26 @@ export const SearchResultsNavbar = () => {
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
             <div className={`md:hidden pb-4 transition-all duration-300 ${
-              isScrolled ? 'bg-white' : 'bg-black/20 backdrop-blur-md'
+              !isHomePage || isScrolled ? 'bg-white' : 'bg-black/20 backdrop-blur-md'
             }`}>
               <div className="flex flex-col space-y-2">
                 <Link href='/rent' className={`px-3 py-2 text-sm font-medium text-left transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
                 }`}>
                   Rent
                 </Link>
                 <Link href='/buy' className={`px-3 py-2 text-sm font-medium text-left transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
                 }`}>
                   Buy
                 </Link>
                 <Link href='/sell' className={`px-3 py-2 text-sm font-medium text-left transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
                 }`}>
                   Sell
                 </Link>
                 <Link href='/manage-property' className={`px-3 py-2 text-sm font-medium text-left transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
                 }`}>
                   Manage Property
                 </Link>

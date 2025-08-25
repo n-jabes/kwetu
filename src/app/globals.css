@@ -216,3 +216,9 @@ html {
 .opacity-20 {
   opacity: 0.2;
 }
+
+/* Ensure content starts below navbar on non-homepage pages */
+body.non-homepage {
+  padding-top: 4rem; /* 64px to account for fixed navbar height */
+}
+
