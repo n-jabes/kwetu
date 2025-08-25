@@ -119,6 +119,62 @@ body {
   animation: hover-float 2s ease-in-out infinite;
 }
 
+/* Zoom-friendly responsive design */
+@media screen and (max-resolution: 96dpi) {
+  /* For lower resolution displays or when zoomed out */
+  .text-5xl { font-size: 2.5rem !important; }
+  .text-6xl { font-size: 3rem !important; }
+  .py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+  .py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+  .mb-16 { margin-bottom: 2rem !important; }
+  .mb-14 { margin-bottom: 1.5rem !important; }
+  .mb-8 { margin-bottom: 1.5rem !important; }
+}
+
+@media screen and (min-resolution: 120dpi) {
+  /* For higher resolution displays or when zoomed in */
+  .text-5xl { font-size: 3.5rem !important; }
+  .text-6xl { font-size: 4rem !important; }
+  .py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+  .py-16 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+  .mb-16 { margin-bottom: 4rem !important; }
+  .mb-14 { margin-bottom: 3rem !important; }
+  .mb-8 { margin-bottom: 2rem !important; }
+}
+
+/* Responsive text scaling for different zoom levels */
+@media (max-width: 640px) {
+  .text-5xl { font-size: 2rem !important; }
+  .text-6xl { font-size: 2.5rem !important; }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .text-5xl { font-size: 2.5rem !important; }
+  .text-6xl { font-size: 3rem !important; }
+}
+
+@media (min-width: 1025px) {
+  .text-5xl { font-size: 3rem !important; }
+  .text-6xl { font-size: 3.5rem !important; }
+}
+
+/* Ensure proper spacing at different zoom levels */
+@media (max-resolution: 96dpi) {
+  .py-12 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+  .py-10 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+  .mb-12 { margin-bottom: 1.5rem !important; }
+  .mb-10 { margin-bottom: 1rem !important; }
+  .mb-6 { margin-bottom: 1rem !important; }
+}
+
+@media (min-resolution: 120dpi) {
+  .py-12 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+  .py-10 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+  .mb-12 { margin-bottom: 3rem !important; }
+  .mb-10 { margin-bottom: 2rem !important; }
+  .mb-6 { margin-bottom: 1.5rem !important; }
+}
+
 /* Form Input Enhancements */
 input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;

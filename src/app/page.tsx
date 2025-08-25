@@ -155,7 +155,7 @@ const HomePage = () => {
       <SearchResultsNavbar />
       
       {/* Hero Section - Professional & Responsive Design */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
+      <section className="relative min-h-[95vh] lg:min-h-[105vh] xl:min-h-[115vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
           {/* Subtle Grid Pattern */}
@@ -185,12 +185,12 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-black/80" />
         
         {/* Imigongo Design - Left Side */}
-        <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
+        <div className="absolute left-4 lg:left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
           <ImigongoPattern variant="left" size="lg" className="imigongo-pattern" message="Karibu! Welcome to KWETU" />
         </div>
 
         {/* Imigongo Design - Right Side */}
-        <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
+        <div className="absolute right-4 lg:right-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
           <ImigongoPattern variant="right" size="lg" className="imigongo-pattern" message="Discover East Africa's finest stays" />
         </div>
 
@@ -198,19 +198,19 @@ const HomePage = () => {
         <div className="relative z-10 text-center max-w-6xl px-4 sm:px-6 lg:px-8">
                       <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               {/* Professional Premium Badge */}
-              <div className="inline-flex -mt-8 lg:mt-8 items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-4 py-2 mb-3 animate-pulse-glow">
+              <div className="inline-flex -mt-2 lg:-mt-6 xl:mt-18 items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-3 lg:px-4 py-2 mb-4 animate-pulse-glow">
                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></div>
-                <Sparkles className="h-4 w-4 text-yellow-400" />
-                <span className="text-white/90 text-lg font-medium">Experience</span>
+                <Sparkles className="h-3 w-3 lg:h-4 lg:w-4 text-yellow-400" />
+                <span className="text-white/90 text-sm lg:text-lg font-medium">Experience</span>
                 <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
               </div>
               
               {/* Creative Main Headline */}
-              <div className="text-center space-y-2 mb-4">
+              <div className="text-center space-y-3 mb-5">
                 
                 {/* East Africa - Floating Effect */}
                 <div className="relative">
-                  <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight tracking-tight drop-shadow-2xl animate-float-gentle">
+                  <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight tracking-tight drop-shadow-2xl animate-float-gentle">
                     East Africa
                   </h1>
                   {/* Decorative elements */}
@@ -220,22 +220,22 @@ const HomePage = () => {
                 
                 {/* Like Never Before - Elegant */}
                 <div className="relative">
-                  <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-light text-gray-200 drop-shadow-lg">
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-light text-gray-200 drop-shadow-lg">
                     <span className="relative">
                       Like Never Before
-                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
+                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 lg:w-12 h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
                     </span>
                   </h2>
                 </div>
               </div>
               
               {/* Professional Subtitle */}
-              <p className="text-gray-200 text-sm sm:text-base lg:text-lg xl:text-xl mb-6 leading-relaxed max-w-3xl mx-auto font-light px-4">
+              <p className="text-gray-200 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl mb-5 lg:mb-7 leading-relaxed max-w-3xl mx-auto font-light px-4">
                 Discover handpicked homes, authentic experiences, and warm hospitality across the pearl of Africa.
               </p>
 
               {/* Professional Search Bar - Fully Responsive */}
-              <div className="w-full max-w-4xl mx-auto mb-8 px-4">
+              <div className="w-full max-w-4xl mx-auto mb-7 lg:mb-9 px-4">
               <div className="bg-white/95 backdrop-blur-xl border-2 border-white/30 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] overflow-hidden">
                 {/* Mobile Layout */}
                 <div className="block sm:hidden">
@@ -494,7 +494,7 @@ const HomePage = () => {
       </button>
 
       {/* Featured Properties with Enhanced Cards */}
-      <section className="py-20 bg-white relative overflow-hidden">
+      <section className="py-10 lg:py-16 bg-white relative overflow-hidden">
         {/* Imigongo Design - Top Left */}
         <div className="absolute top-16 left-8 z-10 hidden lg:block">
           <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-20" message="Handpicked luxury properties" />
@@ -505,20 +505,20 @@ const HomePage = () => {
           <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-20" message="Curated for your comfort" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-8 lg:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 lg:mb-5">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                 Handpicked
               </span> for You
             </h2>
-            <p className="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Curated collection of exceptional properties that define luxury and comfort
             </p>
           </div>
           
           {/* Featured Property Showcase */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-14">
             {/* Property Image */}
             <div className="relative group">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
@@ -532,22 +532,22 @@ const HomePage = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 
                 {/* Price Badge */}
-                <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl px-4 py-2 shadow-lg">
-                  <span className="text-2xl font-black text-gray-900">${featuredListings[activeCard]?.price}</span>
+                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl px-3 py-2 shadow-lg">
+                  <span className="text-xl font-black text-gray-900">${featuredListings[activeCard]?.price}</span>
                   <span className="text-gray-500">/night</span>
                 </div>
 
                 {/* Guest Favorite */}
                 {featuredListings[activeCard]?.isGuestFavorite && (
-                  <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2 shadow-lg">
-                    <Heart className="h-4 w-4 text-red-500 fill-current" />
-                    <span className="text-sm font-semibold text-gray-800">Guest Favorite</span>
+                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1 shadow-lg">
+                    <Heart className="h-3 w-3 text-red-500 fill-current" />
+                    <span className="text-xs font-semibold text-gray-800">Guest Favorite</span>
                   </div>
                 )}
               </div>
 
               {/* Navigation Dots */}
-              <div className="flex justify-center space-x-3 mt-6">
+              <div className="flex justify-center space-x-3 mt-4">
                 {featuredListings.map((_, index) => (
                   <button
                     key={index}
@@ -561,59 +561,59 @@ const HomePage = () => {
             </div>
 
             {/* Property Details */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
-                <h3 className="text-4xl font-black text-gray-900 mb-4">
+                <h3 className="text-3xl font-black text-gray-900 mb-3">
                   {featuredListings[activeCard]?.title}
                 </h3>
-                <div className="flex items-center text-gray-600 mb-4">
-                  <MapPin className="h-5 w-5 mr-2 text-green-500" />
-                  <span className="text-lg">{featuredListings[activeCard]?.location}</span>
+                <div className="flex items-center text-gray-600 mb-3">
+                  <MapPin className="h-4 w-4 mr-2 text-green-500" />
+                  <span className="text-base">{featuredListings[activeCard]?.location}</span>
                 </div>
               </div>
               
-              <div className="flex items-center gap-6 mb-6">
+              <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                  <span className="font-bold text-lg">{featuredListings[activeCard]?.rating}</span>
-                  <span className="text-gray-500">({featuredListings[activeCard]?.reviews} reviews)</span>
+                  <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                  <span className="font-bold text-base">{featuredListings[activeCard]?.rating}</span>
+                  <span className="text-gray-500 text-sm">({featuredListings[activeCard]?.reviews} reviews)</span>
                 </div>
                 {featuredListings[activeCard]?.verified && (
                   <div className="flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-green-500" />
-                    <span className="text-sm text-green-600 font-semibold">Verified</span>
+                    <Shield className="h-4 w-4 text-green-500" />
+                    <span className="text-xs text-green-600 font-semibold">Verified</span>
                   </div>
                 )}
               </div>
 
               {/* Amenities */}
-              <div className="flex flex-wrap gap-3 mb-6">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {featuredListings[activeCard]?.amenities.map((amenity, idx) => (
-                  <span key={idx} className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium">
+                  <span key={idx} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">
                     {amenity}
                   </span>
                 ))}
               </div>
 
               {/* Host Info */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">
                     {featuredListings[activeCard]?.host?.split(' ')[0]?.[0]}{featuredListings[activeCard]?.host?.split(' ')[1]?.[0]}
                   </span>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Hosted by {featuredListings[activeCard]?.host}</p>
-                  <p className="text-gray-500 text-sm">Superhost • 3 years hosting</p>
+                  <p className="font-semibold text-gray-900 text-sm">Hosted by {featuredListings[activeCard]?.host}</p>
+                  <p className="text-gray-500 text-xs">Superhost • 3 years hosting</p>
                 </div>
               </div>
 
               <button 
                 onClick={() => handlePropertyClick(featuredListings[activeCard]?.id)}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-3 cursor-pointer"
+                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-bold text-base hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2 cursor-pointer"
               >
                 View Details
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -674,7 +674,7 @@ const HomePage = () => {
       </section>
 
       {/* Popular Cities with Enhanced Design */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      <section className="py-10 lg:py-16 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
         {/* Imigongo Design - Center Left */}
         <div className="absolute left-12 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
           <ImigongoPattern variant="left" size="sm" className="imigongo-pattern opacity-15" message="Explore amazing destinations" />
@@ -685,14 +685,14 @@ const HomePage = () => {
           <ImigongoPattern variant="right" size="sm" className="imigongo-pattern opacity-15" message="Discover hidden gems" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 relative">
+          <div className="text-center mb-8 lg:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 lg:mb-5">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                 Explore
               </span> East Africa
             </h2>
-            <p className="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
               From bustling cities to serene landscapes, discover your perfect destination
             </p>
           </div>
@@ -740,7 +740,7 @@ const HomePage = () => {
       </section>
 
       {/* Property Types with Enhanced Cards */}
-      <section className="py-20 bg-white relative overflow-hidden">
+      <section className="py-10 lg:py-16 bg-white relative overflow-hidden">
         {/* Imigongo Design - Bottom Left */}
         <div className="absolute bottom-16 left-8 z-10 hidden lg:block">
           <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-20" message="Find your perfect stay" />
@@ -751,14 +751,14 @@ const HomePage = () => {
           <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-20" message="Every type, every comfort" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-8 lg:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 lg:mb-5">
               Find Your <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                 Perfect Stay
               </span>
             </h2>
-            <p className="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Choose from our diverse collection of unique accommodations
             </p>
           </div>
@@ -802,7 +802,7 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced Features Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 relative overflow-hidden">
+      <section className="py-10 lg:py-16 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 relative overflow-hidden">
         {/* Imigongo Design - Top Center */}
         <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-10 hidden lg:block">
           <ImigongoPattern variant="center" size="sm" className="imigongo-pattern opacity-10" message="Premium features await" />
@@ -813,15 +813,15 @@ const HomePage = () => {
           <ImigongoPattern variant="center" size="sm" className="imigongo-pattern opacity-10" message="Experience excellence" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 relative">
+          <div className="text-center mb-8 lg:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 lg:mb-5">
               Why Choose <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                 KWETU
               </span>?
             </h2>
-            <h3 className="text-2xl lg:text-3xl font-semibold text-gray-700 mb-6">Excellence in Every Detail</h3>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-700 mb-3 lg:mb-5">Excellence in Every Detail</h3>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
               We&apos;re redefining hospitality across East Africa with unmatched quality and personalized service.
             </p>
           </div>
@@ -830,25 +830,25 @@ const HomePage = () => {
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className="group text-center p-8 bg-white/80 backdrop-blur-sm border border-white/50 rounded-3xl shadow-lg hover:scale-105 transition-all duration-500 cursor-pointer"
+                className="group text-center p-6 bg-white/80 backdrop-blur-sm border border-white/50 rounded-3xl shadow-lg hover:scale-105 transition-all duration-500 cursor-pointer"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                <div className="relative mb-6">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                <div className="relative mb-4">
+                  <div className={`w-12 h-12 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                     <div className="text-white">
                       {feature.icon}
                     </div>
                   </div>
                   
                   {/* Floating particles */}
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400/60 rounded-full animate-ping"></div>
-                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-blue-400/60 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+                  <div className="absolute -top-2 -right-2 w-3 h-3 bg-yellow-400/60 rounded-full animate-ping"></div>
+                  <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-blue-400/60 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
                 </div>
                 
-                <h3 className="font-bold text-xl mb-4 text-gray-900 group-hover:text-purple-600 transition-colors">
+                <h3 className="font-bold text-lg mb-3 text-gray-900 group-hover:text-purple-600 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 text-sm leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -858,7 +858,7 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white relative overflow-hidden">
+      <section className="py-10 lg:py-16 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white relative overflow-hidden">
         {/* Imigongo Design - Left Side */}
         <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10 hidden lg:block">
           <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-15" message="Ready to explore?" />
@@ -869,37 +869,37 @@ const HomePage = () => {
           <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-15" message="Your journey starts here" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 text-center relative">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl lg:text-6xl font-black mb-8">Ready to Host?</h2>
-            <p className="text-xl lg:text-2xl mb-10 opacity-90 leading-relaxed">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 lg:mb-6">Ready to Host?</h2>
+            <p className="text-base sm:text-lg lg:text-xl mb-6 lg:mb-8 opacity-90 leading-relaxed">
               Join thousands of successful hosts earning income while sharing the beauty of East Africa with travelers worldwide.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <button className="bg-white text-green-600 hover:bg-gray-100 px-10 py-5 rounded-2xl font-bold text-xl transition-all duration-300 hover:shadow-2xl hover:scale-105 flex items-center gap-3 cursor-pointer">
-                <Home className="w-6 h-6" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 flex items-center gap-2 cursor-pointer">
+                <Home className="w-5 h-5" />
                 Start Hosting Today
-                <ArrowRight className="w-6 h-6" />
+                <ArrowRight className="w-5 h-5" />
               </button>
               
-              <button className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 px-10 py-5 rounded-2xl font-bold text-xl transition-all duration-300 hover:shadow-2xl flex items-center gap-3 cursor-pointer">
-                <Play className="w-6 h-6" />
+              <button className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:shadow-2xl flex items-center gap-2 cursor-pointer">
+                <Play className="w-5 h-5" />
                 Watch Success Stories
               </button>
             </div>
             
             {/* Host Benefits */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
               {[
-                { icon: <CreditCard className="h-8 w-8" />, title: 'Earn $2,000+', subtitle: 'Average monthly income' },
-                { icon: <Shield className="h-8 w-8" />, title: 'Full Protection', subtitle: 'Host guarantee included' },
-                { icon: <Zap className="h-8 w-8" />, title: 'Easy Setup', subtitle: 'List in under 10 minutes' }
+                { icon: <CreditCard className="h-6 w-6" />, title: 'Earn $2,000+', subtitle: 'Average monthly income' },
+                { icon: <Shield className="h-6 w-6" />, title: 'Full Protection', subtitle: 'Host guarantee included' },
+                { icon: <Zap className="h-6 w-6" />, title: 'Easy Setup', subtitle: 'List in under 10 minutes' }
               ].map((benefit, index) => (
-                <div key={index} className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                  <div className="text-white mb-3">{benefit.icon}</div>
-                  <h4 className="font-bold text-xl mb-2">{benefit.title}</h4>
-                  <p className="text-white/80 text-sm">{benefit.subtitle}</p>
+                <div key={index} className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="text-white mb-2">{benefit.icon}</div>
+                  <h4 className="font-bold text-lg mb-1">{benefit.title}</h4>
+                  <p className="text-white/80 text-xs">{benefit.subtitle}</p>
                 </div>
               ))}
             </div>
@@ -908,7 +908,7 @@ const HomePage = () => {
       </section>
 
       {/* Enhanced Footer */}
-      <footer className="bg-gradient-to-br from-slate-900 via-gray-900 to-black text-gray-300 py-20 relative overflow-hidden">
+      <footer className="bg-gradient-to-br from-slate-900 via-gray-900 to-black text-gray-300 py-10 lg:py-16 relative overflow-hidden">
         {/* Imigongo Design - Top Left */}
         <div className="absolute top-16 left-8 z-10 hidden lg:block">
           <ImigongoPattern variant="left" size="sm" className="imigongo-pattern opacity-10" message="Thank you for choosing KWETU" />
@@ -919,14 +919,14 @@ const HomePage = () => {
           <ImigongoPattern variant="right" size="sm" className="imigongo-pattern opacity-10" message="Stay connected with us" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative">
           {/* Newsletter Signup */}
-          <div className="text-center mb-16 bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-            <h3 className="text-3xl font-bold text-white mb-4">Stay Updated</h3>
-            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+          <div className="text-center mb-10 lg:mb-14 bg-white/10 backdrop-blur-sm rounded-3xl p-6 lg:p-8 border border-white/10">
+            <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Stay Updated</h3>
+            <p className="text-gray-300 mb-6 max-w-3xl mx-auto">
               Get the latest deals, travel tips, and exclusive offers from KWETU delivered to your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
               <input 
                 type="email" 
                 placeholder="Enter your email"
@@ -947,7 +947,7 @@ const HomePage = () => {
                 </div>
                 <span className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">KWETU</span>
               </div>
-              <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
+              <p className="text-gray-400 mb-6 max-w-lg leading-relaxed">
                 Connecting travelers with authentic East African experiences through carefully curated accommodations and local hospitality.
               </p>
               <div className="flex space-x-4">
