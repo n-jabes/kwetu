@@ -100,121 +100,123 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-slate-200/50 transform transition-all duration-300 ease-out lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        {/* Sidebar Header */}
-        <div className="p-5 border-b border-slate-200/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">K</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">KWETU</h1>
-              <p className="text-xs text-slate-500 font-medium">Dashboard</p>
-            </div>
-          </div>
-        </div>
-
-        {/* User Profile */}
-        <div className="p-5 border-b border-slate-200/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-green-100 rounded-xl flex items-center justify-center ring-2 ring-emerald-200 shadow-sm">
-              {userAvatar ? (
-                <Image src={userAvatar} alt={userName} width={48} height={48} className="w-12 h-12 rounded-xl object-cover" />
-              ) : (
-                <User className="w-6 h-6 text-emerald-600" />
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-900 truncate">{userName}</p>
-              <p className="text-xs text-slate-500 truncate">{userEmail}</p>
-              <div className="inline-flex items-center px-2 py-1 mt-1 bg-gradient-to-r from-emerald-100 to-green-100 rounded-lg text-xs font-medium text-emerald-700">
-                {userRole === 'GUEST' ? 'Guest User' : 'Host User'}
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="p-4 border-b border-slate-200/50 flex-shrink-0">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-sm">K</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">KWETU</h1>
+                <p className="text-xs text-slate-500 font-medium">Dashboard</p>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4">
-          <div className="space-y-2">
-            {userRole === 'GUEST' ? (
-              guestNavItems.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => {
-                    setActiveTab(item.id);
-                    setSidebarOpen(false);
-                  }}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                    activeTab === item.id
-                      ? 'bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg scale-105'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:scale-105'
-                  }`}
-                >
-                  <div className={`p-2 rounded-lg transition-all duration-300 ${
-                    activeTab === item.id
-                      ? 'bg-white/20 backdrop-blur-sm'
-                      : 'bg-slate-100 group-hover:bg-emerald-100'
-                  }`}>
-                    <item.icon className={`w-4 h-4 transition-all duration-300 ${
-                      activeTab === item.id
-                        ? 'text-white'
-                        : 'text-slate-600 group-hover:text-emerald-600'
-                    }`} />
-                  </div>
-                  <span>{item.label}</span>
-                  {activeTab === item.id && (
-                    <div className="absolute left-0 w-1 h-8 bg-white rounded-r-full shadow-sm"></div>
-                  )}
-                </Link>
-              ))
-            ) : (
-              hostNavItems.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => {
-                    setActiveTab(item.id);
-                    setSidebarOpen(false);
-                  }}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                    activeTab === item.id
-                      ? 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg scale-105'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:scale-105'
-                  }`}
-                >
-                  <div className={`p-2 rounded-lg transition-all duration-300 ${
-                    activeTab === item.id
-                      ? 'bg-white/20 backdrop-blur-sm'
-                      : 'bg-slate-100 group-hover:bg-blue-100'
-                  }`}>
-                    <item.icon className={`w-4 h-4 transition-all duration-300 ${
-                      activeTab === item.id
-                        ? 'text-white'
-                        : 'text-slate-600 group-hover:text-blue-600'
-                    }`} />
-                  </div>
-                  <span>{item.label}</span>
-                  {activeTab === item.id && (
-                    <div className="absolute left-0 w-1 h-8 bg-white rounded-r-full shadow-sm"></div>
-                  )}
-                </Link>
-              ))
-            )}
-          </div>
-        </nav>
-
-        {/* Sidebar Footer */}
-        <div className="p-4 border-t border-slate-200/50">
-          <button
-            onClick={handleLogout}
-            className="flex items-center space-x-3 w-full px-4 py-3 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 group"
-          >
-            <div className="p-2 rounded-lg bg-slate-100 group-hover:bg-red-100 transition-all duration-300">
-              <LogOut className="w-4 h-4 group-hover:text-red-600" />
+          {/* User Profile */}
+          <div className="p-4 border-b border-slate-200/50 flex-shrink-0">
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-green-100 rounded-lg flex items-center justify-center ring-2 ring-emerald-200 shadow-sm">
+                {userAvatar ? (
+                  <Image src={userAvatar} alt={userName} width={40} height={40} className="w-10 h-10 rounded-lg object-cover" />
+                ) : (
+                  <User className="w-5 h-5 text-emerald-600" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-slate-900 truncate">{userName}</p>
+                <p className="text-xs text-slate-500 truncate">{userEmail}</p>
+                <div className="inline-flex items-center px-1.5 py-0.5 mt-1 bg-gradient-to-r from-emerald-100 to-green-100 rounded-md text-xs font-medium text-emerald-700">
+                  {userRole === 'GUEST' ? 'Guest User' : 'Host User'}
+                </div>
+              </div>
             </div>
-            <span>Sign Out</span>
-          </button>
+          </div>
+
+          {/* Navigation - Scrollable */}
+          <nav className="flex-1 p-3 overflow-y-auto">
+            <div className="space-y-1">
+              {userRole === 'GUEST' ? (
+                guestNavItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setSidebarOpen(false);
+                    }}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 group ${
+                      activeTab === item.id
+                        ? 'bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg scale-105'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:scale-105'
+                    }`}
+                  >
+                    <div className={`p-1.5 rounded-md transition-all duration-300 ${
+                      activeTab === item.id
+                        ? 'bg-white/20 backdrop-blur-sm'
+                        : 'bg-slate-100 group-hover:bg-emerald-100'
+                    }`}>
+                      <item.icon className={`w-3.5 h-3.5 transition-all duration-300 ${
+                        activeTab === item.id
+                          ? 'text-white'
+                          : 'text-slate-600 group-hover:text-emerald-600'
+                      }`} />
+                    </div>
+                    <span className="text-xs">{item.label}</span>
+                    {activeTab === item.id && (
+                      <div className="absolute left-0 w-1 h-6 bg-white rounded-r-full shadow-sm"></div>
+                    )}
+                  </Link>
+                ))
+              ) : (
+                hostNavItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setSidebarOpen(false);
+                    }}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 group ${
+                      activeTab === item.id
+                        ? 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg scale-105'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:scale-105'
+                    }`}
+                  >
+                    <div className={`p-1.5 rounded-md transition-all duration-300 ${
+                      activeTab === item.id
+                        ? 'bg-white/20 backdrop-blur-sm'
+                        : 'bg-slate-100 group-hover:bg-blue-100'
+                    }`}>
+                      <item.icon className={`w-3.5 h-3.5 transition-all duration-300 ${
+                        activeTab === item.id
+                          ? 'text-white'
+                          : 'text-slate-600 group-hover:text-blue-600'
+                      }`} />
+                    </div>
+                    <span className="text-xs">{item.label}</span>
+                    {activeTab === item.id && (
+                      <div className="absolute left-0 w-1 h-6 bg-white rounded-r-full shadow-sm"></div>
+                    )}
+                  </Link>
+                ))
+              )}
+            </div>
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="p-3 border-t border-slate-200/50 flex-shrink-0">
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-2 w-full px-3 py-2 text-xs font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 group"
+            >
+              <div className="p-1.5 rounded-md bg-slate-100 group-hover:bg-red-100 transition-all duration-300">
+                <LogOut className="w-3.5 h-3.5 group-hover:text-red-600" />
+              </div>
+              <span className="text-xs">Sign Out</span>
+            </button>
+          </div>
         </div>
       </div>
 
