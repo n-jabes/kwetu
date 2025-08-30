@@ -103,7 +103,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="p-4 border-b border-slate-200/50 flex-shrink-0">
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-sm">K</span>
               </div>
@@ -111,7 +111,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 <h1 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">KWETU</h1>
                 <p className="text-xs text-slate-500 font-medium">Dashboard</p>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* User Profile */}
