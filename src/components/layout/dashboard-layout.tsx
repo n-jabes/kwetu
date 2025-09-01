@@ -6,10 +6,8 @@ import {
   Settings, 
   LogOut, 
   Menu, 
-  X, 
   Bell,
   Search,
-  BookOpen,
   Heart,
   Calendar,
   MapPin,
@@ -19,11 +17,10 @@ import {
   TrendingUp,
   Users,
   FileText,
-  Shield,
   ChevronDown
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 
 interface DashboardLayoutProps {
@@ -45,6 +42,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const [activeTab, setActiveTab] = useState('overview');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   // Guest navigation items
   const guestNavItems = [
@@ -77,14 +75,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
 
   const getCurrentTab = () => {
-    const path = window.location.pathname;
-    const item = navItems.find(nav => nav.href === path);
+    const item = navItems.find(nav => nav.href === pathname);
     return item ? item.id : 'overview';
   };
 
   React.useEffect(() => {
     setActiveTab(getCurrentTab());
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">

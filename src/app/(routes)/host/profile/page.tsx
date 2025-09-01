@@ -1,32 +1,160 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/dashboard-layout';
-import { User, Mail, Phone, MapPin, Calendar, Shield, Award, Star, Edit3, Lock, Bell, Settings, Home, TrendingUp } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Calendar, Shield, Award, Star, Edit3, Bell, Home, TrendingUp, X, Save, Camera } from 'lucide-react';
 
 const HostProfile = () => {
-  // Hardcoded user data for testing
-  const userData = {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
     name: 'Sarah Johnson',
     email: 'sarah.johnson@example.com',
+    phone: '+250 788 987 654',
+    location: 'Kigali, Rwanda',
+    bio: 'Experienced host with a passion for providing exceptional stays. I love sharing the beauty of Rwanda with guests from around the world.'
+  });
+
+  // Hardcoded user data for testing
+  const userData = {
+    name: formData.name,
+    email: formData.email,
     role: 'HOST' as const,
     avatar: undefined
   };
 
   const profileInfo = [
-    { label: 'Full Name', value: 'Sarah Johnson', icon: User, color: 'from-blue-500 to-cyan-600' },
-    { label: 'Email', value: 'sarah.johnson@example.com', icon: Mail, color: 'from-indigo-500 to-purple-600' },
-    { label: 'Phone', value: '+250 788 987 654', icon: Phone, color: 'from-purple-500 to-pink-600' },
-    { label: 'Location', value: 'Kigali, Rwanda', icon: MapPin, color: 'from-orange-500 to-red-600' },
-    { label: 'Host Since', value: 'March 2023', icon: Calendar, color: 'from-green-500 to-emerald-600' },
-    { label: 'Account Status', value: 'Superhost', icon: Award, color: 'from-yellow-500 to-orange-600' },
+    { label: 'Full Name', value: formData.name, icon: User },
+    { label: 'Email', value: formData.email, icon: Mail },
+    { label: 'Phone', value: formData.phone, icon: Phone },
+    { label: 'Location', value: formData.location, icon: MapPin },
+    { label: 'Host Since', value: 'March 2023', icon: Calendar },
+    { label: 'Account Status', value: 'Superhost', icon: Award },
   ];
 
   const hostStats = [
-    { label: 'Total Properties', value: '8', color: 'from-blue-500 to-cyan-600', icon: Home },
-    { label: 'Total Bookings', value: '156', color: 'from-emerald-500 to-green-600', icon: Calendar },
-    { label: 'Average Rating', value: '4.8', color: 'from-yellow-500 to-orange-600', icon: Star },
-    { label: 'Response Rate', value: '98%', color: 'from-purple-500 to-pink-600', icon: TrendingUp },
+    { label: 'Total Properties', value: '8', icon: Home },
+    { label: 'Total Bookings', value: '156', icon: Calendar },
+    { label: 'Average Rating', value: '4.8', icon: Star },
+    { label: 'Response Rate', value: '98%', icon: TrendingUp },
   ];
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = () => {
+    // Here you would typically save to backend
+    setIsEditModalOpen(false);
+  };
+
+  const EditProfileModal = () => (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Edit Profile</h2>
+            <button
+              onClick={() => setIsEditModalOpen(false)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-500" />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {/* Avatar Section */}
+            <div className="flex flex-col items-center space-y-3">
+              <div className="relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center">
+                  {userData.avatar ? (
+                    <img
+                      src={userData.avatar}
+                      alt={userData.name}
+                      className="w-20 h-20 rounded-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-10 h-10 text-white" />
+                  )}
+                </div>
+                <button className="absolute -bottom-1 -right-1 w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors">
+                  <Camera className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            </div>
+
+            {/* Form Fields */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                <textarea
+                  value={formData.bio}
+                  onChange={(e) => handleInputChange('bio', e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all resize-none"
+                />
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex space-x-3 pt-4">
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="flex-1 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center space-x-2"
+              >
+                <Save className="w-4 h-4" />
+                <span>Save Changes</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <DashboardLayout
@@ -35,187 +163,172 @@ const HostProfile = () => {
       userEmail={userData.email}
       userAvatar={userData.avatar}
     >
-      <div className="space-y-4">
-        {/* Profile Header */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-white/90 to-slate-50/90 backdrop-blur-xl rounded-xl shadow-lg border border-white/20 p-4">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-cyan-100/30"></div>
-          <div className="relative flex items-center space-x-4">
-            <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg ring-4 ring-white/50">
-                {userData.avatar ? (
-                  <img
-                    src={userData.avatar}
-                    alt={userData.name}
-                    className="w-16 h-16 rounded-xl object-cover"
-                  />
-                ) : (
-                  <User className="w-8 h-8 text-white" />
-                )}
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full border-2 border-white flex items-center justify-center">
-                <Award className="w-2.5 h-2.5 text-white" />
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content - Left Side */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Profile Header */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                    {userData.avatar ? (
+                      <img
+                        src={userData.avatar}
+                        alt={userData.name}
+                        className="w-16 h-16 rounded-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-8 h-8 text-gray-600" />
+                    )}
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-yellow-500 rounded-full border-2 border-white flex items-center justify-center">
+                    <Award className="w-2.5 h-2.5 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h1 className="text-2xl font-bold text-gray-900">{userData.name}</h1>
+                  <p className="text-gray-600">{userData.email}</p>
+                  <div className="flex items-center mt-2 space-x-3">
+                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{userData.role}</span>
+                    <div className="flex items-center px-2 py-1 bg-yellow-100 rounded-md">
+                      <Award className="w-3 h-3 text-yellow-600 mr-1" />
+                      <span className="text-xs font-medium text-yellow-700">Superhost</span>
+                    </div>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center space-x-2"
+                >
+                  <Edit3 className="w-4 h-4" />
+                  <span>Edit</span>
+                </button>
               </div>
             </div>
-            <div className="flex-1">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">{userData.name}</h1>
-              <p className="text-sm text-slate-600">{userData.email}</p>
-              <div className="flex items-center mt-1 space-x-3">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full mr-2 animate-pulse"></div>
-                  <span className="text-xs font-medium text-slate-600 uppercase tracking-wide">{userData.role}</span>
-                </div>
-                <div className="flex items-center px-2 py-1 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-md border border-yellow-200/50">
-                  <Award className="w-3 h-3 text-yellow-600 mr-1" />
-                  <span className="text-xs font-medium text-yellow-700">Superhost</span>
-                </div>
-              </div>
+
+            {/* Host Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {hostStats.map((stat, index) => {
+                const Icon = stat.icon;
+                return (
+                  <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{stat.label}</p>
+                        <p className="text-lg font-bold text-gray-900 mt-1">{stat.value}</p>
+                      </div>
+                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-gray-600" />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <div className="flex space-x-2">
-              <button className="p-2 bg-white/80 backdrop-blur-sm rounded-lg border border-white/50 hover:bg-white transition-all duration-300 hover:scale-105 shadow-sm">
-                <Edit3 className="w-4 h-4 text-slate-600" />
-              </button>
-              <button className="p-2 bg-white/80 backdrop-blur-sm rounded-lg border border-white/50 hover:bg-white transition-all duration-300 hover:scale-105 shadow-sm">
-                <Settings className="w-4 h-4 text-slate-600" />
-              </button>
+
+            {/* Profile Information */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Profile Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {profileInfo.map((info, index) => {
+                  const Icon = info.icon;
+                  return (
+                    <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-gray-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{info.label}</p>
+                        <p className="text-sm font-medium text-gray-900 truncate">{info.value}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Host Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {hostStats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div key={index} className="group relative overflow-hidden bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-xl rounded-xl shadow-lg border border-white/20 p-3 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div className="flex items-center justify-between">
+          {/* Sidebar - Right Side */}
+          <div className="space-y-6">
+            {/* Verification & Trust */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Verification & Trust</h2>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                  <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                    <Shield className="w-4 h-4 text-white" />
+                  </div>
                   <div>
-                    <p className="text-xs font-medium text-slate-600 uppercase tracking-wide">{stat.label}</p>
-                    <p className="text-lg font-bold text-slate-800 mt-1">{stat.value}</p>
-                  </div>
-                  <div className={`w-8 h-8 bg-gradient-to-br ${stat.color} rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300`}>
-                    <Icon className="w-4 h-4 text-white" />
+                    <p className="text-sm font-medium text-green-700">Identity Verified</p>
+                    <p className="text-xs text-green-600">Government ID confirmed</p>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Profile Information Grid */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-xl shadow-lg border border-white/20 p-4">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-blue-500 to-cyan-600 rounded-full mr-3"></div>
-            Profile Information
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {profileInfo.map((info, index) => {
-              const Icon = info.icon;
-              return (
-                <div key={index} className="group relative overflow-hidden bg-gradient-to-br from-white/60 to-slate-50/60 backdrop-blur-sm rounded-lg border border-white/40 p-3 hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-8 h-8 bg-gradient-to-br ${info.color} rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300`}>
-                      <Icon className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-slate-600 uppercase tracking-wide">{info.label}</p>
-                      <p className="text-sm font-semibold text-slate-800 truncate">{info.value}</p>
-                    </div>
+                
+                <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <Phone className="w-4 h-4 text-white" />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  <div>
+                    <p className="text-sm font-medium text-blue-700">Phone Verified</p>
+                    <p className="text-xs text-blue-600">+250 788 987 654</p>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+                
+                <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                  <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                    <Mail className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-purple-700">Email Verified</p>
+                    <p className="text-xs text-purple-600">sarah.johnson@example.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        {/* Host Verification */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-xl shadow-lg border border-white/20 p-4">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-emerald-500 to-green-600 rounded-full mr-3"></div>
-            Verification & Trust
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div className="group relative overflow-hidden bg-gradient-to-br from-emerald-50/80 to-green-100/80 backdrop-blur-sm rounded-lg border border-emerald-200/50 p-3 hover:shadow-md transition-all duration-300 hover:scale-105">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Shield className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-emerald-700">Identity Verified</p>
-                  <p className="text-xs text-emerald-600">Government ID confirmed</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-            </div>
-            
-            <div className="group relative overflow-hidden bg-gradient-to-br from-blue-50/80 to-cyan-100/80 backdrop-blur-sm rounded-lg border border-blue-200/50 p-3 hover:shadow-md transition-all duration-300 hover:scale-105">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-blue-700">Phone Verified</p>
-                  <p className="text-xs text-blue-600">+250 788 987 654</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-            </div>
-            
-            <div className="group relative overflow-hidden bg-gradient-to-br from-purple-50/80 to-pink-100/80 backdrop-blur-sm rounded-lg border border-purple-200/50 p-3 hover:shadow-md transition-all duration-300 hover:scale-105">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Mail className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-purple-700">Email Verified</p>
-                  <p className="text-xs text-purple-600">sarah.johnson@example.com</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-            </div>
-          </div>
-        </div>
+            {/* Quick Actions */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+              <div className="space-y-3">
+                <button 
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="w-full flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                >
+                  <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <Edit3 className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Edit Profile</span>
+                </button>
+                
+                <button className="w-full flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left">
+                  <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <Shield className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Security Settings</span>
+                </button>
+                
+                <button className="w-full flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left">
+                  <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <Award className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Host Settings</span>
+                </button>
 
-        {/* Account Actions */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-xl shadow-lg border border-white/20 p-4">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-purple-500 to-pink-600 rounded-full mr-3"></div>
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <button className="group relative overflow-hidden bg-gradient-to-br from-blue-50/80 to-cyan-100/80 backdrop-blur-sm rounded-lg border border-blue-200/50 p-3 hover:shadow-md transition-all duration-300 hover:scale-105">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Edit3 className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm font-medium text-blue-700">Edit Profile</span>
+                <button className="w-full flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left">
+                  <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <Bell className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Notifications</span>
+                </button>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-            </button>
-            
-            <button className="group relative overflow-hidden bg-gradient-to-br from-emerald-50/80 to-green-100/80 backdrop-blur-sm rounded-lg border border-emerald-200/50 p-3 hover:shadow-md transition-all duration-300 hover:scale-105">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Shield className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm font-medium text-emerald-700">Security</span>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-            </button>
-            
-            <button className="group relative overflow-hidden bg-gradient-to-br from-purple-50/80 to-pink-100/80 backdrop-blur-sm rounded-lg border border-purple-200/50 p-3 hover:shadow-md transition-all duration-300 hover:scale-105">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Award className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm font-medium text-purple-700">Host Settings</span>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-            </button>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      {isEditModalOpen && <EditProfileModal />}
     </DashboardLayout>
   );
 };

@@ -1,11 +1,37 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { MapPin, Home, Mountain, Castle, Loader2, Star, Shield, CreditCard, Lock, Instagram, Twitter, Facebook, Youtube, ArrowRight, Sparkles, Zap, Globe, Heart, Users, Award, Play, ChevronRight, Menu, X, Calendar, User, Search, ArrowUp } from 'lucide-react';
+import { 
+  Search, 
+  MapPin, 
+  Star, 
+  Heart, 
+  Calendar, 
+  Users, 
+  Mountain, 
+  Shield, 
+  Award, 
+  ArrowRight,  
+  ChevronRight,
+  Play,
+  CreditCard,
+  Lock,
+  Home,
+  Castle,
+  Zap,
+  Sparkles,
+  User,
+  Loader2,
+  ArrowUp,
+  Globe,
+  Instagram,
+  Twitter,
+  Facebook,
+  Youtube,
+} from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { ImigongoPattern } from '@/components/ui/imigongo-pattern';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const HomePage = () => {
   const router = useRouter();

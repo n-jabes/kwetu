@@ -1,22 +1,20 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { 
+  Home, 
+  Plus, 
   Calendar, 
-  MapPin, 
-  Star, 
   TrendingUp, 
-  Users, 
-  DollarSign,
-  MessageSquare,
-  Eye,
-  Clock,
+  Star, 
+  MapPin, 
+  CreditCard,
   CheckCircle,
+  Clock,
   AlertCircle,
-  Plus,
-  Home,
+  Users,
   MessageCircle,
-  BarChart3
+  BarChart3, 
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -33,7 +31,7 @@ const HostDashboard = () => {
   const stats = [
     { label: 'Total Listings', value: '8', icon: Home, color: 'from-blue-500 to-cyan-600', change: '+2 this month' },
     { label: 'Active Bookings', value: '15', icon: Calendar, color: 'from-emerald-500 to-green-600', change: '+5 this week' },
-    { label: 'Total Earnings', value: '$8,450', icon: DollarSign, color: 'from-yellow-500 to-orange-600', change: '+12% vs last month' },
+    { label: 'Total Earnings', value: '$8,450', icon: CreditCard, color: 'from-yellow-500 to-orange-600', change: '+12% vs last month' },
     { label: 'Guest Reviews', value: '4.8', icon: Star, color: 'from-purple-500 to-pink-600', change: '+0.2 this month' },
   ];
 

@@ -1,7 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Check, MapPin, Home, Settings, Camera, DollarSign, FileText, Upload } from 'lucide-react';
+import { 
+  Home, 
+  MapPin, 
+  Camera, 
+  FileText, 
+  DollarSign, 
+  CheckCircle, 
+  Settings,
+  ChevronRight,
+  ChevronLeft, 
+} from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { ListingFormData } from '@/types';
 
@@ -12,7 +22,7 @@ const steps = [
   { id: 4, title: 'Amenities', icon: Settings },
   { id: 5, title: 'Photos', icon: Camera },
   { id: 6, title: 'Pricing', icon: DollarSign },
-  { id: 7, title: 'Review', icon: Check }
+  { id: 7, title: 'Review', icon: CheckCircle }
 ];
 
 export const AddListingForm: React.FC = () => {

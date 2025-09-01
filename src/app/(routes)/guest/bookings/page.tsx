@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import DashboardLayout from '@/components/layout/dashboard-layout';
-import { Calendar, MapPin, Users, DollarSign, Clock, CheckCircle, AlertCircle, XCircle, Filter, Plus, ArrowUpRight, Eye, Edit, MoreHorizontal, Star } from 'lucide-react';
+import { Calendar, MapPin, Users, Clock, CheckCircle, AlertCircle, XCircle, Filter, Plus, Star } from 'lucide-react';
 
 const GuestBookings = () => {
   // Hardcoded user data for testing
@@ -174,7 +174,7 @@ const GuestBookings = () => {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">My Bookings</h1>
-            <p className="text-slate-600 mt-1 text-sm leading-relaxed max-w-2xl">Manage and track all your property bookings across Rwanda's beautiful destinations</p>
+            <p className="text-slate-600 mt-1 text-sm leading-relaxed max-w-2xl">Manage and track all your property bookings across Rwanda&apos;s beautiful destinations</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
             <button className="flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-all duration-300 hover:scale-105 group">

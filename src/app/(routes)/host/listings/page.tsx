@@ -1,7 +1,7 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/dashboard-layout';
-import { MapPin, Star, Calendar, Users, DollarSign, Plus, Edit, Eye, MoreHorizontal, Home, TrendingUp, Award } from 'lucide-react';
+import { Home, Plus, MapPin, Star, Calendar, Eye, DollarSign, MoreHorizontal, Edit, Award, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 
 const HostListings = () => {
@@ -114,7 +114,7 @@ const HostListings = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-800">My Listings</h1>
-            <p className="text-slate-600 mt-1 text-sm">Manage your property listings and track performance</p>
+            <p className="text-slate-600 mt-1 text-sm leading-relaxed max-w-2xl">Manage and track all your property bookings across Rwanda&apos;s beautiful destinations</p>
           </div>
           <Link href="/add-listing" className="flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white rounded-lg transition-all duration-300 hover:scale-105 shadow-lg">
             <Plus className="w-4 h-4 mr-2" />

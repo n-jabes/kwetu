@@ -13,8 +13,7 @@ import {
   AlertCircle,
   ArrowUpRight,
   Users,
-  Eye,
-  Plus
+  Eye
 } from 'lucide-react';
 
 const GuestDashboard = () => {
@@ -159,9 +158,7 @@ const GuestDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold mb-1">Welcome back, {userData.name}! 👋</h2>
-                <p className="text-emerald-100 text-sm leading-relaxed max-w-2xl">
-                  Ready for your next adventure? Discover amazing places to stay across Rwanda's beautiful landscapes.
-                </p>
+                <p className="text-slate-600 mt-1 text-sm leading-relaxed max-w-2xl">Manage and track all your property bookings across Rwanda&apos;s beautiful destinations</p>
               </div>
               <div className="hidden lg:block">
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
