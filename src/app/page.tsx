@@ -181,7 +181,7 @@ const HomePage = () => {
       <SearchResultsNavbar />
       
       {/* Hero Section - Professional & Responsive Design */}
-      <section className="relative min-h-[95vh] lg:min-h-[105vh] xl:min-h-[115vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
+      <section className="relative min-h-[95vh] lg:min-h-[105vh] xl:min-h-[115vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-300 via-purple-900 to-indigo-300">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
           {/* Subtle Grid Pattern */}
@@ -208,7 +208,7 @@ const HomePage = () => {
             transform: `translateY(${scrollY * 0.3}px) scale(1.1)`
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-black/80" />
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-black/80" /> */}
         
         {/* Imigongo Design - Left Side */}
         <div className="absolute left-4 lg:left-8 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
