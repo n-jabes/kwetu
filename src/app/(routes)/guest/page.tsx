@@ -51,7 +51,7 @@ interface Stat {
   value: string;
   change: string;
   trend: 'up' | 'down' | 'neutral';
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   gradient: string;
   bgGradient: string;
   borderColor: string;
@@ -110,7 +110,7 @@ interface UpcomingTrip {
 }
 
 interface QuickAction {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   desc: string;
   gradient: string;
@@ -600,16 +600,11 @@ const GuestDashboard = () => {
                          })}
                        </Pie>
                        <Tooltip 
-                         formatter={(value: any, name: any, props: any) => [
-                           `${value}% ($${props.payload.amount})`,
+                         formatter={(value: number) => [
+                           `${value}%`,
                            'Share'
                          ]}
-                         labelFormatter={(label: any, payload: any) => {
-                           if (payload && payload[0]) {
-                             return payload[0].payload.name;
-                           }
-                           return label;
-                         }}
+                         labelFormatter={(label: string) => label}
                          contentStyle={{
                            backgroundColor: 'white',
                            border: '1px solid #E2E8F0',
@@ -681,7 +676,7 @@ const GuestDashboard = () => {
                     {/* Filter */}
                     <select
                       value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value as any)}
+                      onChange={(e) => setFilterStatus(e.target.value as 'all' | 'confirmed' | 'pending' | 'completed')}
                       className="px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 bg-slate-50 focus:bg-white transition-colors min-w-0 flex-shrink-0"
                     >
                       <option value="all">All</option>

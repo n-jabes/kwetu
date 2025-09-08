@@ -57,11 +57,11 @@ interface HostData {
 interface Stat {
   label: string;
   value: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   change: string;
   trend: 'up' | 'down';
-  trendIcon: any;
+  trendIcon: React.ComponentType<{ className?: string }>;
 }
 
 interface RevenueData {
@@ -113,7 +113,7 @@ interface QuickAction {
   id: string;
   title: string;
   description: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   href?: string;
   onClick?: () => void;
@@ -593,7 +593,7 @@ const HostDashboard = () => {
                       fontSize: '12px',
                       boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
                     }}
-                    formatter={(value: any, name: string) => [
+                    formatter={(value: number, name: string) => [
                       name === 'revenue' ? `$${value.toLocaleString()}` : value,
                       name === 'revenue' ? 'Revenue' : 'Bookings'
                     ]}
@@ -669,7 +669,7 @@ const HostDashboard = () => {
                         })}
                       </Pie>
                       <Tooltip 
-                        formatter={(value: any, name: string) => [`${value}%`, `${name} Properties`]}
+                        formatter={(value: number, name: string) => [`${value}%`, `${name} Properties`]}
                         contentStyle={{ 
                           backgroundColor: 'white', 
                           border: '1px solid #E2E8F0', 
@@ -741,7 +741,7 @@ const HostDashboard = () => {
                     {/* Filter */}
                     <select
                       value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value as any)}
+                      onChange={(e) => setFilterStatus(e.target.value as 'all' | 'confirmed' | 'pending' | 'completed' | 'cancelled')}
                       className="px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 bg-slate-50 focus:bg-white transition-colors min-w-0 flex-shrink-0"
                     >
                       <option value="all">All</option>
