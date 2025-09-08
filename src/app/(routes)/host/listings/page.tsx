@@ -1,12 +1,29 @@
 'use client'
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import DashboardLayout from '@/components/layout/dashboard-layout';
-import { Home, Plus, MapPin, Star, Calendar, Eye, DollarSign, MoreHorizontal, Edit, Award, TrendingUp, Filter, Search } from 'lucide-react';
+import { Home, Plus, MapPin, Star, Calendar, Eye, DollarSign, MoreHorizontal, Edit, Award, TrendingUp, Filter, Search, X, ChevronDown } from 'lucide-react';
 
 const HostListings = () => {
-  // Search state
+  // Search and filter state
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedPropertyType, setSelectedPropertyType] = useState('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  // Close filter dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setIsFilterOpen(false);
+      }
+    };
+
+    if (isFilterOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isFilterOpen]);
 
   // Hardcoded user data for testing
   const userData = {
@@ -79,18 +96,32 @@ const HostListings = () => {
     }
   ];
 
-  // Filter listings based on search query
+  // Get unique property types for filter options
+  const propertyTypes = useMemo(() => {
+    const types = [...new Set(listings.map(listing => listing.type))];
+    return types.sort();
+  }, []);
+
+  // Filter listings based on search query and property type
   const filteredListings = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return listings;
+    let filtered = listings;
+    
+    // Apply search filter
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(listing =>
+        listing.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        listing.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        listing.type.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
     
-    return listings.filter(listing =>
-      listing.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      listing.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      listing.type.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
+    // Apply property type filter
+    if (selectedPropertyType) {
+      filtered = filtered.filter(listing => listing.type === selectedPropertyType);
+    }
+    
+    return filtered;
+  }, [searchQuery, selectedPropertyType]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -148,10 +179,74 @@ const HostListings = () => {
               />
             </div>
             
-            <button className="flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200">
-              <Filter className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Filter</span>
-            </button>
+            <div className="relative" ref={filterRef}>
+              <div className={`flex items-center border rounded-xl transition-all duration-200 ${
+                selectedPropertyType || isFilterOpen
+                  ? 'bg-blue-50 border-blue-200 text-blue-700' 
+                  : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+              }`}>
+                <button 
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  className="flex items-center px-4 py-2.5 flex-1"
+                >
+                  <Filter className="w-4 h-4 mr-2" />
+                  <span className="text-sm font-medium">
+                    {selectedPropertyType || 'Filter'}
+                  </span>
+                  <ChevronDown className={`w-4 h-4 ml-2 transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {selectedPropertyType && (
+                  <button
+                    onClick={() => setSelectedPropertyType('')}
+                    className="p-2 hover:bg-blue-200 rounded-r-xl transition-colors border-l border-blue-200"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+
+              {/* Filter Dropdown */}
+              {isFilterOpen && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
+                  <div className="p-4">
+                    <div className="mb-3">
+                      <h3 className="text-sm font-semibold text-gray-900 mb-2">Property Type</h3>
+                      <div className="space-y-2">
+                        <button
+                          onClick={() => {
+                            setSelectedPropertyType('');
+                            setIsFilterOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                            !selectedPropertyType 
+                              ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                              : 'hover:bg-gray-50 text-gray-700'
+                          }`}
+                        >
+                          All Types
+                        </button>
+                        {propertyTypes.map((type) => (
+                          <button
+                            key={type}
+                            onClick={() => {
+                              setSelectedPropertyType(type);
+                              setIsFilterOpen(false);
+                            }}
+                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                              selectedPropertyType === type 
+                                ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                                : 'hover:bg-gray-50 text-gray-700'
+                            }`}
+                          >
+                            {type}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             
             <Link href="/add-listing" className="flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md">
               <Plus className="w-4 h-4 mr-2" />
@@ -231,21 +326,53 @@ const HostListings = () => {
           </div>
         </div>
 
-        {/* Search Results Info */}
-        {searchQuery.trim() && (
+        {/* Search and Filter Results Info */}
+        {(searchQuery.trim() || selectedPropertyType) && (
           <div className="flex items-center justify-between mb-4">
             <div className="text-sm text-gray-600">
-              {filteredListings.length === 0 
-                ? `No results for "${searchQuery}"`
-                : `${filteredListings.length} ${filteredListings.length === 1 ? 'property' : 'properties'} found for "${searchQuery}"`
-              }
+              {filteredListings.length === 0 ? (
+                <span>
+                  No results found
+                  {searchQuery.trim() && ` for "${searchQuery}"`}
+                  {selectedPropertyType && ` in ${selectedPropertyType} properties`}
+                </span>
+              ) : (
+                <span>
+                  {filteredListings.length} {filteredListings.length === 1 ? 'property' : 'properties'} found
+                  {searchQuery.trim() && ` for "${searchQuery}"`}
+                  {selectedPropertyType && ` in ${selectedPropertyType} properties`}
+                </span>
+              )}
             </div>
-            <button
-              onClick={() => setSearchQuery('')}
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Clear search
-            </button>
+            <div className="flex items-center gap-2">
+              {searchQuery.trim() && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Clear search
+                </button>
+              )}
+              {selectedPropertyType && (
+                <button
+                  onClick={() => setSelectedPropertyType('')}
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Clear filter
+                </button>
+              )}
+              {(searchQuery.trim() || selectedPropertyType) && (
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedPropertyType('');
+                  }}
+                  className="text-sm text-gray-600 hover:text-gray-700 font-medium"
+                >
+                  Clear all
+                </button>
+              )}
+            </div>
           </div>
         )}
 
@@ -258,18 +385,34 @@ const HostListings = () => {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">No properties found</h3>
               <p className="text-gray-600 text-center max-w-md">
-                {searchQuery.trim() 
+                {searchQuery.trim() && selectedPropertyType
+                  ? `No ${selectedPropertyType.toLowerCase()} properties match "${searchQuery}". Try different search terms or property types.`
+                  : searchQuery.trim()
                   ? `No properties match "${searchQuery}". Try searching with different keywords.`
+                  : selectedPropertyType
+                  ? `No ${selectedPropertyType.toLowerCase()} properties available. Try selecting a different property type.`
                   : "No properties available at the moment."
                 }
               </p>
-              {searchQuery.trim() && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
-                >
-                  Clear search
-                </button>
+              {(searchQuery.trim() || selectedPropertyType) && (
+                <div className="mt-4 flex gap-2">
+                  {searchQuery.trim() && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+                    >
+                      Clear search
+                    </button>
+                  )}
+                  {selectedPropertyType && (
+                    <button
+                      onClick={() => setSelectedPropertyType('')}
+                      className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-all duration-200"
+                    >
+                      Clear filter
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           ) : (
