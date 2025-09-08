@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { User, Mail, Phone, MapPin, Calendar, Shield, Edit3, Lock, Bell, Star, Heart, TrendingUp, X, Save, Camera } from 'lucide-react';
 
@@ -66,9 +67,11 @@ const GuestProfile = () => {
               <div className="relative">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
                   {userData.avatar ? (
-                    <img
+                    <Image
                       src={userData.avatar}
                       alt={userData.name}
+                      width={80}
+                      height={80}
                       className="w-20 h-20 rounded-full object-cover"
                     />
                   ) : (
@@ -173,9 +176,11 @@ const GuestProfile = () => {
                 <div className="relative">
                   <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
                     {userData.avatar ? (
-                      <img
+                      <Image
                         src={userData.avatar}
                         alt={userData.name}
+                        width={64}
+                        height={64}
                         className="w-16 h-16 rounded-full object-cover"
                       />
                     ) : (

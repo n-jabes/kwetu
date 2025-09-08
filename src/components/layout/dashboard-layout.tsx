@@ -75,12 +75,31 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
 
   const getCurrentTab = () => {
-    const item = navItems.find(nav => nav.href === pathname);
-    return item ? item.id : 'overview';
+    // Check for exact match first
+    const exactMatch = navItems.find(nav => nav.href === pathname);
+    if (exactMatch) return exactMatch.id;
+    
+    // Check for nested routes (e.g., /guest/bookings/[id] should match /guest/bookings)
+    // Sort by specificity (longer hrefs first) to match more specific routes first
+    const sortedNavItems = [...navItems].sort((a, b) => b.href.length - a.href.length);
+    
+    const nestedMatch = sortedNavItems.find(nav => {
+      // Skip root paths
+      if (nav.href === '/' || nav.href === '/guest' || nav.href === '/host') return false;
+      
+      // Check if current path starts with nav href followed by a slash
+      return pathname.startsWith(nav.href + '/');
+    });
+    
+    if (nestedMatch) return nestedMatch.id;
+    
+    // Default fallback
+    return 'overview';
   };
 
   React.useEffect(() => {
     setActiveTab(getCurrentTab());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (

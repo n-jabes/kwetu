@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
+import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
 import { Upload, X, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
@@ -120,9 +121,11 @@ export const PhotosStep: React.FC<PhotosStepProps> = ({
               <div key={index} className="relative group bg-white rounded-lg border border-gray-200 overflow-hidden">
                 {/* Image Display */}
                 <div className="aspect-video bg-gray-100">
-                  <img
+                  <Image
                     src={URL.createObjectURL(photo)}
                     alt={`Photo ${index + 1}`}
+                    width={400}
+                    height={225}
                     className="w-full h-full object-cover"
                   />
                 </div>

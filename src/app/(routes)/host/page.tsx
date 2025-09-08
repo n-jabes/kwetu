@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useMemo, useCallback } from 'react';
+import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { 
   Home, 
@@ -7,10 +8,7 @@ import {
   Calendar, 
   TrendingUp, 
   Star, 
-  MapPin, 
-  CheckCircle,
-  Clock,
-  AlertCircle,
+  MapPin,
   Users,
   MessageCircle,
   BarChart3,
@@ -734,9 +732,11 @@ const HostDashboard = () => {
                       {/* Mobile-first responsive layout */}
                       <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <div className="w-full sm:w-16 h-32 sm:h-16 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
+                          <Image
                             src={booking.image}
                             alt={booking.property}
+                            width={64}
+                            height={64}
                             className="w-full h-full object-cover"
                           />
                         </div>
@@ -822,9 +822,11 @@ const HostDashboard = () => {
                     <div key={property.id} className="group p-4 border border-slate-200 rounded-lg hover:border-slate-300 hover:shadow-sm transition-all duration-200">
                       <div className="flex items-start space-x-3 mb-3">
                         <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
+                          <Image
                             src={property.image}
                             alt={property.name}
+                            width={48}
+                            height={48}
                             className="w-full h-full object-cover"
                           />
                         </div>

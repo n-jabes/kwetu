@@ -1,5 +1,7 @@
 'use client'
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { Calendar, MapPin, Users, Clock, CheckCircle, AlertCircle, XCircle, Filter, Plus, Star } from 'lucide-react';
 
@@ -226,9 +228,11 @@ const GuestBookings = () => {
                     {/* Property Image & Type */}
                     <div className="relative flex-shrink-0">
                       <div className="w-20 h-15 bg-gradient-to-br from-slate-200 to-slate-300 rounded-lg flex items-center justify-center overflow-hidden shadow-lg">
-                        <img
+                        <Image
                           src={booking.propertyImage}
                           alt={booking.property}
+                          width={80}
+                          height={60}
                           className="w-full h-full object-cover rounded-lg"
                         />
                       </div>
@@ -286,15 +290,19 @@ const GuestBookings = () => {
                           <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">{booking.amount}</span>
                           <div className="flex space-x-2">
                             {booking.status === 'confirmed' && (
-                              <button className="px-2 py-1 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
-                                View Details
-                              </button>
+                              <Link href={`/guest/bookings/${booking.id}`}>
+                                <button className="px-2 py-1 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
+                                  View Details
+                                </button>
+                              </Link>
                             )}
                             {booking.status === 'pending' && (
                               <>
-                                <button className="px-2 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
-                                  View Details
-                                </button>
+                                <Link href={`/guest/bookings/${booking.id}`}>
+                                  <button className="px-2 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
+                                    View Details
+                                  </button>
+                                </Link>
                                 <button className="px-2 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
                                   Cancel
                                 </button>
@@ -302,9 +310,11 @@ const GuestBookings = () => {
                             )}
                             {booking.status === 'completed' && (
                               <>
-                                <button className="px-2 py-1 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
-                                  Write Review
-                                </button>
+                                <Link href={`/guest/bookings/${booking.id}`}>
+                                  <button className="px-2 py-1 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
+                                    View Details & Review
+                                  </button>
+                                </Link>
                                 <button className="px-2 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 text-xs font-medium hover:scale-105 shadow-lg">
                                   Book Again
                                 </button>

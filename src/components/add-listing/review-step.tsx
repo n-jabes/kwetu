@@ -1,5 +1,6 @@
 'use client'
 import React from 'react';
+import Image from 'next/image';
 import { CheckCircle, Home, Users, Shield, Info, MapPin, DollarSign } from 'lucide-react';
 
 interface ReviewStepProps {
@@ -293,9 +294,11 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
             {formData.photos.map((photo, index) => (
               <div key={index} className="relative group">
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={URL.createObjectURL(photo)}
                     alt={`Photo ${index + 1}`}
+                    width={200}
+                    height={112}
                     className="w-full h-full object-cover"
                   />
                 </div>

@@ -40,7 +40,6 @@ const HomePage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [activeCard, setActiveCard] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [guestsCount, setGuestsCount] = useState(1);
 

@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { BackgroundShapes } from '@/components/ui/background-shapes';
 import { dummyListings } from '@/data/listings';
@@ -237,9 +238,11 @@ const ListingPreview: React.FC<ListingPreviewProps> = ({ formData }) => {
             {formData.photoUrls.map((photoUrl, index) => (
               <div key={index} className="relative group">
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={photoUrl}
                     alt={`Photo ${index + 1}`}
+                    width={200}
+                    height={112}
                     className="w-full h-full object-cover"
                   />
                 </div>

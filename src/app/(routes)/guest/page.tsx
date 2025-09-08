@@ -1,14 +1,13 @@
 'use client'
 import React, { useState, useMemo, useCallback } from 'react';
+import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { 
   Calendar, 
   Star, 
   MapPin, 
   TrendingUp,
-  Clock,
   CheckCircle,
-  AlertCircle,
   ArrowUpRight,
   Users,
   Search,
@@ -681,9 +680,11 @@ const GuestDashboard = () => {
                       {/* Mobile-first responsive layout */}
                       <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <div className="w-full sm:w-16 h-32 sm:h-16 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
+                          <Image
                             src={booking.image}
                             alt={booking.property}
+                            width={64}
+                            height={64}
                             className="w-full h-full object-cover"
                           />
                         </div>
@@ -836,9 +837,11 @@ const GuestDashboard = () => {
               {upcomingTrips.map((trip) => (
                 <div key={trip.id} className="group p-4 border border-slate-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-200">
                   <div className="w-full h-32 bg-slate-100 rounded-lg mb-4 overflow-hidden">
-                    <img
+                    <Image
                       src={trip.image}
                       alt={trip.property}
+                      width={300}
+                      height={128}
                       className="w-full h-full object-cover"
                     />
                   </div>
