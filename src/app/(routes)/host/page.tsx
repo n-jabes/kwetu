@@ -8,7 +8,6 @@ import {
   TrendingUp, 
   Star, 
   MapPin, 
-  CreditCard,
   CheckCircle,
   Clock,
   AlertCircle,
@@ -16,22 +15,12 @@ import {
   MessageCircle,
   BarChart3,
   Search,
-  Filter,
-  RefreshCw,
-  Download,
   Eye,
   Edit,
   MoreHorizontal,
   Activity,
   DollarSign,
-  Award,
-  Zap,
-  Shield,
   ArrowUpRight,
-  TrendingDown,
-  Loader2,
-  Bookmark,
-  Gift,
   Compass,
   Wifi,
   Car,
@@ -39,7 +28,7 @@ import {
   Camera,
 } from 'lucide-react';
 import Link from 'next/link';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 // TypeScript interfaces
 interface HostData {
@@ -121,8 +110,6 @@ interface QuickAction {
 
 const HostDashboard = () => {
   // State management
-  const [selectedPeriod, setSelectedPeriod] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
-  const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'confirmed' | 'pending' | 'completed' | 'cancelled'>('all');
 
@@ -352,20 +339,6 @@ const HostDashboard = () => {
   ];
 
   // Utility functions
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return <CheckCircle className="w-3.5 h-3.5" />;
-      case 'pending':
-        return <Clock className="w-3.5 h-3.5" />;
-      case 'completed':
-        return <CheckCircle className="w-3.5 h-3.5" />;
-      case 'cancelled':
-        return <AlertCircle className="w-3.5 h-3.5" />;
-      default:
-        return <AlertCircle className="w-3.5 h-3.5" />;
-    }
-  };
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -466,14 +439,6 @@ const HostDashboard = () => {
   }, [searchTerm, filterStatus]);
 
   // Event handlers
-  const handleRefresh = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
-
-  const handleExportData = useCallback(() => {
-    console.log('Exporting data...');
-  }, []);
 
   const handleQuickAction = useCallback((actionId: string) => {
     console.log(`Executing action: ${actionId}`);

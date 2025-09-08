@@ -144,7 +144,7 @@ export const EditListingForm: React.FC<EditListingFormProps> = ({
       
       // In a real app, you might want to redirect or refresh data
       // window.location.href = `/host/listings/${listingId}`;
-    } catch (error) {
+    } catch {
       toast.error('Failed to save changes. Please try again.');
     } finally {
       setIsSaving(false);
@@ -159,7 +159,7 @@ export const EditListingForm: React.FC<EditListingFormProps> = ({
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast.success('Changes saved!');
       setHasUnsavedChanges(false);
-    } catch (error) {
+    } catch {
       toast.error('Failed to save changes');
     } finally {
       setIsSaving(false);

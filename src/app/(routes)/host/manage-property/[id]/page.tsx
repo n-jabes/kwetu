@@ -9,7 +9,6 @@ import { dummyListings } from '@/data/listings';
 import { ListingFormData } from '@/types';
 import { ArrowLeft, Loader2, BarChart3, Edit3 } from 'lucide-react';
 import Link from 'next/link';
-import toast from 'react-hot-toast';
 
 export default function ManagePropertyPage() {
   const params = useParams();
@@ -114,7 +113,7 @@ export default function ManagePropertyPage() {
 
         // Convert listing to form data format
         const formData: ListingFormData = {
-          propertyType: foundListing.propertyType as any,
+          propertyType: foundListing.propertyType as 'apartment' | 'villa' | 'house' | 'room' | 'traditional' | 'mountain' | 'city',
           propertyCategory: 'residential',
           country: propertyLocation.country,
           city: propertyLocation.city,
@@ -200,7 +199,7 @@ export default function ManagePropertyPage() {
                   {error || 'Listing not found'}
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  The listing you're looking for doesn't exist or couldn't be loaded.
+                  The listing you&apos;re looking for doesn&apos;t exist or couldn&apos;t be loaded.
                 </p>
                 <Link 
                   href="/host"

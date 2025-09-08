@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/dashboard-layout';
-import { User, Mail, Phone, MapPin, Calendar, Shield, Edit3, Lock, Bell, Star, Heart, Award, TrendingUp, X, Save, Camera } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Calendar, Shield, Edit3, Lock, Bell, Star, Heart, TrendingUp, X, Save, Camera } from 'lucide-react';
 
 const GuestProfile = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { Home, Plus, MapPin, Star, Calendar, Eye, DollarSign, MoreHorizontal, Edit, Award, TrendingUp } from 'lucide-react';

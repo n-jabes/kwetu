@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { MapPin, Navigation, Info } from 'lucide-react';
 import { rwandaProvinces } from '@/utils/rwanda-administrative';
 
@@ -212,29 +212,12 @@ export const LocationStep: React.FC<LocationStepProps> = ({
         // map.setCenter({ lat: formData.latitude, lng: formData.longitude });
       }
 
-    } catch (error) {
+    } catch {
       setMapError('Failed to initialize map. Please use manual coordinate inputs below.');
       setShowManualInputs(true);
     }
   }, [mapLoaded, formData.latitude, formData.longitude, updateFormData]);
 
-  if (!formData || typeof formData !== 'object') {
-    return (
-      <div className="text-center py-8">
-        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-red-600 text-2xl">⚠️</span>
-        </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Form data error</h3>
-        <p className="text-gray-600 mb-4">The form data is not properly initialized.</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
-        >
-          Refresh Page
-        </button>
-      </div>
-    );
-  }
 
   const safeFormData = {
     country: formData.country || '',
@@ -249,60 +232,18 @@ export const LocationStep: React.FC<LocationStepProps> = ({
 
   const safeErrors = errors || {};
 
-  if (!safeFormData.country) {
-    return (
-      <div className="text-center py-8">
-        <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-yellow-600 text-2xl">⚠️</span>
-        </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Missing location data</h3>
-        <p className="text-gray-600 mb-4">Required location information is missing.</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
-        >
-          Refresh Page
-        </button>
-      </div>
-    );
-  }
-
-  const handleProvinceChange = (provinceId: string) => {
-    updateFormData({ 
-      district: provinceId,
-      city: '',
-      sector: '',
-      cell: ''
-    });
-  };
-
-  const handleDistrictChange = (districtId: string) => {
-    updateFormData({ 
-      city: districtId,
-      sector: '',
-      cell: ''
-    });
-  };
-
-  const handleSectorChange = (sectorId: string) => {
-    updateFormData({ 
-      sector: sectorId,
-      cell: ''
-    });
-  };
-
-  const getSectors = () => {
+  const getSectors = useCallback(() => {
     const selectedProvince = rwandaProvinces.find(p => p.name === safeFormData.district);
     const selectedDistrict = selectedProvince?.districts?.find(d => d.name === safeFormData.city);
     return selectedDistrict?.sectors?.map(sector => sector.name) || [];
-  };
+  }, [safeFormData.district, safeFormData.city]);
 
-  const getCells = () => {
+  const getCells = useCallback(() => {
     const selectedProvince = rwandaProvinces.find(p => p.name === safeFormData.district);
     const selectedDistrict = selectedProvince?.districts?.find(d => d.name === safeFormData.city);
     const selectedSector = selectedDistrict?.sectors?.find(s => s.name === safeFormData.sector);
     return selectedSector?.cells || [];
-  };
+  }, [safeFormData.district, safeFormData.city, safeFormData.sector]);
 
   // Validation effect to ensure selected values are still valid
   useEffect(() => {
@@ -332,7 +273,49 @@ export const LocationStep: React.FC<LocationStepProps> = ({
         }
       }
     }
-  }, [safeFormData.district, safeFormData.city, safeFormData.sector, safeFormData.cell, safeFormData.country, updateFormData]);
+  }, [safeFormData.district, safeFormData.city, safeFormData.sector, safeFormData.cell, safeFormData.country, updateFormData, getSectors, getCells]);
+
+  const handleProvinceChange = (provinceId: string) => {
+    updateFormData({ 
+      district: provinceId,
+      city: '',
+      sector: '',
+      cell: ''
+    });
+  };
+
+  const handleDistrictChange = (districtId: string) => {
+    updateFormData({ 
+      city: districtId,
+      sector: '',
+      cell: ''
+    });
+  };
+
+  const handleSectorChange = (sectorId: string) => {
+    updateFormData({ 
+      sector: sectorId,
+      cell: ''
+    });
+  };
+
+  if (!safeFormData.country) {
+    return (
+      <div className="text-center py-8">
+        <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-yellow-600 text-2xl">⚠️</span>
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Missing location data</h3>
+        <p className="text-gray-600 mb-4">Required location information is missing.</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
+        >
+          Refresh Page
+        </button>
+      </div>
+    );
+  }
 
 
 

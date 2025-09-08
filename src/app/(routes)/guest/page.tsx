@@ -1,11 +1,9 @@
 'use client'
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { 
   Calendar, 
-  Heart, 
   Star, 
-  CreditCard, 
   MapPin, 
   TrendingUp,
   Clock,
@@ -13,23 +11,17 @@ import {
   AlertCircle,
   ArrowUpRight,
   Users,
-  Eye,
-  Filter,
   Search,
-  Bell,
-  Settings,
-  MoreHorizontal,
   Activity,
   DollarSign,
-  Award,
-  TrendingDown,
   Shield,
+  Award,
   Wifi,
   Car,
   Coffee,
   Compass
 } from 'lucide-react';
-import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 // TypeScript interfaces
 interface UserData {
@@ -302,20 +294,6 @@ const GuestDashboard = () => {
   ];
 
   // Utility functions
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return <CheckCircle className="w-4 h-4 text-emerald-500" />;
-      case 'pending':
-        return <Clock className="w-4 h-4 text-amber-500" />;
-      case 'completed':
-        return <CheckCircle className="w-4 h-4 text-blue-500" />;
-      case 'cancelled':
-        return <AlertCircle className="w-4 h-4 text-red-500" />;
-      default:
-        return <AlertCircle className="w-4 h-4 text-slate-500" />;
-    }
-  };
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -454,7 +432,7 @@ const GuestDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
-            const trendIcon = stat.trend === 'up' ? TrendingUp : stat.trend === 'down' ? TrendingDown : Activity;
+            const trendIcon = stat.trend === 'up' ? TrendingUp : Activity;
             return (
               <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-lg transition-all duration-300 group">
                 <div className="flex items-start justify-between">

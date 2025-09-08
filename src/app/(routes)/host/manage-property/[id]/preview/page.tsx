@@ -420,7 +420,7 @@ export default function PreviewPage() {
 
         // Convert listing to form data format
         const formData: ListingFormData = {
-          propertyType: foundListing.propertyType as any,
+          propertyType: foundListing.propertyType as 'apartment' | 'villa' | 'house' | 'room' | 'traditional' | 'mountain' | 'city',
           propertyCategory: 'residential',
           country: propertyLocation.country,
           city: propertyLocation.city,
@@ -506,7 +506,7 @@ export default function PreviewPage() {
                   {error || 'Listing not found'}
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  The listing you're looking for doesn't exist or couldn't be loaded.
+                  The listing you&apos;re looking for doesn&apos;t exist or couldn&apos;t be loaded.
                 </p>
                 <Link 
                   href={`/host/manage-property/${listingId}`}

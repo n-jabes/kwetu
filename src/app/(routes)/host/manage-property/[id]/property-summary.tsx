@@ -22,7 +22,6 @@ interface PropertySummaryProps {
 
 export const PropertySummary: React.FC<PropertySummaryProps> = ({
   listing,
-  listingId,
   onEditClick
 }) => {
   // Mock data for demonstration
