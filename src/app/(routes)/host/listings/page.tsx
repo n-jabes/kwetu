@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { Home, Plus, MapPin, Star, Calendar, Eye, DollarSign, MoreHorizontal, Edit, Award, TrendingUp, Filter, Search, X, ChevronDown } from 'lucide-react';
 
@@ -100,7 +101,7 @@ const HostListings = () => {
   const propertyTypes = useMemo(() => {
     const types = [...new Set(listings.map(listing => listing.type))];
     return types.sort();
-  }, []);
+  }, [listings]);
 
   // Filter listings based on search query and property type
   const filteredListings = useMemo(() => {
@@ -121,7 +122,7 @@ const HostListings = () => {
     }
     
     return filtered;
-  }, [searchQuery, selectedPropertyType]);
+  }, [listings, searchQuery, selectedPropertyType]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -162,7 +163,7 @@ const HostListings = () => {
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold tracking-tight text-gray-900">My Properties</h1>
             <p className="text-base text-gray-600 leading-relaxed max-w-2xl">
-              Manage your property portfolio and track performance across Rwanda's premier destinations
+              Manage your property portfolio and track performance across Rwanda&apos;s premier destinations
             </p>
           </div>
           
@@ -421,9 +422,11 @@ const HostListings = () => {
               {/* Enhanced Property Image */}
               <div className="relative">
                 <div className="aspect-[4/3] overflow-hidden">
-                  <img
+                  <Image
                     src={listing.image}
                     alt={listing.name}
+                    width={400}
+                    height={300}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
                   />
                 </div>
