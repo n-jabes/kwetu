@@ -133,9 +133,16 @@ export const LocationStep: React.FC<LocationStepProps> = ({
     if (!mapLoaded || !mapRef.current || !window.google) return;
 
     try {
+      // Use existing coordinates if available, otherwise default to Kigali
+      const initialCenter = (formData.latitude && formData.longitude) 
+        ? { lat: formData.latitude, lng: formData.longitude }
+        : { lat: -1.9441, lng: 30.0619 }; // Kigali coordinates
+
+      const initialZoom = (formData.latitude && formData.longitude) ? 15 : 12;
+
       const map = new window.google.maps.Map(mapRef.current, {
-        center: { lat: -1.9441, lng: 30.0619 }, // Kigali coordinates
-        zoom: 12,
+        center: initialCenter,
+        zoom: initialZoom,
         mapTypeId: window.google.maps.MapTypeId.ROADMAP,
         styles: [
           {
@@ -187,23 +194,22 @@ export const LocationStep: React.FC<LocationStepProps> = ({
           position: { lat: formData.latitude, lng: formData.longitude },
           map: map,
           draggable: true,
-          title: 'Property Location'
+          title: 'Property Location',
+          animation: window.google.maps.Animation.DROP
         });
         markerRef.current = marker;
         
         // Add drag listener to marker
-        if (markerRef.current) {
-          markerRef.current.addListener('dragend', (dragEvent: { latLng?: { lat: () => number; lng: () => number } }) => {
-            const dragLat = dragEvent.latLng?.lat();
-            const dragLng = dragEvent.latLng?.lng();
-            if (dragLat && dragLng) {
-              updateFormData({ latitude: dragLat, longitude: dragLng });
-            }
-          });
-        }
+        marker.addListener('dragend', (dragEvent: { latLng?: { lat: () => number; lng: () => number } }) => {
+          const dragLat = dragEvent.latLng?.lat();
+          const dragLng = dragEvent.latLng?.lng();
+          if (dragLat && dragLng) {
+            updateFormData({ latitude: dragLat, longitude: dragLng });
+          }
+        });
         
-        // Center map on marker
-        map.setCenter({ lat: formData.latitude, lng: formData.longitude });
+        // Center map on marker (already handled in initialCenter above)
+        // map.setCenter({ lat: formData.latitude, lng: formData.longitude });
       }
 
     } catch (error) {
@@ -278,6 +284,13 @@ export const LocationStep: React.FC<LocationStepProps> = ({
     });
   };
 
+  const handleSectorChange = (sectorId: string) => {
+    updateFormData({ 
+      sector: sectorId,
+      cell: ''
+    });
+  };
+
   const getSectors = () => {
     const selectedProvince = rwandaProvinces.find(p => p.name === safeFormData.district);
     const selectedDistrict = selectedProvince?.districts?.find(d => d.name === safeFormData.city);
@@ -290,6 +303,36 @@ export const LocationStep: React.FC<LocationStepProps> = ({
     const selectedSector = selectedDistrict?.sectors?.find(s => s.name === safeFormData.sector);
     return selectedSector?.cells || [];
   };
+
+  // Validation effect to ensure selected values are still valid
+  useEffect(() => {
+    if (safeFormData.country === 'Rwanda') {
+      // Check if selected district exists in selected province
+      if (safeFormData.district && safeFormData.city) {
+        const selectedProvince = rwandaProvinces.find(p => p.name === safeFormData.district);
+        const districtExists = selectedProvince?.districts?.some(d => d.name === safeFormData.city);
+        if (!districtExists && safeFormData.city) {
+          updateFormData({ city: '', sector: '', cell: '' });
+        }
+      }
+
+      // Check if selected sector exists in selected district
+      if (safeFormData.city && safeFormData.sector) {
+        const availableSectors = getSectors();
+        if (!availableSectors.includes(safeFormData.sector)) {
+          updateFormData({ sector: '', cell: '' });
+        }
+      }
+
+      // Check if selected cell exists in selected sector
+      if (safeFormData.sector && safeFormData.cell) {
+        const availableCells = getCells();
+        if (!availableCells.includes(safeFormData.cell)) {
+          updateFormData({ cell: '' });
+        }
+      }
+    }
+  }, [safeFormData.district, safeFormData.city, safeFormData.sector, safeFormData.cell, safeFormData.country, updateFormData]);
 
 
 
@@ -445,7 +488,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
               </h3>
               <select
                 value={safeFormData.sector}
-                onChange={(e) => updateFormData({ sector: e.target.value })}
+                onChange={(e) => handleSectorChange(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
               >
                 <option value="">Select a sector</option>
@@ -551,10 +594,18 @@ export const LocationStep: React.FC<LocationStepProps> = ({
           className="w-full h-64 sm:h-72 md:h-80 rounded-lg border border-gray-300 overflow-hidden cursor-crosshair"
         />
 
-        {/* Manual Coordinate Inputs */}
+          {/* Manual Coordinate Inputs */}
         <div className="mt-4">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-md font-medium text-gray-900">Coordinates</h4>
+            <div>
+              <h4 className="text-md font-medium text-gray-900">Coordinates</h4>
+              {safeFormData.latitude && safeFormData.longitude && (
+                <p className="text-sm text-green-600 flex items-center mt-1">
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                  Location set: {safeFormData.latitude.toFixed(6)}, {safeFormData.longitude.toFixed(6)}
+                </p>
+              )}
+            </div>
             <button
               onClick={() => setShowManualInputs(!showManualInputs)}
               className="text-blue-600 hover:text-blue-700 text-sm underline cursor-pointer"

@@ -896,7 +896,7 @@ const HostDashboard = () => {
                         </div>
                       </div>
                       
-                      <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center justify-between text-xs mb-3">
                         <div className="flex items-center space-x-2">
                           {property.amenities.slice(0, 2).map((amenity, idx) => (
                             <div key={idx} className="flex items-center space-x-1 text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
@@ -909,6 +909,30 @@ const HostDashboard = () => {
                           )}
                         </div>
                         <span className="text-slate-500">{property.occupancyRate}% occupied</span>
+                      </div>
+                      
+                      {/* Management Actions */}
+                      <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+                        <div className="flex space-x-1">
+                          <Link href={`/listings/${property.id}`}>
+                            <button className="p-1.5 text-slate-400 hover:text-blue-600 transition-colors rounded-md hover:bg-blue-50">
+                              <Eye className="w-3.5 h-3.5" />
+                            </button>
+                          </Link>
+                          <Link href={`/host/manage-property/${property.id}`}>
+                            <button className="p-1.5 text-slate-400 hover:text-emerald-600 transition-colors rounded-md hover:bg-emerald-50">
+                              <Edit className="w-3.5 h-3.5" />
+                            </button>
+                          </Link>
+                          <button className="p-1.5 text-slate-400 hover:text-slate-600 transition-colors rounded-md hover:bg-slate-50">
+                            <MoreHorizontal className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        <Link href={`/host/manage-property/${property.id}`}>
+                          <button className="px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white rounded-lg text-xs transition-all duration-300 hover:scale-105 shadow-sm">
+                            Manage
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   );

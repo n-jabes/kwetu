@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react';
+import Link from 'next/link';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { Home, Plus, MapPin, Star, Calendar, Eye, DollarSign, MoreHorizontal, Edit, Award, TrendingUp } from 'lucide-react';
-import Link from 'next/link';
 
 const HostListings = () => {
   // Hardcoded user data for testing
@@ -267,19 +267,25 @@ const HostListings = () => {
                 {/* Actions */}
                 <div className="flex items-center justify-between pt-3 border-t border-slate-200/50">
                   <div className="flex space-x-1">
-                    <button className="p-1.5 text-slate-400 hover:text-blue-600 transition-colors rounded-md hover:bg-blue-50">
-                      <Eye className="w-3.5 h-3.5" />
-                    </button>
-                    <button className="p-1.5 text-slate-400 hover:text-emerald-600 transition-colors rounded-md hover:bg-emerald-50">
-                      <Edit className="w-3.5 h-3.5" />
-                    </button>
+                    <Link href={`/listings/${listing.id}`}>
+                      <button className="p-1.5 text-slate-400 hover:text-blue-600 transition-colors rounded-md hover:bg-blue-50">
+                        <Eye className="w-3.5 h-3.5" />
+                      </button>
+                    </Link>
+                    <Link href={`/host/manage-property/${listing.id}`}>
+                      <button className="p-1.5 text-slate-400 hover:text-emerald-600 transition-colors rounded-md hover:bg-emerald-50">
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                    </Link>
                     <button className="p-1.5 text-slate-400 hover:text-slate-600 transition-colors rounded-md hover:bg-slate-50">
                       <MoreHorizontal className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                  <button className="px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white rounded-lg text-xs transition-all duration-300 hover:scale-105 shadow-sm">
-                    Manage
-                  </button>
+                  <Link href={`/host/manage-property/${listing.id}`}>
+                    <button className="px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white rounded-lg text-xs transition-all duration-300 hover:scale-105 shadow-sm">
+                      Manage
+                    </button>
+                  </Link>
                 </div>
               </div>
               
