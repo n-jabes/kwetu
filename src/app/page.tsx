@@ -6,20 +6,16 @@ import {
   Star, 
   Heart, 
   Calendar, 
-  Users, 
   Mountain, 
   Shield, 
-  Award, 
   ArrowRight,  
   ChevronRight,
-  ChevronLeft,
   Play,
   CreditCard,
   Lock,
   Home,
   Castle,
   Zap,
-  Sparkles,
   User,
   Loader2,
   ArrowUp,
@@ -164,25 +160,6 @@ const HomePage = () => {
     { icon: <Lock className="h-8 w-8" />, title: 'Secure Booking', description: 'Bank-level security with instant booking confirmation and 24/7 support.', color: 'from-orange-500 to-red-500' }
   ];
 
-  // Carousel functions
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === heroImages.length - 1 ? 0 : prev + 1
-    );
-    resetAutoScroll();
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? heroImages.length - 1 : prev - 1
-    );
-    resetAutoScroll();
-  };
-
-  const goToImage = (index: number) => {
-    setCurrentImageIndex(index);
-    resetAutoScroll();
-  };
 
   const startAutoScroll = () => {
     if (heroImages.length <= 1) return;
@@ -1177,12 +1154,12 @@ const HomePage = () => {
               </div>
               
               <h3 className="text-2xl lg:text-3xl font-light text-gray-900 mb-3">
-                Can't find your 
+                Can&apos;t find your 
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium"> perfect destination?</span>
               </h3>
               
               <p className="text-lg text-gray-600 font-light leading-relaxed max-w-lg mx-auto lg:mx-0">
-                We're continuously expanding our portfolio across East Africa's most extraordinary locations
+                We&apos;re continuously expanding our portfolio across East Africa&apos;s most extraordinary locations
               </p>
               
               <div className="flex items-center justify-center lg:justify-start gap-4 pt-2">
