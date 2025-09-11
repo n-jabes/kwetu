@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { SearchResultsNavbar } from '@/components/ui/search-results-navbar/page';
 import { ImigongoPattern } from '@/components/ui/imigongo-pattern';
+import CloudNavbarOverlay from '@/components/ui/cloud-navbar-overlay';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -315,36 +316,33 @@ const HomePage = () => {
         }
       `}</style>
 
-    <div className="min-h-screen bg-gray-50 overflow-hidden">
-      {/* Navigation with Scroll Effect */}
-      <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
-        {/* Greenish Fade Overlay for Navbar Visibility */}
-        <div className={`absolute inset-0 transition-opacity duration-500 ${scrollY > 50 ? 'opacity-0' : 'opacity-100'}`}>
-          <div className="bg-gradient-to-b from-emerald-900/60 via-emerald-800/40 to-transparent h-full"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-transparent"></div>
-        </div>
+      <div className="min-h-screen bg-gray-50 overflow-hidden">
+      
+
+         {/* Sophisticated Cloud Navbar Overlay */}
+         <CloudNavbarOverlay isVisible={scrollY <= 50} />
+
+        {/* Navigation with Scroll Effect */}
+        <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
       <SearchResultsNavbar />
         </div>
 
       {/* Hero Section - Modern Split Layout Design */}
-      <section className="relative min-h-[85vh] bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden pt-20">
-        {/* Green Overlay for Navbar Visibility */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute w-96 h-96 bg-emerald-500 rounded-full opacity-10 -top-20 -left-20"></div>
-          <div className="absolute w-64 h-64 bg-green-600 rounded-full opacity-15 top-10 right-10 hidden sm:block"></div>
-          <div className="absolute w-80 h-80 bg-teal-500 rounded-full opacity-8 bottom-10 left-1/4"></div>
-        </div>
+      <section className="relative min-h-[75vh] md:min-h-[80vh] lg:min-h-[85vh] bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden pt-16 md:pt-20">
 
-        {/* Modern Background Elements */}
+        {/* Modern Background Elements with Added Circles */}
         <div className="absolute inset-0 z-10">
-          {/* Geometric Shapes */}
-          <div className="absolute top-8 right-8 w-40 h-40 bg-emerald-100/30 rounded-full blur-3xl hidden sm:block"></div>
-          <div className="absolute bottom-8 left-8 w-48 h-48 bg-teal-100/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 right-1/3 w-20 h-20 bg-green-200/40 rounded-2xl rotate-45 blur-2xl"></div>
+         
+            {/* New Decorative Circles */}
+            <div className="absolute w-96 h-96 bg-emerald-500 rounded-full opacity-15 -top-20 -left-20 z-60"></div>
+          <div className="absolute w-64 h-64 bg-[#126BB3] rounded-full opacity-20 bottom-10 right-10"></div>
+          <div className="absolute w-32 h-32 bg-emerald-400/35 rounded-full top-24 left-1/2 lg:left-1/2 transform -translate-x-11 animate-pulse z-5 hidden lg:block"></div>
+          <div className="absolute w-24 h-24 bg-teal-500/15 rounded-full bottom-1/3 right-1/4 animate-bounce"></div>
+          <div className="absolute w-16 h-16 bg-[#FF9D2F]/25 rounded-full top-3/4 left-3/4 animate-ping"></div>
         </div>
 
         {/* Modern Grid Container */}
-        <div className="container mx-auto px-4 lg:px-6 min-h-[85vh] flex items-center py-6 relative z-20">
+        <div className="container mx-auto px-4 lg:px-6 min-h-[75vh] md:min-h-[80vh] lg:min-h-[85vh] flex items-center py-4 md:py-6 relative z-20">
           <div className="grid lg:grid-cols-2 gap-6 items-center w-full max-w-5xl mx-auto">
 
             {/* Left Content */}
