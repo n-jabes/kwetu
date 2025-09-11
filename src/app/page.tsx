@@ -242,10 +242,42 @@ const HomePage = () => {
   }, []);
 
   const stats = [
-    { number: '10K+', label: 'Happy Guests', icon: <Users className="h-6 w-6" />, color: 'from-blue-500 to-cyan-500' },
-    { number: '2.5K+', label: 'Premium Listings', icon: <Award className="h-6 w-6" />, color: 'from-purple-500 to-pink-500' },
-    { number: '98%', label: 'Satisfaction Rate', icon: <Star className="h-6 w-6" />, color: 'from-yellow-500 to-orange-500' },
-    { number: '24/7', label: 'Support Available', icon: <Zap className="h-6 w-6" />, color: 'from-green-500 to-emerald-500' }
+    { 
+      number: '10K+', 
+      label: 'Happy Guests', 
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+      )
+    },
+    { 
+      number: '2.5K+', 
+      label: 'Premium Listings', 
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        </svg>
+      )
+    },
+    { 
+      number: '98%', 
+      label: 'Satisfaction Rate', 
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      )
+    },
+    { 
+      number: '24/7', 
+      label: 'Support Available', 
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 3v6m0 6v6m6-12h-6m-6 0h6"/>
+        </svg>
+      )
+    }
   ];
 
   const handleSearch = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -283,7 +315,7 @@ const HomePage = () => {
         }
       `}</style>
 
-      <div className="min-h-screen bg-gray-50 overflow-hidden">
+    <div className="min-h-screen bg-gray-50 overflow-hidden">
       {/* Navigation with Scroll Effect */}
       <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
         {/* Greenish Fade Overlay for Navbar Visibility */}
@@ -291,22 +323,22 @@ const HomePage = () => {
           <div className="bg-gradient-to-b from-emerald-900/60 via-emerald-800/40 to-transparent h-full"></div>
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-transparent"></div>
         </div>
-        <SearchResultsNavbar />
-      </div>
-      
+      <SearchResultsNavbar />
+        </div>
+
       {/* Hero Section - Modern Split Layout Design */}
       <section className="relative min-h-[85vh] bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden pt-20">
         {/* Green Overlay for Navbar Visibility */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
           <div className="absolute w-96 h-96 bg-emerald-500 rounded-full opacity-10 -top-20 -left-20"></div>
-          <div className="absolute w-64 h-64 bg-green-600 rounded-full opacity-15 top-10 right-10"></div>
+          <div className="absolute w-64 h-64 bg-green-600 rounded-full opacity-15 top-10 right-10 hidden sm:block"></div>
           <div className="absolute w-80 h-80 bg-teal-500 rounded-full opacity-8 bottom-10 left-1/4"></div>
         </div>
-        
+
         {/* Modern Background Elements */}
         <div className="absolute inset-0 z-10">
           {/* Geometric Shapes */}
-          <div className="absolute top-8 right-8 w-40 h-40 bg-emerald-100/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-8 right-8 w-40 h-40 bg-emerald-100/30 rounded-full blur-3xl hidden sm:block"></div>
           <div className="absolute bottom-8 left-8 w-48 h-48 bg-teal-100/20 rounded-full blur-3xl"></div>
           <div className="absolute top-1/2 right-1/3 w-20 h-20 bg-green-200/40 rounded-2xl rotate-45 blur-2xl"></div>
         </div>
@@ -317,13 +349,13 @@ const HomePage = () => {
 
             {/* Left Content */}
             <div className="relative z-10 lg:pr-3">
-              <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                      <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 {/* Modern Badge */}
                 <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 rounded-full px-2.5 py-1 mb-3 text-xs font-medium">
                   <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse"></div>
                   Trusted by 10K+ travelers
-                </div>
-                
+              </div>
+              
                 {/* Modern Headline */}
                 <div className="space-y-1 mb-3">
                   <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-tight">
@@ -335,8 +367,8 @@ const HomePage = () => {
                 
                 {/* Modern Subtitle */}
                 <p className="text-sm text-gray-600 mb-4 leading-relaxed max-w-md">
-                  Discover handpicked homes, authentic experiences, and warm hospitality across the pearl of Africa.
-                </p>
+                Discover handpicked homes, authentic experiences, and warm hospitality across the pearl of Africa.
+              </p>
 
                 {/* Modern Search Card */}
                 <div className="bg-white rounded-lg shadow-md border border-gray-100 p-3 mb-4 max-w-lg">
@@ -409,9 +441,9 @@ const HomePage = () => {
                   </div>
                 </div>
 
-              </div>
-            </div>
-
+                    </div>
+                      </div>
+                      
             {/* Futuristic Right Visual */}
             <div className="relative lg:pl-3 block">
               <div className="relative h-full">
@@ -467,9 +499,9 @@ const HomePage = () => {
                                     className="transition-all duration-100 ease-linear"
                                   />
                                 </svg>
-                              </div>
+                        </div>
                             )}
-                          </div>
+                      </div>
                         ))}
                       </div>
                     )}
@@ -497,7 +529,7 @@ const HomePage = () => {
                           height={24}
                           className="object-cover w-full h-full"
                         />
-                      </div>
+                    </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="font-bold text-gray-900 text-xs truncate">Modern House</h4>
                         <p className="text-xs text-gray-600 flex items-center gap-1">
@@ -512,9 +544,9 @@ const HomePage = () => {
                         <span className="text-xs font-bold">4.8</span>
                       </div>
                       <span className="text-sm font-black text-emerald-600">$120</span>
-                    </div>
                   </div>
-                  
+                </div>
+
                   {/* Card 2 - Luxury Apartment in Huye - Positioned to overlap bottom-left edge */}
                   <div 
                     className="absolute -bottom-2 -left-8 bg-white/95 backdrop-blur-xl rounded-xl p-2.5 shadow-2xl border border-white/50 animate-float max-w-[160px] z-20"
@@ -548,8 +580,8 @@ const HomePage = () => {
                       </div>
                       <span className="text-sm font-black text-emerald-600">$85</span>
                     </div>
-                  </div>
-
+                    </div>
+                    
                   {/* Futuristic Elements inside the image */}
                   <div className="absolute inset-0 pointer-events-none">
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -562,39 +594,135 @@ const HomePage = () => {
                       <div className="w-3 h-3 bg-teal-400 rounded-full animate-bounce opacity-70"></div>
                     </div>
                   </div>
-                </div>
-                
+                      </div>
+                      
                 {/* Enhanced Futuristic Background Decorations */}
                 <div className="absolute -top-6 -right-6 w-32 h-32 bg-gradient-to-br from-cyan-200/40 to-emerald-200/40 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-gradient-to-br from-teal-200/50 to-green-200/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
                 <div className="absolute top-1/3 -right-4 w-16 h-16 bg-gradient-to-br from-emerald-300/30 to-cyan-300/30 rounded-full blur-xl animate-bounce" style={{ animationDelay: '1s' }}></div>
-              </div>
-            </div>
+                        </div>
+                      </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section - Compact */}
-      <section className="py-6 bg-gradient-to-r from-emerald-50 via-white to-teal-50 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 lg:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {stats.map((stat, index) => (
-              <div 
-                key={index} 
-                className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-105"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className={`w-10 h-10 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg`}>
-                  <div className="text-white">
-                    {stat.icon}
+      {/* Stats Section - Enhanced Professional with Green Theme */}
+      <section className="py-16 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 relative overflow-hidden">
+  {/* Sophisticated Background Elements */}
+  <div className="absolute inset-0">
+    {/* Geometric shapes - Green theme */}
+    <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-br from-emerald-500/8 to-teal-500/8 rounded-full blur-3xl animate-pulse"></div>
+    <div className="absolute bottom-10 right-10 w-56 h-56 bg-gradient-to-br from-green-500/6 to-emerald-500/6 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-gradient-to-br from-teal-500/7 to-green-500/7 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+    
+    {/* Grid pattern overlay */}
+    <div className="absolute inset-0 opacity-[0.02]">
+      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" className="text-emerald-600" />
+      </svg>
+                    </div>
+                  </div>
+
+  {/* Section Header */}
+  <div className="max-w-5xl mx-auto px-4 lg:px-6 relative z-10 mb-12">
+    <div className="text-center">
+      <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-emerald-100">
+        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+        Trusted by Thousands
+                </div>
+      <h2 className="text-2xl font-light text-gray-900 mb-2">
+        Numbers That <span className="font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Speak for Themselves</span>
+      </h2>
+      <p className="text-gray-600 max-w-2xl mx-auto">
+        Join thousands of satisfied guests who have made KWETU their preferred choice for exceptional stays across East Africa
+      </p>
+              </div>
+            </div>
+
+  <div className="max-w-5xl mx-auto px-4 lg:px-6 relative z-10">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+              {stats.map((stat, index) => (
+                <div 
+                  key={index} 
+          className="group text-center relative transform transition-all duration-700 ease-out"
+           style={{ 
+             animationDelay: `${index * 150}ms`
+           }}
+        >
+          {/* Enhanced Professional Card */}
+          <div className="relative bg-white/95 backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200/60 shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-white overflow-hidden group">
+            
+            {/* Gradient border effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-teal-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Top accent line with animation */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center"></div>
+            
+            {/* Floating elements */}
+            <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-emerald-100/50 to-teal-100/50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-2 group-hover:translate-x-0 hidden sm:block"></div>
+            
+            {/* Enhanced Icon Container */}
+            <div className="relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-md group-hover:shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 overflow-hidden">
+              
+              {/* Icon glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              {/* Subtle pattern */}
+              <div className="absolute inset-0 opacity-5">
+                <svg className="w-full h-full" viewBox="0 0 80 80" fill="none">
+                  <defs>
+                    <pattern id={`dots-${index}`} patternUnits="userSpaceOnUse" width="16" height="16">
+                      <circle cx="8" cy="8" r="1" fill="currentColor" className="text-gray-600"/>
+                    </pattern>
+                  </defs>
+                  <rect width="80" height="80" fill={`url(#dots-${index})`}/>
+                </svg>
+              </div>
+              
+              {/* Icon with enhanced styling */}
+              <div className="text-gray-700 relative z-10 transform group-hover:scale-110 transition-all duration-300 group-hover:text-emerald-600 scale-90 sm:scale-100">
+                {stat.icon}
+              </div>
+              
+              {/* Pulse ring */}
+              <div className="absolute inset-0 rounded-2xl border-2 border-emerald-500/20 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-700"></div>
+                  </div>
+            
+            {/* Enhanced Statistics Display */}
+            <div className="text-center relative z-10 space-y-1 sm:space-y-2">
+              <div className="relative">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors duration-300 relative">
+                  {stat.number}
+                  {/* Number glow effect */}
+                  <div className="absolute inset-0 text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-500/20 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {stat.number}
                   </div>
                 </div>
-                <div className="text-xl font-black text-gray-900 mb-1">{stat.number}</div>
-                <div className="text-gray-600 text-sm font-medium">{stat.label}</div>
               </div>
-            ))}
+              
+              <div className="text-gray-600 text-xs sm:text-sm font-semibold tracking-wide uppercase leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                {stat.label}
+              </div>
+        
+              {/* Subtle description line */}
+              <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-auto mt-3 group-hover:via-emerald-400 transition-colors duration-300"></div>
+          </div>
+            
+            {/* Bottom glow effect */}
+            <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
+            
+            {/* Side accent */}
+            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-12 bg-gradient-to-b from-emerald-400 to-teal-500 rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-0 group-hover:translate-x-1"></div>
           </div>
         </div>
+      ))}
+    </div>
+  </div>
       </section>
 
       {/* Back to Top Button */}
@@ -610,16 +738,16 @@ const HomePage = () => {
 
       {/* Featured Properties with Enhanced Professional Design */}
  <section className="py-8 lg:py-12 bg-white relative overflow-hidden">
-  {/* Imigongo Design - Top Left */}
+        {/* Imigongo Design - Top Left */}
   <div className="absolute top-20 left-8 z-10 hidden lg:block">
     <ImigongoPattern variant="left" size="md" className="imigongo-pattern opacity-15" message="Handpicked luxury properties" />
-  </div>
-  
-  {/* Imigongo Design - Top Right */}
+        </div>
+        
+        {/* Imigongo Design - Top Right */}
   <div className="absolute top-20 right-8 z-10 hidden lg:block">
     <ImigongoPattern variant="right" size="md" className="imigongo-pattern opacity-15" message="Curated for your comfort" />
-  </div>
-  
+        </div>
+        
   <div className="max-w-5xl mx-auto px-4 lg:px-6">
      {/* Section Header */}
      <div className="text-center mb-6 lg:mb-8">
@@ -630,138 +758,138 @@ const HomePage = () => {
        </div>
        <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-light text-gray-900 mb-3 tracking-tight leading-none">
          <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent font-medium">
-           Handpicked
+                Handpicked
          </span>{" "}
          <span className="font-light">for You</span>
-       </h2>
+            </h2>
        <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-xl mx-auto leading-relaxed font-light">
-         Curated collection of exceptional properties that define luxury and comfort
-       </p>
-     </div>
-     
-     {/* Featured Property Showcase */}
+              Curated collection of exceptional properties that define luxury and comfort
+            </p>
+          </div>
+          
+          {/* Featured Property Showcase */}
      <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center mb-8 lg:mb-10">
        {/* Property Image - 7 columns */}
        <div className="lg:col-span-7 relative group">
          <div className="aspect-[3/2] rounded-lg overflow-hidden shadow-md ring-1 ring-gray-100">
-           <Image
-             src={featuredListings[activeCard]?.imageUrl}
-             alt={featuredListings[activeCard]?.title}
-             fill
+                <Image
+                  src={featuredListings[activeCard]?.imageUrl}
+                  alt={featuredListings[activeCard]?.title}
+                  fill
              className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 60vw"
-           />
+                />
            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-           
-           {/* Price Badge */}
+                
+                {/* Price Badge */}
            <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md border border-white/20 rounded-md px-2.5 py-1.5 shadow-lg">
              <div className="text-center">
                <span className="text-lg font-bold text-gray-900">${featuredListings[activeCard]?.price}</span>
                <span className="text-gray-500 text-xs font-medium">/night</span>
              </div>
-           </div>
+                </div>
 
-           {/* Guest Favorite */}
-           {featuredListings[activeCard]?.isGuestFavorite && (
+                {/* Guest Favorite */}
+                {featuredListings[activeCard]?.isGuestFavorite && (
              <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md rounded-full px-2.5 py-1 flex items-center gap-1 shadow-lg border border-white/20">
-               <Heart className="h-3 w-3 text-red-500 fill-current" />
+                    <Heart className="h-3 w-3 text-red-500 fill-current" />
                <span className="text-xs font-semibold text-gray-800">Favorite</span>
-             </div>
-           )}
-         </div>
+                  </div>
+                )}
+              </div>
 
-         {/* Navigation Dots */}
+              {/* Navigation Dots */}
          <div className="flex justify-center space-x-1.5 mt-4">
-           {featuredListings.map((_, index) => (
-             <button
-               key={index}
-               onClick={() => setActiveCard(index)}
+                {featuredListings.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveCard(index)}
                className={`h-1 rounded-full transition-all duration-500 cursor-pointer ${
                  activeCard === index 
                    ? 'bg-green-500 w-6 shadow-sm' 
                    : 'bg-gray-300 w-1 hover:bg-gray-400'
-               }`}
-             />
-           ))}
-         </div>
-       </div>
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
 
        {/* Property Details - 5 columns */}
        <div className="lg:col-span-5 space-y-3">
          {/* Title and Location */}
          <div className="space-y-2">
            <h3 className="text-xl lg:text-2xl xl:text-3xl font-light text-gray-900 leading-tight tracking-tight">
-             {featuredListings[activeCard]?.title}
-           </h3>
+                  {featuredListings[activeCard]?.title}
+                </h3>
            <div className="flex items-center text-gray-600">
-             <MapPin className="h-4 w-4 mr-2 text-green-500" />
+                  <MapPin className="h-4 w-4 mr-2 text-green-500" />
              <span className="text-sm font-medium">{featuredListings[activeCard]?.location}</span>
-           </div>
-         </div>
-         
+                </div>
+              </div>
+              
          {/* Rating and Verification */}
          <div className="flex items-center gap-3">
            <div className="flex items-center gap-1.5">
              <div className="flex items-center gap-1">
-               <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                  <Star className="h-4 w-4 text-yellow-400 fill-current" />
                <span className="font-bold text-sm">{featuredListings[activeCard]?.rating}</span>
              </div>
              <span className="text-gray-500 text-xs font-medium">
                ({featuredListings[activeCard]?.reviews} reviews)
              </span>
-           </div>
-           {featuredListings[activeCard]?.verified && (
+                </div>
+                {featuredListings[activeCard]?.verified && (
              <div className="flex items-center gap-1 bg-green-50 px-2 py-0.5 rounded-full">
                <Shield className="h-3 w-3 text-green-500" />
                <span className="text-xs text-green-700 font-semibold">Verified</span>
-             </div>
-           )}
-         </div>
+                  </div>
+                )}
+              </div>
 
-         {/* Amenities */}
+              {/* Amenities */}
          <div className="space-y-1.5">
            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Amenities</h4>
            <div className="flex flex-wrap gap-1">
-             {featuredListings[activeCard]?.amenities.map((amenity, idx) => (
+                {featuredListings[activeCard]?.amenities.map((amenity, idx) => (
                <span 
                  key={idx} 
                  className="bg-gray-50 hover:bg-gray-100 transition-colors text-gray-700 px-2.5 py-1 rounded-full text-xs font-medium border border-gray-200"
                >
-                 {amenity}
-               </span>
-             ))}
+                    {amenity}
+                  </span>
+                ))}
            </div>
-         </div>
+              </div>
 
-         {/* Host Info */}
+              {/* Host Info */}
          <div className="bg-gray-50 rounded-lg p-3 space-y-1.5">
            <div className="flex items-center gap-2.5">
              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-md">
                <span className="text-white font-semibold text-xs">
-                 {featuredListings[activeCard]?.host?.split(' ')[0]?.[0]}{featuredListings[activeCard]?.host?.split(' ')[1]?.[0]}
-               </span>
-             </div>
-             <div>
+                    {featuredListings[activeCard]?.host?.split(' ')[0]?.[0]}{featuredListings[activeCard]?.host?.split(' ')[1]?.[0]}
+                  </span>
+                </div>
+                <div>
                <p className="font-semibold text-gray-900 text-xs">Hosted by {featuredListings[activeCard]?.host}</p>
                <p className="text-gray-500 text-xs font-medium">Superhost • 3 years hosting</p>
              </div>
-           </div>
-         </div>
+                </div>
+              </div>
 
          {/* CTA Button */}
          <div className="pt-1">
-           <button 
-             onClick={() => handlePropertyClick(featuredListings[activeCard]?.id)}
+              <button 
+                onClick={() => handlePropertyClick(featuredListings[activeCard]?.id)}
              className="group bg-gradient-to-r from-green-500 to-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center sm:justify-start"
-           >
-             View Details
+              >
+                View Details
              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-           </button>
+              </button>
          </div>
-       </div>
-    </div>
+            </div>
+          </div>
 
-    {/* All Properties Grid */}
+          {/* All Properties Grid */}
     <div className="space-y-8">
       <div className="text-center">
         <h3 className="text-2xl lg:text-3xl font-light text-gray-900 mb-3">
@@ -773,180 +901,262 @@ const HomePage = () => {
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-        {featuredListings.map((listing, index) => (
-          <div 
-            key={listing.id} 
+            {featuredListings.map((listing, index) => (
+              <div 
+                key={listing.id} 
             className="group bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:scale-[1.02] cursor-pointer transition-all duration-500 hover:shadow-xl hover:border-green-200"
-            onClick={() => handlePropertyClick(listing.id)}
+                onClick={() => handlePropertyClick(listing.id)}
             style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <div className="aspect-[4/3] relative overflow-hidden">
-              <Image
-                src={listing.imageUrl}
-                alt={listing.title}
-                fill
+              >
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <Image
+                    src={listing.imageUrl}
+                    alt={listing.title}
+                    fill
                 className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              />
-              
-              {listing.isGuestFavorite && (
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                  
+                  {listing.isGuestFavorite && (
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md border border-pink-200 rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
-                  <Heart className="h-3 w-3 text-pink-500 fill-current" />
-                  <span className="text-xs font-semibold text-pink-700">Favorite</span>
-                </div>
-              )}
-              
+                      <Heart className="h-3 w-3 text-pink-500 fill-current" />
+                      <span className="text-xs font-semibold text-pink-700">Favorite</span>
+                    </div>
+                  )}
+                  
               <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md border border-white/20 rounded-xl px-3 py-2 shadow-lg">
                 <div className="text-center">
-                  <span className="text-lg font-bold text-gray-900">${listing.price}</span>
+                    <span className="text-lg font-bold text-gray-900">${listing.price}</span>
                   <span className="text-gray-500 text-sm font-medium">/night</span>
                 </div>
-              </div>
-            </div>
-            
+                  </div>
+                </div>
+                
             <div className="p-6 space-y-4">
               <div>
                 <h4 className="font-semibold text-xl mb-2 text-gray-900 group-hover:text-green-600 transition-colors leading-tight">
-                  {listing.title}
+                    {listing.title}
                 </h4>
                 
                 <div className="flex items-center text-gray-600">
                   <MapPin className="h-4 w-4 mr-2 text-green-500 flex-shrink-0" />
                   <span className="text-sm font-medium">{listing.location}</span>
                 </div>
-              </div>
-              
+                  </div>
+                  
               <div className="flex items-center justify-between pt-2">
-                <div className="flex items-center gap-2">
-                  <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                  <span className="text-sm font-semibold">{listing.rating}</span>
-                  <span className="text-xs text-gray-500">({listing.reviews})</span>
-                </div>
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                      <span className="text-sm font-semibold">{listing.rating}</span>
+                      <span className="text-xs text-gray-500">({listing.reviews})</span>
+                    </div>
                 
                 <div className="w-2 h-2 rounded-full bg-green-500 group-hover:scale-125 transition-transform"></div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-
-      {/* Popular Cities with Enhanced Design */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
-  {/* Imigongo Design - Center Left */}
-  <div className="absolute left-16 top-1/2 transform -translate-y-1/2 z-10 hidden xl:block">
-    <ImigongoPattern variant="left" size="sm" className="imigongo-pattern opacity-12" message="Explore amazing destinations" />
-  </div>
-  
-  {/* Imigongo Design - Center Right */}
-  <div className="absolute right-16 top-1/2 transform -translate-y-1/2 z-10 hidden xl:block">
-    <ImigongoPattern variant="right" size="sm" className="imigongo-pattern opacity-12" message="Discover hidden gems" />
-  </div>
-  
-  {/* Subtle background elements */}
-  <div className="absolute inset-0 overflow-hidden">
-    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
-    <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-200/20 rounded-full blur-3xl"></div>
-  </div>
-  
-   <div className="max-w-5xl mx-auto px-4 lg:px-6 relative">
-     {/* Section Header */}
-     <div className="text-center mb-6 lg:mb-8">
-       <div className="mb-3">
-         <span className="inline-block text-xs font-semibold tracking-wider uppercase text-blue-600 bg-blue-100/80 backdrop-blur-sm px-2.5 py-1 rounded-full mb-2">
-           Destinations
-         </span>
-       </div>
-       <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-light text-gray-900 mb-3 tracking-tight leading-none">
-         <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent font-medium">
-           Explore
-         </span>{" "}
-         <span className="font-light">East Africa</span>
-       </h2>
-       <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-xl mx-auto leading-relaxed font-light">
-         From bustling cities to serene landscapes, discover your perfect destination
-       </p>
-     </div>
-    
-    {/* Cities Grid */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-      {popularCities.map((city, index) => (
-        <div
-          key={index}
-          className="group relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 overflow-hidden hover:scale-[1.02] cursor-pointer transition-all duration-700 hover:shadow-2xl hover:bg-white/90"
-          style={{ 
-            animationDelay: `${index * 150}ms`,
-            backdropFilter: 'blur(10px)'
-          }}
-        >
-          <div className="aspect-[4/3] relative overflow-hidden">
-            <Image
-              src={city.imageUrl}
-              alt={city.name}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            />
-            
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/40"></div>
-            
-            {/* Property Count Badge */}
-            <div className="absolute top-5 right-5 bg-white/95 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 shadow-lg">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm font-semibold text-gray-700">
-                  {city.properties} stays
-                </span>
-              </div>
-            </div>
-            
-            {/* City Info Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
-              <div className="space-y-2">
-                <h3 className="font-semibold text-2xl lg:text-3xl text-white leading-tight tracking-tight">
-                  {city.name}
-                </h3>
-                <p className="text-gray-200 text-sm font-medium leading-relaxed line-clamp-2">
-                  {city.description}
-                </p>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-blue-300" />
-                  <p className="text-blue-200 text-sm font-medium">
-                    {city.country}
-                  </p>
-                </div>
-                
-                {/* Explore indicator */}
-                <div className="opacity-70 group-hover:opacity-100 transition-opacity">
-                  <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                    <ArrowUpRight className="w-4 h-4 text-white" />
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
+      </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Explore East Africa - Modern Professional Design */}
+      <section className="py-12 lg:py-16 bg-gradient-to-br from-gray-50 via-slate-50 to-gray-100 relative overflow-hidden">
+        {/* Sophisticated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Animated gradient orbs */}
+          <div className="absolute top-1/4 left-1/6 w-80 h-80 bg-gradient-to-br from-emerald-200/15 to-teal-200/15 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-gradient-to-br from-blue-200/12 to-indigo-200/12 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
+          
+          {/* Geometric patterns */}
+          <div className="absolute top-10 left-10 w-32 h-32 border border-emerald-200/20 rounded-2xl rotate-45 animate-spin-slow"></div>
+          <div className="absolute bottom-10 right-10 w-24 h-24 border border-blue-200/20 rounded-full animate-ping" style={{ animationDuration: '4s' }}></div>
+          
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.015]">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="cities-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#cities-grid)" className="text-gray-600" />
+            </svg>
+          </div>
+        </div>
+        
+        {/* Imigongo Design - Repositioned and Enhanced */}
+        <div className="absolute left-8 lg:left-16 top-1/2 transform -translate-y-1/2 z-10 hidden xl:block opacity-20">
+          <ImigongoPattern variant="left" size="sm" className="imigongo-pattern" message="Discover East Africa" />
+        </div>
+        <div className="absolute right-8 lg:right-16 top-1/2 transform -translate-y-1/2 z-10 hidden xl:block opacity-20">
+          <ImigongoPattern variant="right" size="sm" className="imigongo-pattern" message="Authentic Experiences" />
+        </div>
+  
+   <div className="max-w-6xl mx-auto px-4 lg:px-6 relative z-10">
+     {/* Enhanced Section Header */}
+     <div className="text-center mb-8 lg:mb-12">
+       {/* Premium Badge */}
+       <div className="inline-flex items-center gap-3 mb-4">
+         <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 px-3 py-1.5 rounded-full text-sm font-semibold border border-emerald-200/50 shadow-sm backdrop-blur-sm">
+           <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+           <span className="tracking-wide">Premium Destinations</span>
+         </div>
+       </div>
+       
+       {/* Main Title with Enhanced Typography */}
+       <div className="space-y-3 mb-6">
+         <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-gray-900 tracking-tight leading-none">
+           <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent font-semibold">
+             Explore
+           </span>
+           <span className="text-gray-800 font-light"> East Africa</span>
+         </h2>
+         
+         <div className="w-16 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 mx-auto rounded-full"></div>
+       </div>
+       
+       {/* Enhanced Description */}
+       <div className="max-w-xl mx-auto space-y-3">
+         <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-light">
+           From bustling cities to serene landscapes, discover your perfect destination across the pearl of Africa
+         </p>
+         
+         {/* Stats Row */}
+         <div className="flex items-center justify-center gap-4 lg:gap-6 pt-4 text-xs lg:text-sm text-gray-500">
+           <div className="flex items-center gap-2">
+             <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+             <span className="font-medium">4 Premium Cities</span>
+           </div>
+           <div className="w-px h-4 bg-gray-300"></div>
+           <div className="flex items-center gap-2">
+             <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+             <span className="font-medium">3,200+ Properties</span>
+           </div>
+           <div className="w-px h-4 bg-gray-300"></div>
+           <div className="flex items-center gap-2">
+             <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+             <span className="font-medium">Verified Hosts</span>
+           </div>
+         </div>
+       </div>
+     </div>
+          
+    {/* Modern Cities Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      {popularCities.map((city, index) => (
+        <div 
+          key={index} 
+          className="group relative cursor-pointer transform transition-all duration-700 ease-out hover:-translate-y-2"
+          style={{ 
+            animationDelay: `${index * 150}ms`
+          }}
+        >
+          {/* Modern Card Container */}
+          <div className="relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500 group-hover:border-emerald-200">
             
-            {/* Hover Effect Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-              <div className="bg-white/95 backdrop-blur-md rounded-full p-4 shadow-xl transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                <ArrowRight className="w-6 h-6 text-blue-600" />
+            {/* Image Container with Reduced Aspect Ratio */}
+            <div className="aspect-[4/3] relative overflow-hidden">
+              <Image
+                src={city.imageUrl}
+                alt={city.name}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              />
+              
+              {/* Modern Gradient Overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              {/* Premium Property Badge */}
+              <div className="absolute top-3 right-3 transform translate-x-1 group-hover:translate-x-0 transition-transform duration-300">
+                <div className="bg-white/95 backdrop-blur-xl rounded-full px-2.5 py-1 shadow-md border border-white/50">
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs font-semibold text-gray-700">
+                      {city.properties}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Floating Action Button */}
+              <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
+                <div className="w-8 h-8 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 hover:bg-white/30 transition-colors duration-200">
+                  <Heart className="w-3 h-3 text-white" />
+                </div>
+              </div>
+              
+              {/* City Info Overlay - Redesigned */}
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <div className="space-y-2">
+                  <div className="space-y-1">
+                    <h3 className="font-bold text-lg lg:text-xl text-white leading-tight tracking-tight drop-shadow-lg">
+                      {city.name}
+                    </h3>
+                    <p className="text-gray-200 text-xs lg:text-sm font-medium leading-relaxed opacity-90 line-clamp-1">
+                      {city.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-4 h-4 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                        <MapPin className="h-2.5 w-2.5 text-white" />
+                      </div>
+                      <span className="text-white text-xs lg:text-sm font-medium">
+                        {city.country}
+                      </span>
+                    </div>
+                    
+                    {/* Enhanced Explore Button */}
+                    <div className="opacity-80 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100">
+                      <div className="w-7 h-7 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200">
+                        <ArrowUpRight className="w-3.5 h-3.5 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Premium Shine Effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
               </div>
             </div>
             
-            {/* Subtle shine effect */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            {/* Modern Card Footer */}
+            <div className="p-3 bg-gradient-to-r from-gray-50 to-white">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col items-start gap-1">
+                  <div className="flex -space-x-0.5">
+                    <div className="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center border border-white">
+                      <Star className="w-2.5 h-2.5 text-emerald-600 fill-current" />
+                    </div>
+                    <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center border border-white">
+                      <Shield className="w-2.5 h-2.5 text-blue-600" />
+                    </div>
+                  </div>
+                  <span className="text-xs text-gray-500 font-medium hidden lg:block">Premium Verified</span>
+                  <span className="text-xs text-gray-500 font-medium lg:hidden">Verified</span>
+                </div>
+                
+                <div className="text-right">
+                  <div className="text-xs text-gray-400 hidden lg:block">Starting from</div>
+                  <div className="text-sm font-bold text-gray-900">$45<span className="text-xs font-normal text-gray-500">/night</span></div>
+                </div>
+              </div>
             </div>
+            
+            {/* Enhanced Border Accent */}
+            <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-emerald-200 transition-colors duration-500"></div>
+            
+            {/* Bottom Gradient Line */}
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center rounded-b-2xl"></div>
           </div>
-          
-          {/* Bottom accent line */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
         </div>
       ))}
     </div>
@@ -1001,8 +1211,8 @@ const HomePage = () => {
         </div>
       </div>
     </div>
-  </div>
-</section>
+        </div>
+      </section>
 
       {/* Property Types with Enhanced Cards */}
       <section className="py-10 lg:py-16 bg-white relative overflow-hidden">
@@ -1281,7 +1491,7 @@ const HomePage = () => {
           </div>
         </div>
       </footer>
-      </div>
+    </div>
     </>
   );
 };
