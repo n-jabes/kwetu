@@ -147,7 +147,7 @@ export const SearchResultsNavbar = () => {
                 <Search className={`absolute left-2.5 top-2 h-4 w-4 transition-colors duration-300 ${getSearchIconColor()}`} />
                 <button 
                   type="submit"
-                  className="absolute right-1.5 top-1/2 transform -translate-y-1/2 bg-green-500 hover:bg-green-600 text-white text-xs px-2 py-0.5 rounded-full transition cursor-pointer"
+                  className="absolute right-1.5 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-xs px-2 py-0.5 rounded-full transition-all duration-300 hover:shadow-lg cursor-pointer"
                   disabled={isSearching}
                 >
                   {isSearching ? <Loader2 className="animate-spin w-3 h-3" /> : 'Search'}
@@ -157,7 +157,7 @@ export const SearchResultsNavbar = () => {
 
             {/* Desktop Right Side */}
             <div className="hidden md:flex items-center space-x-3 relative">
-                      <Link href="/add-listing" className="cursor-pointer bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                      <Link href="/add-listing" className="cursor-pointer bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
           List your place
         </Link>
               <div 
