@@ -244,43 +244,57 @@ export const SearchResultsNavbar = () => {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className={`md:hidden pb-3 transition-all duration-300 ${
-              !isHomePage || isScrolled ? 'bg-white' : 'bg-black/20 backdrop-blur-md'
+            <div className={`md:hidden pb-4 pt-2 transition-all duration-300 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] ${
+              !isHomePage || isScrolled 
+                ? 'bg-gradient-to-br from-white via-gray-50 to-white shadow-lg border-t border-gray-100' 
+                : 'bg-gradient-to-br from-white/95 via-white/90 to-white/95 backdrop-blur-xl shadow-2xl border-t border-white/20'
             }`}>
-              <div className="flex flex-col space-y-1.5">
-                <Link href='/rent' className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+              <div className="flex flex-col space-y-2 px-6 max-w-md mx-auto">
+                <Link href='/rent' className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                  !isHomePage || isScrolled 
+                    ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                    : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                 }`}>
                   Rent
                 </Link>
-                <Link href='/buy' className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                <Link href='/buy' className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                  !isHomePage || isScrolled 
+                    ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                    : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                 }`}>
                   Buy
                 </Link>
-                <Link href='/sell' className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                <Link href='/sell' className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                  !isHomePage || isScrolled 
+                    ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                    : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                 }`}>
                   Sell
                 </Link>
-                <Link href='/manage-property' className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                  !isHomePage || isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                <Link href='/manage-property' className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                  !isHomePage || isScrolled 
+                    ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                    : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                 }`}>
                   Manage Property
                 </Link>
-                        <Link href="/add-listing" className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium mt-1.5 transition-colors">
+                        <Link href="/add-listing" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold mt-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] text-center">
           List your place
         </Link>
                 {isLoggedIn ? (
                   <>
-                    <Link href="/profile" className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                      isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                    <Link href="/profile" className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                      !isHomePage || isScrolled 
+                        ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                        : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                     }`}>
                       Profile
                     </Link>
                     <button 
-                      className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                        isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                      className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                        !isHomePage || isScrolled 
+                          ? 'text-gray-700 hover:text-red-600 hover:bg-red-50' 
+                          : 'text-gray-800 hover:text-red-700 hover:bg-white/80 backdrop-blur-sm'
                       }`}
                       onClick={() => setIsLoggedIn(false)}
                     >
@@ -289,8 +303,10 @@ export const SearchResultsNavbar = () => {
                   </>
                 ) : (
                   <button 
-                    className={`px-3 py-1.5 text-xs font-medium text-left transition-colors ${
-                      isScrolled ? 'text-gray-700 hover:text-green-500' : 'text-white hover:text-green-200'
+                    className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                      !isHomePage || isScrolled 
+                        ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                        : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                     }`}
                     onClick={() => setIsLoggedIn(true)}
                   >
