@@ -336,7 +336,7 @@ const HomePage = () => {
             {/* New Decorative Circles */}
             <div className="absolute w-96 h-96 bg-emerald-500 rounded-full opacity-15 -top-20 -left-20 z-60"></div>
           <div className="absolute w-64 h-64 bg-[#126BB3] rounded-full opacity-20 bottom-10 right-10"></div>
-          <div className="absolute w-32 h-32 bg-emerald-400/35 rounded-full top-24 left-1/2 lg:left-1/2 transform -translate-x-11 animate-pulse z-5 hidden lg:block"></div>
+          
           <div className="absolute w-24 h-24 bg-teal-500/15 rounded-full bottom-1/3 right-1/4 animate-bounce"></div>
           <div className="absolute w-16 h-16 bg-[#FF9D2F]/25 rounded-full top-3/4 left-3/4 animate-ping"></div>
         </div>
