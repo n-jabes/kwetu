@@ -582,7 +582,7 @@ const HomePage = () => {
       </section>
 
       {/* Stats Section - Enhanced Professional with Green Theme */}
-      <section className="py-16 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-br from-emerald-200/25 via-green-200/25 to-teal-100/25 relative overflow-hidden">
   {/* Sophisticated Background Elements */}
   <div className="absolute inset-0">
     {/* Geometric shapes - Green theme */}
@@ -591,7 +591,7 @@ const HomePage = () => {
     <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-gradient-to-br from-teal-500/7 to-green-500/7 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '4s' }}></div>
     
     {/* Grid pattern overlay */}
-    <div className="absolute inset-0 opacity-[0.02]">
+    <div className="absolute inset-0 opacity-[0.2]">
       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
