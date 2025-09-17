@@ -583,6 +583,12 @@ const HomePage = () => {
 
       {/* Stats Section - Enhanced Professional with Green Theme */}
       <section className="py-16 bg-gradient-to-br from-emerald-200/25 via-green-200/25 to-teal-100/25 relative overflow-hidden">
+  {/* Top Fade Effect */}
+  <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+  
+  {/* Bottom Fade Effect */}
+  <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+
   {/* Sophisticated Background Elements */}
   <div className="absolute inset-0">
     {/* Geometric shapes - Green theme */}
@@ -600,8 +606,8 @@ const HomePage = () => {
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" className="text-emerald-600" />
       </svg>
-                    </div>
-                  </div>
+    </div>
+  </div>
 
   {/* Section Header */}
   <div className="max-w-5xl mx-auto px-4 lg:px-6 relative z-10 mb-12">
@@ -609,25 +615,25 @@ const HomePage = () => {
       <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-emerald-100">
         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
         Trusted by Thousands
-                </div>
+      </div>
       <h2 className="text-2xl font-light text-gray-900 mb-2">
         Numbers That <span className="font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Speak for Themselves</span>
       </h2>
       <p className="text-gray-600 max-w-2xl mx-auto">
         Join thousands of satisfied guests who have made KWETU their preferred choice for exceptional stays across East Africa
       </p>
-              </div>
-            </div>
+    </div>
+  </div>
 
   <div className="max-w-5xl mx-auto px-4 lg:px-6 relative z-10">
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-              {stats.map((stat, index) => (
-                <div 
-                  key={index} 
+      {stats.map((stat, index) => (
+        <div 
+          key={index} 
           className="group text-center relative transform transition-all duration-700 ease-out"
-           style={{ 
-             animationDelay: `${index * 150}ms`
-           }}
+          style={{ 
+            animationDelay: `${index * 150}ms`
+          }}
         >
           {/* Enhanced Professional Card */}
           <div className="relative bg-white/95 backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200/60 shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-white overflow-hidden group">
@@ -666,7 +672,7 @@ const HomePage = () => {
               
               {/* Pulse ring */}
               <div className="absolute inset-0 rounded-2xl border-2 border-emerald-500/20 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-700"></div>
-                  </div>
+            </div>
             
             {/* Enhanced Statistics Display */}
             <div className="text-center relative z-10 space-y-1 sm:space-y-2">
@@ -686,7 +692,7 @@ const HomePage = () => {
         
               {/* Subtle description line */}
               <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-auto mt-3 group-hover:via-emerald-400 transition-colors duration-300"></div>
-          </div>
+            </div>
             
             {/* Bottom glow effect */}
             <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
