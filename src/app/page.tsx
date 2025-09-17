@@ -944,28 +944,49 @@ const HomePage = () => {
 
       {/* Explore East Africa - Modern Professional Design */}
       <section className="py-12 lg:py-16 bg-gradient-to-br from-gray-50 via-slate-50 to-gray-100 relative overflow-hidden">
+        {/* Top Fade Effect - Reduced height */}
+        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+        
+        {/* Bottom Fade Effect - Reduced height */}
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+
         {/* Sophisticated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Animated gradient orbs */}
-          <div className="absolute top-1/4 left-1/6 w-80 h-80 bg-gradient-to-br from-emerald-200/15 to-teal-200/15 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-gradient-to-br from-blue-200/12 to-indigo-200/12 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
+          {/* Animated gradient orbs - Enhanced visibility */}
+          <div className="absolute top-1/4 left-1/6 w-80 h-80 bg-gradient-to-br from-emerald-300/25 to-teal-300/25 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-gradient-to-br from-blue-300/22 to-indigo-300/22 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
           
-          {/* Geometric patterns */}
-          <div className="absolute top-10 left-10 w-32 h-32 border border-emerald-200/20 rounded-2xl rotate-45 animate-spin-slow"></div>
-          <div className="absolute bottom-10 right-10 w-24 h-24 border border-blue-200/20 rounded-full animate-ping" style={{ animationDuration: '4s' }}></div>
+          {/* Additional circular elements for depth */}
+          <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-gradient-to-br from-cyan-300/18 to-blue-300/18 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute bottom-1/3 left-1/3 w-48 h-48 bg-gradient-to-br from-emerald-300/15 to-green-300/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
           
-          {/* Grid pattern overlay */}
-          <div className="absolute inset-0 opacity-[0.015]">
+          {/* Enhanced Geometric patterns */}
+          <div className="absolute top-10 left-10 w-32 h-32 border border-emerald-300/30 rounded-2xl rotate-45 animate-spin-slow"></div>
+          <div className="absolute bottom-10 right-10 w-24 h-24 border border-blue-300/30 rounded-full animate-ping" style={{ animationDuration: '4s' }}></div>
+          <div className="absolute top-1/2 left-1/4 w-20 h-20 border border-purple-300/25 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+          
+          {/* Enhanced Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.08]">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern id="cities-grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1"/>
+                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="1.5"/>
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#cities-grid)" className="text-gray-600" />
+              <rect width="100%" height="100%" fill="url(#cities-grid)" className="text-gray-500" />
             </svg>
           </div>
+          
+          {/* Additional geometric accent lines */}
+          <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-emerald-300/25 to-transparent"></div>
+          <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-blue-300/25 to-transparent"></div>
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-300/25 to-transparent"></div>
+          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-300/25 to-transparent"></div>
+          
+          {/* Diagonal accent lines */}
+          <div className="absolute top-1/4 left-1/4 w-px h-1/2 bg-gradient-to-b from-transparent via-emerald-300/20 to-transparent transform rotate-12"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-px h-1/2 bg-gradient-to-t from-transparent via-blue-300/20 to-transparent transform -rotate-12"></div>
         </div>
         
         {/* Imigongo Design - Repositioned and Enhanced */}
@@ -980,7 +1001,7 @@ const HomePage = () => {
      {/* Enhanced Section Header */}
      <div className="text-center mb-8 lg:mb-12">
        {/* Premium Badge */}
-       <div className="inline-flex items-center gap-3 mb-4">
+       <div className="inline-flex items-center gap-3 mb-4 relative z-100">
          <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 px-3 py-1.5 rounded-full text-sm font-semibold border border-emerald-200/50 shadow-sm backdrop-blur-sm">
            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
            <span className="tracking-wide">Premium Destinations</span>
