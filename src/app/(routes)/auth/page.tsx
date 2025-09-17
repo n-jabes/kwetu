@@ -1,9 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Lock, Eye, EyeOff, Check, X, ChevronDown, MoveLeft } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, Check, X, ChevronDown, MoveLeft, Upload, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import VerifyEmailModal from '@/components/auth/VerifyEmailModal';
+import { uploadImageToService } from '@/utils/imageUpload';
+import toast from 'react-hot-toast';
 
 // Add interfaces for form data and error objects
 interface SignInData {
@@ -16,12 +19,15 @@ interface SignUpData {
   email: string;
   password: string;
   confirmPassword: string;
-  isClient: boolean;
+  role: 'GUEST' | 'HOST';
+  phone: string;
+  profile_picture?: string;
 }
 
 interface SignInErrors {
   email?: string;
   password?: string;
+  general?: string;
 }
 
 interface SignUpErrors {
@@ -29,6 +35,9 @@ interface SignUpErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  phone?: string;
+  profile_picture?: string;
+  general?: string;
 }
 
 interface PasswordValidation {
@@ -55,7 +64,9 @@ const LoginPage = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    isClient: false
+    role: 'GUEST',
+    phone: '',
+    profile_picture: '',
   });
   
   // Error states
@@ -77,6 +88,18 @@ const LoginPage = () => {
   // Scroll state for floating button
   const [showScrollDown, setShowScrollDown] = useState(false);
   const formRef = React.useRef<HTMLDivElement>(null);
+
+  // Image upload states
+  const [profileImagePreview, setProfileImagePreview] = useState<string>('');
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  // Verification modal states
+  const [verifyOpen, setVerifyOpen] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState('');
+
+  // Loading states
+  const [signInLoading, setSignInLoading] = useState(false);
+  const [signUpLoading, setSignUpLoading] = useState(false);
 
   // Show floating button if form is scrollable and not at bottom
   useEffect(() => {
@@ -109,6 +132,22 @@ const LoginPage = () => {
     setTimeout(() => setFormLoaded(true), 300);
   }, []);
 
+  // Image upload handler
+  const handleImageUpload = async (file: File) => {
+    setUploadingImage(true);
+    try {
+      const imageUrl = await uploadImageToService(file);
+      setProfileImagePreview(imageUrl);
+      setSignUpData(prev => ({ ...prev, profile_picture: imageUrl }));
+      toast.success('Profile picture uploaded successfully!');
+    } catch (error) {
+      console.error('Image upload error:', error);
+      toast.error('Failed to upload image. Please try again.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   // Password validation function
   const validatePasswordStrength = (password: string): PasswordValidation => {
     return {
@@ -128,6 +167,11 @@ const LoginPage = () => {
   const validatePassword = (password: string): boolean => {
     const validation = validatePasswordStrength(password);
     return validation.hasMinLength && validation.hasCapital && validation.hasNumber && validation.hasSpecial;
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
   };
 
   const validateSignIn = () => {
@@ -173,27 +217,161 @@ const LoginPage = () => {
     } else if (signUpData.password !== signUpData.confirmPassword) {
       errors.confirmPassword = 'Passwords do not match';
     }
+
+    // Add phone validation
+    if (!signUpData.phone) {
+      errors.phone = 'Phone number is required';
+    } else if (!validatePhone(signUpData.phone)) {
+      errors.phone = 'Please enter a valid phone number';
+    }
+
+    // Profile picture is optional - no validation needed
     
     setSignUpErrors(errors);
+    
+    // Show toast for validation errors
+    if (Object.keys(errors).length > 0) {
+      const firstError = Object.values(errors)[0];
+      toast.error(firstError);
+    }
+    
     return Object.keys(errors).length === 0;
   };
 
   // Handle form submissions
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => {
     e.preventDefault();
-    if (validateSignIn()) {
-      console.log('Sign In Data:', signInData);
-      // alert('Sign in successful! Check console for data.');
-      router.push('/search-results');
+    
+    // Prevent multiple submissions
+    if (signInLoading) return;
+    
+    if (!validateSignIn()) return;
+    
+    setSignInLoading(true);
+    setSignInErrors({}); // Clear previous errors
+    
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: signInData.email, password: signInData.password }),
+      });
+      const data = await res.json();
+      
+      if (!res.ok) {
+        const msg: string = data?.message || 'Login failed';
+        
+        // Check for unverified email
+        if (msg.includes('check if your email is verified') || msg.includes('email is verified')) {
+          setVerifyEmail(signInData.email);
+          setVerifyOpen(true);
+          toast.success('Please verify your email to continue');
+          return;
+        }
+        
+        // Show error message
+        if (msg === 'Invalid credentials') {
+          setSignInErrors({ general: 'Invalid email or password' });
+          toast.error('Invalid email or password');
+        } else {
+          setSignInErrors({ general: msg });
+          toast.error(msg);
+        }
+        return;
+      }
+      
+      toast.success('Login successful!');
+      router.push('/');
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : 'Login error';
+      setSignInErrors({ general: errorMsg });
+      toast.error(errorMsg);
+    } finally {
+      setSignInLoading(false);
     }
   };
 
-  const handleSignUp = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement | HTMLFormElement>) => {
     e.preventDefault();
-    if (validateSignUp()) {
-      console.log('Sign Up Data:', signUpData);
-      // alert('Sign up successful! Check console for data.');
-      router.push('/search-results');
+    
+    // Prevent multiple submissions
+    if (signUpLoading) return;
+    
+    // Validate form and show toast for validation errors
+    if (!validateSignUp()) {
+      return; // validateSignUp now shows toast messages
+    }
+
+    setSignUpLoading(true);
+    setSignUpErrors({}); // Clear previous errors
+
+    try {
+      const payload = {
+        names: signUpData.fullName,
+        phone: signUpData.phone,
+        email: signUpData.email,
+        password: signUpData.password,
+        profile_picture: signUpData.profile_picture || undefined,
+      };
+
+      // Choose endpoint based on role
+      const endpoint = signUpData.role === 'GUEST' ? '/api/auth/signup/guest' : '/api/auth/signup/host';
+      
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      
+      if (!res.ok) {
+        // Handle different error response formats
+        let errorMessage = '';
+        let errorField = 'general';
+        
+        // Check if message is an array (validation errors)
+        if (Array.isArray(data.message)) {
+          errorMessage = data.message[0]; // Get first error message
+          
+          // Check if it's a phone number format error
+          if (errorMessage.includes('Phone number must be in international format')) {
+            errorField = 'phone';
+          }
+        } else if (typeof data.message === 'string') {
+          errorMessage = data.message;
+          
+          // Handle specific string error messages
+          if (data.message === 'Email already exists') {
+            errorField = 'email';
+          } else if (data.message === 'Phone already exists') {
+            errorField = 'phone';
+          }
+        } else {
+          errorMessage = 'Signup failed';
+        }
+        
+        // Set the error in the appropriate field
+        if (errorField === 'phone') {
+          setSignUpErrors({ phone: errorMessage });
+        } else if (errorField === 'email') {
+          setSignUpErrors({ email: errorMessage });
+        } else {
+          setSignUpErrors({ general: errorMessage });
+        }
+        
+        toast.error(errorMessage);
+        return;
+      }
+      
+      toast.success(`${signUpData.role} account created successfully! Please check your email for verification.`);
+      setVerifyEmail(signUpData.email);
+      setVerifyOpen(true);
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : 'Signup error';
+      setSignUpErrors({ general: errorMsg });
+      toast.error(errorMsg);
+    } finally {
+      setSignUpLoading(false);
     }
   };
 
@@ -201,13 +379,13 @@ const LoginPage = () => {
   const handleSignInChange = (field: keyof SignInData, value: string) => {
     setSignInData(prev => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
-    if (signInErrors[field]) {
-      setSignInErrors(prev => ({ ...prev, [field]: '' }));
+    if (signInErrors[field] || signInErrors.general) {
+      setSignInErrors(prev => ({ ...prev, [field]: '', general: '' }));
     }
   };
 
   const handleSignUpChange = (field: keyof SignUpData, value: string | boolean) => {
-    setSignUpData(prev => ({ ...prev, [field]: value }));
+    setSignUpData(prev => ({ ...prev, [field]: value as string }));
     
     // Update password validation when password changes
     if (field === 'password') {
@@ -215,8 +393,8 @@ const LoginPage = () => {
     }
     
     // Clear error when user starts typing
-    if (signUpErrors[field as keyof SignUpErrors]) {
-      setSignUpErrors(prev => ({ ...prev, [field]: '' }));
+    if (signUpErrors[field as keyof SignUpErrors] || signUpErrors.general) {
+      setSignUpErrors(prev => ({ ...prev, [field]: '', general: '' }));
     }
   };
 
@@ -263,10 +441,6 @@ const LoginPage = () => {
       <div className={`hidden lg:flex max-h-screen lg:w-7/15 relative transform transition-transform duration-1000 ease-out ${
         imageLoaded ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        {/* <div 
-          className="absolute inset-0 bg-gradient-to-br from-blue-300 via-purple-300 to-orange-200"
-        /> */}
-        {/* House illustration overlay */}
         <Image 
           src="/images/house.png" 
           alt="House" 
@@ -281,19 +455,17 @@ const LoginPage = () => {
       <div className={`w-full lg:w-8/15 flex items-center justify-center p-4 lg:p-8 bg-gray-50 transform transition-transform duration-1000 ease-out ${
         formLoaded ? 'translate-x-0' : 'translate-x-full'
       }`}>
-
-        
-      
         <div
           ref={formRef}
           className="w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-lg p-6 hide-signup-scrollbar relative"
           style={{ scrollbarWidth: 'none' }}
         >
           {/* Back to home button */}
-        <Link href='/' className='flex items-center gap-2 text-xs text-green-700 hover:text-green-600'>
-          <MoveLeft />
-          Back to Home  
-        </Link>
+          <Link href='/' className='flex items-center gap-2 text-xs text-green-700 hover:text-green-600 cursor-pointer'>
+            <MoveLeft />
+            Back to Home  
+          </Link>
+          
           {/* Header */}
           <div className="text-center">
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
@@ -311,7 +483,12 @@ const LoginPage = () => {
           <div className="flex bg-gray-200 rounded-full p-1">
             <button
               onClick={() => setActiveTab('signin')}
-              className={`flex-1 py-2 px-4 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
+              disabled={signInLoading || signUpLoading}
+              className={`flex-1 py-2 px-4 rounded-full text-sm font-medium transition-all duration-200 ${
+                signInLoading || signUpLoading 
+                  ? 'cursor-not-allowed opacity-50' 
+                  : 'cursor-pointer'
+              } ${
                 activeTab === 'signin'
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
@@ -321,7 +498,12 @@ const LoginPage = () => {
             </button>
             <button
               onClick={() => setActiveTab('signup')}
-              className={`flex-1 py-2 px-4 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
+              disabled={signInLoading || signUpLoading}
+              className={`flex-1 py-2 px-4 rounded-full text-sm font-medium transition-all duration-200 ${
+                signInLoading || signUpLoading 
+                  ? 'cursor-not-allowed opacity-50' 
+                  : 'cursor-pointer'
+              } ${
                 activeTab === 'signup'
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
@@ -344,7 +526,12 @@ const LoginPage = () => {
                     type="email"
                     value={signInData.email}
                     onChange={(e) => handleSignInChange('email', e.target.value)}
+                    disabled={signInLoading}
                     className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signInLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
                       signInErrors.email 
                         ? 'border-red-300 focus:ring-red-200' 
                         : 'border-green-300 focus:ring-green-200'
@@ -367,7 +554,12 @@ const LoginPage = () => {
                     type={showPassword ? 'text' : 'password'}
                     value={signInData.password}
                     onChange={(e) => handleSignInChange('password', e.target.value)}
+                    disabled={signInLoading}
                     className={`w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signInLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
                       signInErrors.password 
                         ? 'border-red-300 focus:ring-red-200' 
                         : 'border-green-300 focus:ring-green-200'
@@ -377,7 +569,12 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    disabled={signInLoading}
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-colors ${
+                      signInLoading 
+                        ? 'cursor-not-allowed opacity-50' 
+                        : 'hover:text-gray-600 cursor-pointer'
+                    }`}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -387,17 +584,41 @@ const LoginPage = () => {
                 )}
               </div>
 
+              {/* General error message */}
+              {signInErrors.general && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                  <p className="text-red-600 text-sm font-medium">{signInErrors.general}</p>
+                </div>
+              )}
+
               <button
                 onClick={handleSignIn}
-                className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-200 cursor-pointer"
+                disabled={signInLoading}
+                className={`w-full py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 flex items-center justify-center gap-2 ${
+                  signInLoading 
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                    : 'bg-green-500 hover:bg-green-600 text-white focus:ring-green-200 cursor-pointer'
+                }`}
               >
-                Sign In
+                {signInLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
               </button>
 
               <div className="text-center">
                 <button 
                   type="button"
-                  className="text-sm text-gray-600 hover:text-green-500 transition-colors cursor-pointer"
+                  disabled={signInLoading}
+                  className={`text-sm transition-colors ${
+                    signInLoading 
+                      ? 'text-gray-400 cursor-not-allowed' 
+                      : 'text-gray-600 hover:text-green-500 cursor-pointer'
+                  }`}
                 >
                   Forgot Password?
                 </button>
@@ -408,6 +629,46 @@ const LoginPage = () => {
           {/* Sign Up Form */}
           {activeTab === 'signup' && (
             <div className="space-y-4" onKeyPress={(e) => handleKeyPress(e, handleSignUp)}>
+              {/* Role selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">I am signing up as</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleSignUpChange('role', 'GUEST')}
+                    disabled={signUpLoading}
+                    className={`py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      signUpLoading 
+                        ? 'cursor-not-allowed opacity-50' 
+                        : 'cursor-pointer'
+                    } ${
+                      signUpData.role === 'GUEST' 
+                        ? 'border-green-500 text-green-700 bg-green-50' 
+                        : 'border-slate-200 text-slate-700 hover:border-green-300'
+                    }`}
+                  >
+                    Guest
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSignUpChange('role', 'HOST')}
+                    disabled={signUpLoading}
+                    className={`py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      signUpLoading 
+                        ? 'cursor-not-allowed opacity-50' 
+                        : 'cursor-pointer'
+                    } ${
+                      signUpData.role === 'HOST' 
+                        ? 'border-green-500 text-green-700 bg-green-50' 
+                        : 'border-slate-200 text-slate-700 hover:border-green-300'
+                    }`}
+                  >
+                    Host
+                  </button>
+                </div>
+              </div>
+              
+              {/* Full name */}
               <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name <span className="text-red-500">*</span>
@@ -419,7 +680,12 @@ const LoginPage = () => {
                     type="text"
                     value={signUpData.fullName}
                     onChange={(e) => handleSignUpChange('fullName', e.target.value)}
+                    disabled={signUpLoading}
                     className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signUpLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
                       signUpErrors.fullName 
                         ? 'border-red-300 focus:ring-red-200' 
                         : 'border-gray-300 focus:ring-[var(--main-green)]'
@@ -444,7 +710,12 @@ const LoginPage = () => {
                     type="email"
                     value={signUpData.email}
                     onChange={(e) => handleSignUpChange('email', e.target.value)}
+                    disabled={signUpLoading}
                     className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signUpLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
                       signUpErrors.email 
                         ? 'border-red-300 focus:ring-red-200' 
                         : 'border-gray-300 focus:ring-[var(--main-green)]'
@@ -455,6 +726,112 @@ const LoginPage = () => {
                 </div>
                 {signUpErrors.email && (
                   <p className="text-red-500 text-xs mt-1">{signUpErrors.email}</p>
+                )}
+              </div>
+
+              {/* Phone number - required */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    value={signUpData.phone}
+                    onChange={(e) => handleSignUpChange('phone', e.target.value)}
+                    disabled={signUpLoading}
+                    className={`w-full pl-4 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signUpLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
+                      signUpErrors.phone 
+                        ? 'border-red-300 focus:ring-red-200' 
+                        : 'border-gray-300 focus:ring-[var(--main-green)]'
+                    }`}
+                    placeholder="e.g. +250784593206"
+                    required
+                  />
+                </div>
+                {signUpErrors.phone && (
+                  <p className="text-red-500 text-xs mt-1">{signUpErrors.phone}</p>
+                )}
+              </div>
+
+              {/* Profile Picture Upload - optional */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Profile Picture <span className="text-gray-400">(optional)</span>
+                </label>
+                <div className="space-y-3">
+                  {/* Image Preview */}
+                  {profileImagePreview && (
+                    <div className="relative w-24 h-24 mx-auto">
+                      <Image
+                        src={profileImagePreview}
+                        alt="Profile preview"
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover rounded-lg border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setProfileImagePreview('');
+                          setSignUpData(prev => ({ ...prev, profile_picture: '' }));
+                        }}
+                        disabled={signUpLoading}
+                        className={`absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs transition-colors ${
+                          signUpLoading 
+                            ? 'cursor-not-allowed opacity-50' 
+                            : 'hover:bg-red-600 cursor-pointer'
+                        }`}
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                  
+                  {/* Upload Button */}
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleImageUpload(file);
+                        }
+                      }}
+                      disabled={signUpLoading}
+                      className="hidden"
+                      id="profileImage"
+                    />
+                    <label
+                      htmlFor="profileImage"
+                      className={`flex items-center justify-center gap-2 w-full py-3 px-4 border-2 border-dashed rounded-lg transition-colors ${
+                        signUpLoading 
+                          ? 'cursor-not-allowed opacity-50' 
+                          : 'cursor-pointer'
+                      } ${
+                        signUpErrors.profile_picture 
+                          ? 'border-red-300 bg-red-50' 
+                          : 'border-gray-300 hover:border-green-400 hover:bg-green-50'
+                      } ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                      {uploadingImage ? (
+                        <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                      ) : (
+                        <Upload className="w-5 h-5 text-gray-400" />
+                      )}
+                      <span className="text-sm text-gray-600">
+                        {profileImagePreview ? 'Change Image' : 'Upload Profile Picture'}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                {signUpErrors.profile_picture && (
+                  <p className="text-red-500 text-xs mt-1">{signUpErrors.profile_picture}</p>
                 )}
               </div>
 
@@ -469,7 +846,12 @@ const LoginPage = () => {
                     type={showPassword ? 'text' : 'password'}
                     value={signUpData.password}
                     onChange={(e) => handleSignUpChange('password', e.target.value)}
+                    disabled={signUpLoading}
                     className={`w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signUpLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
                       signUpErrors.password 
                         ? 'border-red-300 focus:ring-red-200' 
                         : 'border-gray-300 focus:ring-[var(--main-green)]'
@@ -480,7 +862,12 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    disabled={signUpLoading}
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-colors ${
+                      signUpLoading 
+                        ? 'cursor-not-allowed opacity-50' 
+                        : 'hover:text-gray-600 cursor-pointer'
+                    }`}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -502,7 +889,12 @@ const LoginPage = () => {
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={signUpData.confirmPassword}
                     onChange={(e) => handleSignUpChange('confirmPassword', e.target.value)}
+                    disabled={signUpLoading}
                     className={`w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      signUpLoading 
+                        ? 'bg-gray-100 cursor-not-allowed opacity-60' 
+                        : 'bg-white'
+                    } ${
                       signUpErrors.confirmPassword 
                         ? 'border-red-300 focus:ring-red-200' 
                         : 'border-gray-300 focus:ring-[var(--main-green)]'
@@ -513,7 +905,12 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    disabled={signUpLoading}
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-colors ${
+                      signUpLoading 
+                        ? 'cursor-not-allowed opacity-50' 
+                        : 'hover:text-gray-600 cursor-pointer'
+                    }`}
                   >
                     {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -523,25 +920,30 @@ const LoginPage = () => {
                 )}
               </div>
 
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="isClient"
-                  checked={signUpData.isClient}
-                  onChange={(e) => handleSignUpChange('isClient', e.target.checked)}
-                  className="w-4 h-4 text-[var(--main-green)] bg-gray-100 border-gray-300 rounded focus:ring-[var(--main-green)] focus:ring-2"
-                  required
-                />
-                <label htmlFor="isClient" className="ml-2 text-sm text-gray-600">
-                  Registering as a client ?
-                </label>
-              </div>
+              {/* General error message */}
+              {signUpErrors.general && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                  <p className="text-red-600 text-sm font-medium">{signUpErrors.general}</p>
+                </div>
+              )}
 
               <button
                 onClick={handleSignUp}
-                className="w-full bg-[var(--main-green)] hover:bg-green-600 text-white py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--main-green)] cursor-pointer"
+                disabled={signUpLoading}
+                className={`w-full py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 flex items-center justify-center gap-2 ${
+                  signUpLoading 
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                    : 'bg-[var(--main-green)] hover:bg-green-600 text-white focus:ring-[var(--main-green)] cursor-pointer'
+                }`}
               >
-                Sign Up
+                {signUpLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  'Sign Up'
+                )}
               </button>
 
               <div className="text-center">
@@ -550,7 +952,12 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setActiveTab('signin')}
-                    className="text-green-500 hover:text-green-600 font-medium cursor-pointer"
+                    disabled={signUpLoading}
+                    className={`font-medium transition-colors ${
+                      signUpLoading 
+                        ? 'text-gray-400 cursor-not-allowed' 
+                        : 'text-green-500 hover:text-green-600 cursor-pointer'
+                    }`}
                   >
                     Sign In
                   </button>
@@ -559,6 +966,7 @@ const LoginPage = () => {
             </div>
           )}
         </div>
+        
         {/* Floating scroll down button for signup form */}
         {activeTab === 'signup' && showScrollDown && (
           <button
@@ -572,6 +980,13 @@ const LoginPage = () => {
           </button>
         )}
       </div>
+      
+      <VerifyEmailModal
+        open={verifyOpen}
+        email={verifyEmail}
+        onClose={() => setVerifyOpen(false)}
+        onSuccess={() => { setVerifyOpen(false); router.push('/'); }}
+      />
     </div>
   );
 };

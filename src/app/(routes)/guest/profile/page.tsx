@@ -2,12 +2,11 @@
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
-import { User, Mail, Phone, MapPin, Calendar, Shield, Edit3, Lock, Bell, Star, Heart, TrendingUp, X, Save, Camera, CreditCard, Settings, Check, ChevronRight } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Calendar, Shield, Edit3, Lock, Bell, Star, Heart, TrendingUp, Save, Camera, CreditCard, Settings, Check, ChevronRight } from 'lucide-react';
 
 const GuestProfile = () => {
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -81,14 +80,6 @@ const GuestProfile = () => {
       taxId: formData.taxId
     }));
     setIsEditingAddress(false);
-  };
-
-  const handleSaveProfile = () => {
-    setSavedData(prev => ({
-      ...prev,
-      bio: formData.bio
-    }));
-    setIsEditingProfile(false);
   };
 
   const stats = [
@@ -475,7 +466,7 @@ const GuestProfile = () => {
                             </div>
                           </div>
                           <p className="text-xs text-slate-600 truncate">Government-issued ID confirmed</p>
-                          <p className="text-xs text-emerald-600 font-medium">✓ Enhanced security enabled</p>
+                          <p className="text-xs text-emerald-600 font-medium"> Enhanced security enabled</p>
                         </div>
                         <div className="text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
                           <ChevronRight className="w-3 h-3" />
@@ -501,7 +492,7 @@ const GuestProfile = () => {
                             </div>
                           </div>
                           <p className="text-xs text-slate-600 font-mono truncate">{savedData.phone}</p>
-                          <p className="text-xs text-blue-600 font-medium">✓ SMS notifications active</p>
+                          <p className="text-xs text-blue-600 font-medium"> SMS notifications active</p>
                         </div>
                         <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
                           <ChevronRight className="w-3 h-3" />
@@ -527,7 +518,7 @@ const GuestProfile = () => {
                             </div>
                           </div>
                           <p className="text-xs text-slate-600 truncate font-mono">{savedData.email}</p>
-                          <p className="text-xs text-violet-600 font-medium">✓ Email notifications enabled</p>
+                          <p className="text-xs text-violet-600 font-medium"> Email notifications enabled</p>
                         </div>
                         <div className="text-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
                           <ChevronRight className="w-3 h-3" />
