@@ -7,6 +7,7 @@ import Link from 'next/link';
 import VerifyEmailModal from '@/components/auth/VerifyEmailModal';
 import { uploadImageToService } from '@/utils/imageUpload';
 import toast from 'react-hot-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Add interfaces for form data and error objects
 interface SignInData {
@@ -49,6 +50,7 @@ interface PasswordValidation {
 
 const LoginPage = () => {
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const [activeTab, setActiveTab] = useState('signin');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -281,6 +283,8 @@ const LoginPage = () => {
       }
       
       toast.success('Login successful!');
+      // Immediately fetch user data after successful login
+      await refreshUser();
       router.push('/');
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : 'Login error';

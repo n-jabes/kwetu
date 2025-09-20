@@ -752,7 +752,7 @@ const HomePage = () => {
      <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center mb-8 lg:mb-10">
        {/* Property Image - 7 columns */}
        <div className="lg:col-span-7 relative group">
-         <div className="aspect-[3/2] rounded-lg overflow-hidden shadow-md ring-1 ring-gray-100">
+         <div className="aspect-[3/2] rounded-lg overflow-hidden shadow-md ring-1 ring-gray-100 relative">
                 <Image
                   src={featuredListings[activeCard]?.imageUrl}
                   alt={featuredListings[activeCard]?.title}

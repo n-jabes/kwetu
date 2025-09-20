@@ -8,12 +8,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: false, message: "No token found" }, { status: 401 });
     }
 
-    const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
-    if (!apiBaseUrl) {
-      return NextResponse.json({ success: false, message: "API base URL not configured" }, { status: 500 });
-    }
+    const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'https://kwetu-backend-ytdc.onrender.com';
 
-    const res = await fetch(`${apiBaseUrl}/auth/me`, {
+    const res = await fetch(`${apiBaseUrl}/users/profile`, {
       method: "GET",
       headers: { 
         "Authorization": `Bearer ${token}`,

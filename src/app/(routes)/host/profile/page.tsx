@@ -3,23 +3,39 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { User, Mail, Phone, MapPin, Calendar, Shield, Award, Star, Edit3, Bell, Home, TrendingUp, X, Save, Camera } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const HostProfile = () => {
+  const { user, loading } = useAuth();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  
+  // Initialize form data with user data or defaults
   const [formData, setFormData] = useState({
-    name: 'Sarah Johnson',
-    email: 'sarah.johnson@example.com',
-    phone: '+250 788 987 654',
-    location: 'Kigali, Rwanda',
-    bio: 'Experienced host with a passion for providing exceptional stays. I love sharing the beauty of Rwanda with guests from around the world.'
+    name: user?.names || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    location: 'Kigali, Rwanda', // Default since not available from API
+    bio: 'Experienced host with a passion for providing exceptional stays. I love sharing the beauty of Rwanda with guests from around the world.' // Default bio
   });
 
-  // Hardcoded user data for testing
+  // Update form data when user data changes
+  React.useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.names,
+        email: user.email,
+        phone: user.phone
+      }));
+    }
+  }, [user]);
+
+  // User data for DashboardLayout
   const userData = {
-    name: formData.name,
-    email: formData.email,
+    name: user?.names || 'Host User',
+    email: user?.email || '',
     role: 'HOST' as const,
-    avatar: undefined
+    avatar: user?.profile_picture
   };
 
   const profileInfo = [
@@ -158,6 +174,18 @@ const HostProfile = () => {
       </div>
     </div>
   );
+
+  // Show loading state while user data is being fetched
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DashboardLayout

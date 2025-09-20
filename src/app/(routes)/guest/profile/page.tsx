@@ -3,31 +3,34 @@ import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { User, Mail, Phone, MapPin, Calendar, Shield, Edit3, Lock, Bell, Star, Heart, TrendingUp, Save, Camera, CreditCard, Settings, Check, ChevronRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const GuestProfile = () => {
+  const { user, loading } = useAuth();
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
+  const [profileImage, setProfileImage] = useState<string | undefined>(user?.profile_picture);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Initialize form data with user data or defaults
   const [formData, setFormData] = useState({
-    firstName: 'Rafiqur',
-    lastName: 'Rahman',
-    email: 'rafiqurrahman51@gmail.com',
-    phone: '+39 345 346 46',
-    bio: 'Team Manager',
-    country: 'United Kingdom',
-    city: 'Leeds, East London',
-    postalCode: 'ER1 2354',
-    taxId: 'AS45645756'
+    firstName: user?.names?.split(' ')[0] || '',
+    lastName: user?.names?.split(' ').slice(1).join(' ') || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    bio: 'Team Manager', // Default bio since not available from API
+    country: 'United Kingdom', // Default since not available from API
+    city: 'Leeds, East London', // Default since not available from API
+    postalCode: 'ER1 2354', // Default since not available from API
+    taxId: 'AS45645756' // Default since not available from API
   });
 
   // Saved data state to display updated information
   const [savedData, setSavedData] = useState({
-    firstName: 'Rafiqur',
-    lastName: 'Rahman',
-    email: 'rafiqurrahman51@gmail.com',
-    phone: '+39 345 346 46',
+    firstName: user?.names?.split(' ')[0] || '',
+    lastName: user?.names?.split(' ').slice(1).join(' ') || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
     bio: 'Team Manager',
     country: 'United Kingdom',
     city: 'Leeds, East London',
@@ -35,10 +38,36 @@ const GuestProfile = () => {
     taxId: 'AS45645756'
   });
 
-  // Hardcoded user data for testing
+  // Update form data when user data changes
+  React.useEffect(() => {
+    if (user) {
+      const firstName = user.names?.split(' ')[0] || '';
+      const lastName = user.names?.split(' ').slice(1).join(' ') || '';
+      
+      setFormData(prev => ({
+        ...prev,
+        firstName,
+        lastName,
+        email: user.email,
+        phone: user.phone
+      }));
+      
+      setSavedData(prev => ({
+        ...prev,
+        firstName,
+        lastName,
+        email: user.email,
+        phone: user.phone
+      }));
+      
+      setProfileImage(user.profile_picture);
+    }
+  }, [user]);
+
+  // User data for DashboardLayout
   const userData = {
-    name: `${savedData.firstName} ${savedData.lastName}`,
-    email: savedData.email,
+    name: user?.names || 'Guest User',
+    email: user?.email || '',
     role: 'GUEST' as const,
     avatar: profileImage
   };
@@ -95,6 +124,18 @@ const GuestProfile = () => {
     { label: 'Notifications', icon: Bell, href: '/notifications' },
     { label: 'Account Settings', icon: Settings, href: '/settings' }
   ];
+
+  // Show loading state while user data is being fetched
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50/30 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DashboardLayout

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const input = await req.json();
-    const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+    const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'https://kwetu-backend-ytdc.onrender.com';
     if (!apiBaseUrl) {
       return NextResponse.json({ success: false, message: 'API base URL not configured' }, { status: 500 });
     }

@@ -1,19 +1,21 @@
 'use client'
-import { Menu, Search, User, X, Loader2 } from "lucide-react";
+import { Menu, Search, User, X, Loader2, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import Image from "next/image";
 
 // Navbar Component
 export const SearchResultsNavbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Temporary state for login status
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
+    const { user, isAuthenticated, loading } = useAuth();
     
     // Check if we're on the homepage
     const isHomePage = pathname === '/';
@@ -55,6 +57,27 @@ export const SearchResultsNavbar = () => {
             setIsSearching(false);
             router.push('/search-results');
         }, 1000);
+    }
+
+    const handleLogout = async () => {
+        try {
+            const res = await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            
+            if (res.ok) {
+                // Refresh the page to trigger auth context update
+                window.location.reload();
+            } else {
+                // Fallback: refresh the page anyway
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Fallback: refresh the page anyway
+            window.location.reload();
+        }
     }
 
     // Determine navbar styling based on page and scroll state
@@ -161,45 +184,97 @@ export const SearchResultsNavbar = () => {
           List your place
         </Link>
               <div 
-                className={`w-7 h-7 rounded-full flex items-center justify-center cursor-pointer transition-colors ${
+                className={`w-7 h-7 rounded-full flex items-center justify-center cursor-pointer transition-colors overflow-hidden ${
                   !isHomePage || isScrolled
                     ? 'bg-gray-300 hover:bg-gray-400' 
                     : 'bg-white/20 hover:bg-white/30'
                 }`}
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               >
-                <User className={`h-4 w-4 transition-colors duration-300 ${
-                  !isHomePage || isScrolled ? 'text-gray-600' : 'text-white'
-                }`} />
+                {loading ? (
+                  <Loader2 className={`h-4 w-4 animate-spin ${
+                    !isHomePage || isScrolled ? 'text-gray-600' : 'text-white'
+                  }`} />
+                ) : isAuthenticated && user?.profile_picture ? (
+                  <Image
+                    src={user.profile_picture}
+                    alt={user.names}
+                    width={28}
+                    height={28}
+                    className="w-full h-full object-cover"
+                  />
+                ) : isAuthenticated && user ? (
+                  <div className={`w-full h-full flex items-center justify-center text-xs font-semibold ${
+                    !isHomePage || isScrolled 
+                      ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white' 
+                      : 'bg-white/30 text-white'
+                  }`}>
+                    {user.names.split(' ').map(n => n[0]).join('').toUpperCase()}
+                  </div>
+                ) : (
+                  <User className={`h-4 w-4 transition-colors duration-300 ${
+                    !isHomePage || isScrolled ? 'text-gray-600' : 'text-white'
+                  }`} />
+                )}
               </div>
               
               {/* Profile Dropdown */}
               {isProfileDropdownOpen && (
-                <div className="border-[1px] border-green-100 absolute right-0 top-10 mt-2 w-32 bg-white rounded-md shadow-lg py-1 z-50">
-                  {isLoggedIn ? (
+                <div className="border-[1px] border-green-100 absolute right-0 top-10 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  {loading ? (
+                    <div className="px-3 py-2 flex items-center justify-center">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    </div>
+                  ) : isAuthenticated && user ? (
                     <>
-                      <Link href="/profile" className="block px-3 py-1.5 text-xs text-gray-700 hover:bg-green-50 hover:text-green-500 hover:border-b-[1px] hover:border-b-gray-300">
+                      {/* User Info */}
+                      <div className="px-3 py-2 border-b border-gray-200">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 rounded-full overflow-hidden bg-gray-200">
+                            {user.profile_picture ? (
+                              <Image
+                                src={user.profile_picture}
+                                alt={user.names}
+                                width={24}
+                                height={24}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                                <span className="text-white text-xs font-semibold">
+                                  {user.names.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-gray-900 truncate">{user.names}</p>
+                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <Link 
+                        href={`/${user.roles[0]?.toLowerCase()}/profile`} 
+                        className="block px-3 py-1.5 text-xs text-gray-700 hover:bg-green-50 hover:text-green-500 hover:border-b-[1px] hover:border-b-gray-300"
+                      >
                         Profile
                       </Link>
-                      <Link 
-                        href='/'
-                        className=" cursor-pointer block w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-green-50 hover:text-green-500 "
+                      <button 
+                        className="block w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-red-50 hover:text-red-500"
                         onClick={() => {
-                          setIsLoggedIn(false);
+                          handleLogout();
                           setIsProfileDropdownOpen(false);
                         }}
                       >
                         Logout
-                      </Link>
+                      </button>
                     </>
                   ) : (
                     <Link
-                      href={'/auth'}
+                      href="/auth"
                       className="cursor-pointer block w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-green-50 hover:text-green-500"
-                      onClick={() => {
-                        setIsLoggedIn(true);
-                        setIsProfileDropdownOpen(false);
-                      }}
+                      onClick={() => setIsProfileDropdownOpen(false)}
                     >
                       Login
                     </Link>
@@ -281,13 +356,49 @@ export const SearchResultsNavbar = () => {
                         <Link href="/add-listing" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold mt-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] text-center">
           List your place
         </Link>
-                {isLoggedIn ? (
+                {loading ? (
+                  <div className="px-4 py-2.5 flex items-center justify-center">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  </div>
+                ) : isAuthenticated && user ? (
                   <>
-                    <Link href="/profile" className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
-                      !isHomePage || isScrolled 
-                        ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
-                        : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
-                    }`}>
+                    {/* User Profile Section */}
+                    <div className="px-4 py-2 border-b border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200">
+                          {user.profile_picture ? (
+                            <Image
+                              src={user.profile_picture}
+                              alt={user.names}
+                              width={32}
+                              height={32}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                              <span className="text-white text-sm font-semibold">
+                                {user.names.split(' ').map(n => n[0]).join('').toUpperCase()}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate">{user.names}</p>
+                          <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Menu Items */}
+                    <Link 
+                      href={`/${user.roles[0]?.toLowerCase()}/profile`} 
+                      className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
+                        !isHomePage || isScrolled 
+                          ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
+                          : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
+                      }`}
+                    >
+                      <User className="w-4 h-4 inline mr-2" />
                       Profile
                     </Link>
                     <button 
@@ -296,22 +407,23 @@ export const SearchResultsNavbar = () => {
                           ? 'text-gray-700 hover:text-red-600 hover:bg-red-50' 
                           : 'text-gray-800 hover:text-red-700 hover:bg-white/80 backdrop-blur-sm'
                       }`}
-                      onClick={() => setIsLoggedIn(false)}
+                      onClick={handleLogout}
                     >
+                      <LogOut className="w-4 h-4 inline mr-2" />
                       Logout
                     </button>
                   </>
                 ) : (
-                  <button 
+                  <Link 
+                    href="/auth"
                     className={`px-4 py-2.5 text-sm font-medium text-left transition-all duration-300 rounded-lg hover:scale-[1.02] ${
                       !isHomePage || isScrolled 
                         ? 'text-gray-700 hover:text-green-600 hover:bg-green-50' 
                         : 'text-gray-800 hover:text-green-700 hover:bg-white/80 backdrop-blur-sm'
                     }`}
-                    onClick={() => setIsLoggedIn(true)}
                   >
                     Login
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>
