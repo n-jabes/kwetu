@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
+import { useHostGuard } from '@/hooks/useAuthGuard';
 import { 
   Home, 
   Plus, 
@@ -107,6 +108,17 @@ interface QuickAction {
 }
 
 const HostDashboard = () => {
+  // Ensure only HOST users can access this page
+  const { user, loading } = useHostGuard();
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
   // State management
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'confirmed' | 'pending' | 'completed' | 'cancelled'>('all');

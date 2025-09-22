@@ -22,6 +22,7 @@ import {
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const [showUserMenu, setShowUserMenu] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   // Guest navigation items
   const guestNavItems = [
@@ -70,8 +72,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   const navItems = userRole === 'GUEST' ? guestNavItems : hostNavItems;
 
-  const handleLogout = () => {
-    router.push('/auth');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Redirect to home page after logout
+      router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback: redirect anyway
+      router.push('/');
+    }
   };
 
   const getCurrentTab = () => {

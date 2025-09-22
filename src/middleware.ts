@@ -1,17 +1,71 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const token = request.cookies.get('kwetu_token')?.value;
   const { pathname } = request.nextUrl;
 
-  // Protected routes that require authentication
-  const protectedRoutes = ['/profile', '/settings', '/guest', '/host'];
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+  // Public routes that don't require authentication
+  const publicRoutes = ['/', '/auth', '/listings', '/search-results'];
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
 
-  // If it's a protected route and no token, redirect to auth
-  if (isProtectedRoute && !token) {
-    return NextResponse.redirect(new URL('/auth', request.url));
+  // Guest routes
+  const guestRoutes = ['/guest'];
+  const isGuestRoute = guestRoutes.some(route => pathname.startsWith(route));
+
+  // Host routes
+  const hostRoutes = ['/host', '/add-listing'];
+  const isHostRoute = hostRoutes.some(route => pathname.startsWith(route));
+
+  // If user is authenticated and tries to access auth page, redirect to home
+  if (pathname.startsWith('/auth') && token) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // Only check roles for protected routes
+  if (isGuestRoute || isHostRoute) {
+    if (!token) {
+      return NextResponse.redirect(new URL('/auth', request.url));
+    }
+    
+    // Verify token and check role
+    try {
+      const response = await fetch(`${request.nextUrl.origin}/api/auth/me`, {
+        headers: {
+          'Cookie': `kwetu_token=${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const userData = await response.json();
+        const user = userData.success ? userData.data : userData;
+        
+        // Check role based on route
+        if (isGuestRoute && !user?.roles?.includes('GUEST')) {
+          return NextResponse.redirect(new URL('/', request.url));
+        }
+        
+        if (isHostRoute && !user?.roles?.includes('HOST')) {
+          // If user has GUEST role, redirect to home, otherwise redirect to auth
+          if (user?.roles?.includes('GUEST')) {
+            return NextResponse.redirect(new URL('/', request.url));
+          } else {
+            return NextResponse.redirect(new URL('/auth', request.url));
+          }
+        }
+      } else {
+        // Token is invalid (401/403) or other error, redirect to auth
+        const redirectResponse = NextResponse.redirect(new URL('/auth', request.url));
+        // Clear the invalid token cookie
+        redirectResponse.cookies.delete('kwetu_token');
+        return redirectResponse;
+      }
+    } catch (error) {
+      // Error fetching user data, redirect to auth
+      const redirectResponse = NextResponse.redirect(new URL('/auth', request.url));
+      redirectResponse.cookies.delete('kwetu_token');
+      return redirectResponse;
+    }
   }
 
   return NextResponse.next();

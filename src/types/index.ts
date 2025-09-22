@@ -1,4 +1,15 @@
 // TypeScript interfaces
+export interface User {
+  id: string;
+  email: string;
+  names: string;
+  phone: string;
+  profile_picture?: string;
+  created_at: string;
+  updated_at: string;
+  roles: string[];
+}
+
 export interface Listing {
   id: string;
   title: string;

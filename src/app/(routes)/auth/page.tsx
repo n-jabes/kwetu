@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import VerifyEmailModal from '@/components/auth/VerifyEmailModal';
+import { ForgotPasswordModal } from '@/components/auth/ForgotPasswordModal';
 import { uploadImageToService } from '@/utils/imageUpload';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAuthPageGuard } from '@/hooks/useAuthGuard';
 
 // Add interfaces for form data and error objects
 interface SignInData {
@@ -51,6 +53,9 @@ interface PasswordValidation {
 const LoginPage = () => {
   const router = useRouter();
   const { refreshUser } = useAuth();
+  
+  // Redirect authenticated users away from auth page
+  useAuthPageGuard();
   const [activeTab, setActiveTab] = useState('signin');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -98,6 +103,9 @@ const LoginPage = () => {
   // Verification modal states
   const [verifyOpen, setVerifyOpen] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState('');
+
+  // Forgot password modal state
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
 
   // Loading states
   const [signInLoading, setSignInLoading] = useState(false);
@@ -617,6 +625,7 @@ const LoginPage = () => {
               <div className="text-center">
                 <button 
                   type="button"
+                  onClick={() => setShowForgotPasswordModal(true)}
                   disabled={signInLoading}
                   className={`text-sm transition-colors ${
                     signInLoading 
@@ -990,6 +999,11 @@ const LoginPage = () => {
         email={verifyEmail}
         onClose={() => setVerifyOpen(false)}
         onSuccess={() => { setVerifyOpen(false); router.push('/'); }}
+      />
+      
+      <ForgotPasswordModal
+        isOpen={showForgotPasswordModal}
+        onClose={() => setShowForgotPasswordModal(false)}
       />
     </div>
   );

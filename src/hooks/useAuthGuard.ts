@@ -8,6 +8,7 @@ interface UseAuthGuardOptions {
   redirectTo?: string;
   requireAuth?: boolean;
   redirectIfAuthenticated?: boolean;
+  requiredRole?: 'GUEST' | 'HOST';
 }
 
 export const useAuthGuard = (options: UseAuthGuardOptions = {}) => {
@@ -17,7 +18,8 @@ export const useAuthGuard = (options: UseAuthGuardOptions = {}) => {
   const {
     redirectTo = '/auth',
     requireAuth = false,
-    redirectIfAuthenticated = false
+    redirectIfAuthenticated = false,
+    requiredRole
   } = options;
 
   useEffect(() => {
@@ -35,11 +37,43 @@ export const useAuthGuard = (options: UseAuthGuardOptions = {}) => {
       router.push(redirectTo);
       return;
     }
-  }, [loading, isAuthenticated, requireAuth, redirectIfAuthenticated, redirectTo, router]);
+
+    // If a specific role is required, check it
+    if (requireAuth && isAuthenticated && requiredRole && user) {
+      if (!user.roles?.includes(requiredRole)) {
+        router.push('/'); // Redirect to home if wrong role
+        return;
+      }
+    }
+  }, [loading, isAuthenticated, requireAuth, redirectIfAuthenticated, redirectTo, router, requiredRole, user]);
 
   return {
     user,
     loading,
     isAuthenticated
   };
+};
+
+// Specific hooks for guest and host routes
+export const useGuestGuard = () => {
+  return useAuthGuard({
+    requireAuth: true,
+    requiredRole: 'GUEST',
+    redirectTo: '/auth'
+  });
+};
+
+export const useHostGuard = () => {
+  return useAuthGuard({
+    requireAuth: true,
+    requiredRole: 'HOST',
+    redirectTo: '/auth'
+  });
+};
+
+export const useAuthPageGuard = () => {
+  return useAuthGuard({
+    redirectIfAuthenticated: true,
+    redirectTo: '/'
+  });
 };

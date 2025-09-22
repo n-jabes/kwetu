@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 
     const apiBaseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'https://kwetu-backend-ytdc.onrender.com';
 
-    const res = await fetch(`${apiBaseUrl}/users/profile`, {
+    const response = await fetch(`${apiBaseUrl}/users/profile`, {
       method: "GET",
       headers: { 
         "Authorization": `Bearer ${token}`,
@@ -18,10 +18,23 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    if (!response.ok) {
+      console.error('Backend API error:', response.status, response.statusText);
+      
+      return NextResponse.json({ 
+        success: false, 
+        message: `Backend API error: ${response.status} ${response.statusText}` 
+      }, { status: response.status });
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data, { status: 200 });
   } catch (error: unknown) {
+    console.error('Error in /api/auth/me:', error);
     const errorMessage = error instanceof Error ? error.message : "Failed to fetch user data";
-    return NextResponse.json({ success: false, message: errorMessage }, { status: 500 });
+    return NextResponse.json({ 
+      success: false, 
+      message: `Internal server error: ${errorMessage}` 
+    }, { status: 500 });
   }
 }

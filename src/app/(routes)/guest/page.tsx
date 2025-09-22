@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import DashboardLayout from '@/components/layout/dashboard-layout';
+import { useGuestGuard } from '@/hooks/useAuthGuard';
 import { 
   Calendar, 
   Star, 
@@ -113,6 +114,17 @@ interface QuickAction {
 }
 
 const GuestDashboard = () => {
+  // Ensure only GUEST users can access this page
+  const { user, loading } = useGuestGuard();
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
   // State management
   const [selectedPeriod, setSelectedPeriod] = useState<'7d' | '30d' | '3m' | '12m'>('30d');
   const [searchTerm, setSearchTerm] = useState('');

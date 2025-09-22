@@ -15,7 +15,7 @@ export const SearchResultsNavbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
-    const { user, isAuthenticated, loading } = useAuth();
+    const { user, isAuthenticated, loading, logout } = useAuth();
     
     // Check if we're on the homepage
     const isHomePage = pathname === '/';
@@ -61,22 +61,13 @@ export const SearchResultsNavbar = () => {
 
     const handleLogout = async () => {
         try {
-            const res = await fetch('/api/auth/logout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            
-            if (res.ok) {
-                // Refresh the page to trigger auth context update
-                window.location.reload();
-            } else {
-                // Fallback: refresh the page anyway
-                window.location.reload();
-            }
+            await logout();
+            // Redirect to home page after logout
+            router.push('/');
         } catch (error) {
             console.error('Logout error:', error);
-            // Fallback: refresh the page anyway
-            window.location.reload();
+            // Fallback: redirect anyway
+            router.push('/');
         }
     }
 
