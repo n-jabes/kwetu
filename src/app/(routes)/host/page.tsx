@@ -110,16 +110,8 @@ interface QuickAction {
 const HostDashboard = () => {
   // Ensure only HOST users can access this page
   const { user, loading } = useHostGuard();
-  // Show loading while checking authentication
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
-      </div>
-    );
-  }
-
-  // State management
+  
+  // State management - moved to top to avoid conditional hook calls
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'confirmed' | 'pending' | 'completed' | 'cancelled'>('all');
 
@@ -135,6 +127,79 @@ const HostDashboard = () => {
     avgRating: 4.8,
     responseRate: 98
   };
+
+  const recentBookings: Booking[] = [
+    {
+      id: 1,
+      guest: 'John Smith',
+      guestAvatar: '/images/auth.png',
+      property: 'Luxury Villa in Kigali',
+      checkIn: 'Dec 15, 2024',
+      checkOut: 'Dec 20, 2024',
+      status: 'confirmed',
+      amount: '$450',
+      guests: 4,
+      image: '/images/villa.jpg',
+      location: 'Kigali, Rwanda',
+      rating: 4.9,
+      nights: 5,
+      specialRequests: 'Late check-in requested'
+    },
+    {
+      id: 2,
+      guest: 'Emma Wilson',
+      guestAvatar: '/images/auth.png',
+      property: 'Modern Apartment Downtown',
+      checkIn: 'Dec 22, 2024',
+      checkOut: 'Dec 25, 2024',
+      status: 'pending',
+      amount: '$280',
+      guests: 2,
+      image: '/images/house.png',
+      location: 'Kigali, Rwanda',
+      rating: 4.7,
+      nights: 3
+    },
+    {
+      id: 3,
+      guest: 'Michael Brown',
+      guestAvatar: '/images/auth.png',
+      property: 'Mountain Retreat',
+      checkIn: 'Jan 5, 2025',
+      checkOut: 'Jan 10, 2025',
+      status: 'completed',
+      amount: '$680',
+      guests: 6,
+      image: '/images/kigali.jpg',
+      location: 'Musanze, Rwanda',
+      rating: 5.0,
+      nights: 5
+    }
+  ];
+
+  // Memoized filtered bookings
+  const filteredBookings = useMemo(() => {
+    return recentBookings.filter(booking => {
+      const matchesSearch = booking.guest.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           booking.property.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterStatus === 'all' || booking.status === filterStatus;
+      return matchesSearch && matchesFilter;
+    });
+  }, [searchTerm, filterStatus, recentBookings]);
+
+  // Event handlers
+  const handleQuickAction = useCallback((actionId: string) => {
+    console.log(`Executing action: ${actionId}`);
+  }, []);
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
 
   const stats: Stat[] = [
     { 
@@ -197,65 +262,6 @@ const HostDashboard = () => {
     { name: 'Beach Houses', value: 15, revenue: 4800, color: '#EF4444' },
   ];
 
-  const recentBookings: Booking[] = [
-    {
-      id: 1,
-      guest: 'John Smith',
-      guestAvatar: '/images/auth.png',
-      property: 'Luxury Villa in Kigali',
-      checkIn: 'Dec 15, 2024',
-      checkOut: 'Dec 20, 2024',
-      status: 'confirmed',
-      amount: '$450',
-      guests: 4,
-      image: '/images/villa.jpg',
-      location: 'Kigali, Rwanda',
-      rating: 4.9,
-      nights: 5,
-      specialRequests: 'Late check-in requested'
-    },
-    {
-      id: 2,
-      guest: 'Emma Wilson',
-      property: 'Cozy Apartment Downtown',
-      checkIn: 'Dec 25, 2024',
-      checkOut: 'Dec 30, 2024',
-      status: 'pending',
-      amount: '$320',
-      guests: 2,
-      image: '/images/house.png',
-      location: 'Kigali, Rwanda',
-      nights: 5
-    },
-    {
-      id: 3,
-      guest: 'Michael Brown',
-      property: 'Mountain View Cottage',
-      checkIn: 'Jan 5, 2025',
-      checkOut: 'Jan 10, 2025',
-      status: 'completed',
-      amount: '$280',
-      guests: 3,
-      image: '/images/kigali.jpg',
-      location: 'Musanze, Rwanda',
-      rating: 4.7,
-      nights: 5
-    },
-    {
-      id: 4,
-      guest: 'Lisa Anderson',
-      property: 'Beach House Retreat',
-      checkIn: 'Dec 10, 2024',
-      checkOut: 'Dec 12, 2024',
-      status: 'completed',
-      amount: '$180',
-      guests: 2,
-      image: '/images/villa.jpg',
-      location: 'Gisenyi, Rwanda',
-      rating: 5.0,
-      nights: 2
-    }
-  ];
 
   const properties: Property[] = [
     {
@@ -438,21 +444,6 @@ const HostDashboard = () => {
     }
   };
 
-  // Memoized filtered bookings
-  const filteredBookings = useMemo(() => {
-    return recentBookings.filter(booking => {
-      const matchesSearch = booking.guest.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           booking.property.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilter = filterStatus === 'all' || booking.status === filterStatus;
-      return matchesSearch && matchesFilter;
-    });
-  }, [searchTerm, filterStatus]);
-
-  // Event handlers
-
-  const handleQuickAction = useCallback((actionId: string) => {
-    console.log(`Executing action: ${actionId}`);
-  }, []);
 
   return (
     <DashboardLayout

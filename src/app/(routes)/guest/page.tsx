@@ -116,16 +116,8 @@ interface QuickAction {
 const GuestDashboard = () => {
   // Ensure only GUEST users can access this page
   const { user, loading } = useGuestGuard();
-  // Show loading while checking authentication
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
-      </div>
-    );
-  }
-
-  // State management
+  
+  // State management - moved to top to avoid conditional hook calls
   const [selectedPeriod, setSelectedPeriod] = useState<'7d' | '30d' | '3m' | '12m'>('30d');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'confirmed' | 'pending' | 'completed'>('all');
@@ -144,6 +136,55 @@ const GuestDashboard = () => {
     completedBookings: 24,
     averageRating: 4.9
   };
+
+  // Enhanced booking data with more details
+  const recentBookings: RecentBooking[] = [
+    {
+      id: 1,
+      property: 'Luxury Villa Kiyovu',
+      location: 'Kigali, Rwanda',
+      date: 'Dec 15-20, 2024',
+      status: 'confirmed',
+      amount: '$450',
+      host: 'Marie Uwimana',
+      rating: 4.9,
+      image: '/images/house.png',
+      checkIn: 'Dec 15, 2024',
+      checkOut: 'Dec 20, 2024',
+      guests: 4,
+      amenities: ['Wifi', 'Pool', 'Kitchen', 'Parking']
+      },
+      {
+        id: 2,
+      property: 'Modern Loft Downtown',
+        location: 'Kigali, Rwanda',
+        date: 'Dec 25-30, 2024',
+        status: 'pending',
+        amount: '$320',
+      host: 'Jean Baptiste',
+      rating: 4.8,
+      image: '/images/kigali.jpg',
+      checkIn: 'Dec 25, 2024',
+      checkOut: 'Dec 30, 2024',
+      guests: 2,
+      amenities: ['Wifi', 'Kitchen', 'Gym', 'Security']
+    },
+    {
+      id: 3,
+      property: 'Gorilla View Lodge',
+      location: 'Musanze, Rwanda',
+      date: 'Jan 5-10, 2025',
+      status: 'completed',
+      amount: '$680',
+      host: 'Safari Adventures',
+      rating: 5.0,
+      image: '/images/villa.jpg',
+      checkIn: 'Jan 5, 2025',
+      checkOut: 'Jan 10, 2025',
+      guests: 6,
+      amenities: ['Wifi', 'Restaurant', 'Tours', 'Spa']
+    }
+  ];
 
   // Enhanced stats with better metrics
   const stats: Stat[] = useMemo(() => [
@@ -197,54 +238,29 @@ const GuestDashboard = () => {
     },
   ], [userData]);
 
-  // Enhanced booking data with more details
-  const recentBookings: RecentBooking[] = [
-    {
-      id: 1,
-      property: 'Luxury Villa Kiyovu',
-      location: 'Kigali, Rwanda',
-      date: 'Dec 15-20, 2024',
-      status: 'confirmed',
-      amount: '$450',
-      host: 'Marie Uwimana',
-      rating: 4.9,
-      image: '/images/house.png',
-      checkIn: 'Dec 15, 2024',
-      checkOut: 'Dec 20, 2024',
-      guests: 4,
-      amenities: ['Wifi', 'Pool', 'Kitchen', 'Parking']
-      },
-      {
-        id: 2,
-      property: 'Modern Loft Downtown',
-        location: 'Kigali, Rwanda',
-        date: 'Dec 25-30, 2024',
-        status: 'pending',
-        amount: '$320',
-      host: 'Jean Baptiste',
-      rating: 4.8,
-      image: '/images/kigali.jpg',
-      checkIn: 'Dec 25, 2024',
-      checkOut: 'Dec 30, 2024',
-      guests: 2,
-      amenities: ['Wifi', 'Kitchen', 'Gym', 'Security']
-    },
-    {
-      id: 3,
-      property: 'Gorilla View Lodge',
-      location: 'Musanze, Rwanda',
-      date: 'Jan 5-10, 2025',
-      status: 'completed',
-      amount: '$680',
-      host: 'Safari Adventures',
-      rating: 5.0,
-      image: '/images/villa.jpg',
-      checkIn: 'Jan 5, 2025',
-      checkOut: 'Jan 10, 2025',
-      guests: 6,
-      amenities: ['Wifi', 'Restaurant', 'Tours', 'Spa']
-    }
-  ];
+  // Filtered bookings based on search and filter
+  const filteredBookings = useMemo(() => {
+    return recentBookings.filter(booking => {
+      const matchesSearch = booking.property.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           booking.location.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterStatus === 'all' || booking.status === filterStatus;
+      return matchesSearch && matchesFilter;
+    });
+  }, [recentBookings, searchTerm, filterStatus]);
+
+  // Event handlers
+  const handleQuickAction = useCallback((action: string) => {
+    console.log(`Quick action: ${action}`);
+  }, []);
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
 
   // Enhanced upcoming trips data
   const upcomingTrips: UpcomingTrip[] = [
@@ -345,21 +361,6 @@ const GuestDashboard = () => {
         return <CheckCircle className="w-3 h-3" />;
     }
   };
-
-  // Filtered bookings based on search and filter
-  const filteredBookings = useMemo(() => {
-    return recentBookings.filter(booking => {
-      const matchesSearch = booking.property.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           booking.location.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilter = filterStatus === 'all' || booking.status === filterStatus;
-      return matchesSearch && matchesFilter;
-    });
-  }, [recentBookings, searchTerm, filterStatus]);
-
-  // Event handlers
-  const handleQuickAction = useCallback((action: string) => {
-    console.log(`Quick action: ${action}`);
-  }, []);
 
   // Quick actions data
   const quickActions: QuickAction[] = [

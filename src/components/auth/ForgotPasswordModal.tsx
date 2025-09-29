@@ -108,10 +108,10 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
               Check Your Email
             </h3>
             <p className="text-gray-600 mb-6">
-              We've sent a password reset link to <strong>{email}</strong>
+              We&apos;ve sent a password reset link to <strong>{email}</strong>
             </p>
             <p className="text-sm text-gray-500 mb-6">
-              Didn't receive the email? Check your spam folder or try again.
+              Didn&apos;t receive the email? Check your spam folder or try again.
             </p>
             <div className="flex gap-3">
               <button
@@ -144,7 +144,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
                 Forgot Password?
               </h3>
               <p className="text-gray-600">
-                Enter your email address and we'll send you a link to reset your password.
+                Enter your email address and we&apos;ll send you a link to reset your password.
               </p>
             </div>
 
